@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <!-- Set the background color -->
+        <item name="windowSplashScreenBackground">#fd5d69</item>
+
+        <!-- Set the SVG/Vector icon -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_icon</item>
+
+        <!-- Set the theme to switch to after the splash screen is gone -->
+        <item name="postSplashScreenTheme">@style/Theme.Airecipeappkotlin</item>
+    </style>
+</resources>
