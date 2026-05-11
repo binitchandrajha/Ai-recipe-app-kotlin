@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -13,6 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.ai_recipe_app_kotlin.ui.theme.AirecipeappkotlinTheme
+import com.example.ai_recipe_app_kotlin.ui.theme.PrimaryColor
+import com.example.ai_recipe_app_kotlin.ui.navigation.AppNavHost
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,10 +22,24 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             AirecipeappkotlinTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Text("Hello, world!")
-                }
+                AppNavHost()
             }
         }
     }
+}
+
+@Composable
+fun App(){
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        containerColor = PrimaryColor
+    ) { innerPadding ->
+        Text("Hello, world!")
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun AppPreview(){
+    App()
 }
