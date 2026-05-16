@@ -26,12 +26,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ai_recipe_app_kotlin.R
+import com.example.ai_recipe_app_kotlin.ui.components.AuthTopSection
 import com.example.ai_recipe_app_kotlin.ui.components.PhoneNumberWithCountryPicker
 import com.example.ai_recipe_app_kotlin.ui.components.PrimaryButton
 import com.example.ai_recipe_app_kotlin.ui.theme.PrimaryColor
 
 @Composable
-fun LoginScreen(){
+fun LoginScreen(
+    onLoginClick : (String) -> Unit = {}
+){
     var mobileNumber by remember { mutableStateOf("") }
     var selectedCountry by remember { mutableStateOf("NP") }
     var errorMessage by remember { mutableStateOf<String?>(null) }
@@ -53,35 +56,9 @@ fun LoginScreen(){
         Column(
             modifier = Modifier.padding(innerPadding).fillMaxSize()
         ) {
-            Spacer(modifier = Modifier.height(50.dp))
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            ) {
-                Image(
-                    painter = painterResource(R.drawable.app_main_image),
-                    contentDescription = "Main image",
-                    modifier = Modifier.height(300.dp).width(300.dp),
-                )
-            }
-            Spacer(modifier = Modifier.height(20.dp))
-            Column(
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = "Login with OTP",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold
-                )
-                Spacer(modifier = Modifier.height(10.dp))
-                Text(
-                    text = "Enter your mobile number to receive a verification code",
-                    fontSize = 14.sp,
-                    textAlign = TextAlign.Center
-                    )
-            }
-            Spacer(modifier = Modifier.size(24.dp))
+            AuthTopSection(
+                title = "Login with OTP","Enter your mobile number to receive a verification code"
+            )
             Column() {
                 PhoneNumberWithCountryPicker(
                     mobileNumber = mobileNumber,
@@ -97,7 +74,10 @@ fun LoginScreen(){
                 PrimaryButton(
                     btnText = "Get Code",
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp),
-                    enabled = isButtonEnabled
+                    enabled = isButtonEnabled,
+                    onClick = {
+                        onLoginClick(mobileNumber)
+                    }
                 )
             }
         }
