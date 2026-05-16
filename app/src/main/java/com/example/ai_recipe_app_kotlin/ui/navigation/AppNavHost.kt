@@ -7,7 +7,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.example.ai_recipe_app_kotlin.ui.screens.auth.LoginScreen
+import com.example.ai_recipe_app_kotlin.ui.screens.auth.VerifyOtpScreen
 import com.example.ai_recipe_app_kotlin.ui.screens.onboarding.OnboardingScreen
 import com.example.ai_recipe_app_kotlin.viewmodel.OnboardingViewModel
 
@@ -17,11 +19,11 @@ fun AppNavHost(){
     val onboardingViewModel: OnboardingViewModel = hiltViewModel()
 
     val isOnboardingCompleted by onboardingViewModel.isOnboardingCompleted.collectAsState()
-    NavHost(navController = navController, startDestination = if(isOnboardingCompleted) Screen.Login else Screen.Onboarding){
+    NavHost(navController = navController, startDestination = if(isOnboardingCompleted) Screen.Login() else Screen.Onboarding){
         composable<Screen.Onboarding>{
             OnboardingScreen(
               onGetStartedClick = {
-                  navController.navigate(Screen.Login) {
+                  navController.navigate(Screen.Login()) {
                       popUpTo(Screen.Onboarding) {
                           inclusive = true
                       }
@@ -31,7 +33,20 @@ fun AppNavHost(){
             )
         }
         composable<Screen.Login> {
-            LoginScreen()
+            LoginScreen(
+                onLoginClick = { phoneNumber ->
+                    navController.navigate(Screen.VerifyOtp(phoneNumber))
+                }
+            )
+        }
+        composable<Screen.VerifyOtp> { backStackEntry ->
+            val verifyOtp: Screen.VerifyOtp = backStackEntry.toRoute()
+            VerifyOtpScreen(
+                phoneNumber = verifyOtp.phoneNumber,
+                onVerifyClick = {
+                    // Navigate to Home or next screen
+                }
+            )
         }
     }
 }
