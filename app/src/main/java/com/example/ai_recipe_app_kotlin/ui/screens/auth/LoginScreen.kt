@@ -9,10 +9,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,10 +28,24 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ai_recipe_app_kotlin.R
+import com.example.ai_recipe_app_kotlin.ui.components.PhoneNumberWithCountryPicker
 import com.example.ai_recipe_app_kotlin.ui.theme.PrimaryColor
 
 @Composable
 fun LoginScreen(){
+    var mobileNumber by remember { mutableStateOf("") }
+    var selectedCountry by remember { mutableStateOf("NP") }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
+
+    val handleMobileNumberChange = { input: String ->
+       mobileNumber = input
+    }
+    val handleSelectedCountryChange = { input: String ->
+        selectedCountry = input
+    }
+    val errorMessageChange = { input : String? ->
+        errorMessage = input
+    }
     Scaffold(
       containerColor = PrimaryColor
     ) { innerPadding ->
@@ -61,7 +80,17 @@ fun LoginScreen(){
                     textAlign = TextAlign.Center
                     )
             }
-
+            Spacer(modifier = Modifier.size(24.dp))
+            Column() {
+                PhoneNumberWithCountryPicker(
+                    mobileNumber = mobileNumber,
+                    selectedCountry = selectedCountry,
+                    errorMessage = errorMessage,
+                    onMobileNumberChange = handleMobileNumberChange,
+                    onCountrySelected = handleSelectedCountryChange,
+                    onErrorMessageChange = errorMessageChange
+                )
+            }
         }
     }
 }
