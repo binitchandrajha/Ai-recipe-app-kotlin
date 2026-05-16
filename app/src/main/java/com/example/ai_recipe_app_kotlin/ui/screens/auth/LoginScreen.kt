@@ -1,7 +1,6 @@
 package com.example.ai_recipe_app_kotlin.ui.screens.auth
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -20,7 +19,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -29,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ai_recipe_app_kotlin.R
 import com.example.ai_recipe_app_kotlin.ui.components.PhoneNumberWithCountryPicker
+import com.example.ai_recipe_app_kotlin.ui.components.PrimaryButton
 import com.example.ai_recipe_app_kotlin.ui.theme.PrimaryColor
 
 @Composable
@@ -46,6 +45,8 @@ fun LoginScreen(){
     val errorMessageChange = { input : String? ->
         errorMessage = input
     }
+
+    val isButtonEnabled = mobileNumber.length == 10 && errorMessage == null
     Scaffold(
       containerColor = PrimaryColor
     ) { innerPadding ->
@@ -89,6 +90,14 @@ fun LoginScreen(){
                     onMobileNumberChange = handleMobileNumberChange,
                     onCountrySelected = handleSelectedCountryChange,
                     onErrorMessageChange = errorMessageChange
+                )
+
+                Spacer(modifier = Modifier.size(20.dp))
+
+                PrimaryButton(
+                    btnText = "Get Code",
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp),
+                    enabled = isButtonEnabled
                 )
             }
         }

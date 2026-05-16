@@ -22,10 +22,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.ai_recipe_app_kotlin.ui.components.PrimaryButton
 import com.example.ai_recipe_app_kotlin.ui.theme.DarkPrimaryColor
 import kotlinx.coroutines.launch
-import com.example.ai_recipe_app_kotlin.viewmodel.OnboardingViewModel
 
 
 @Composable
@@ -34,7 +33,6 @@ fun OnboardingScreen(
 ){
     val pagerState = rememberPagerState(pageCount = { SimpleData.onboardingList.size})
     val scope = rememberCoroutineScope()
-    val onboardingViewModel: OnboardingViewModel = hiltViewModel()
 
     Scaffold(
         containerColor = PrimaryColor,
@@ -48,37 +46,23 @@ fun OnboardingScreen(
             )
 
           if(pagerState.currentPage == SimpleData.onboardingList.size - 1) {
-              Button(
+              PrimaryButton(
+                  btnText = "Get started",
                   onClick = {
-                     onGetStartedClick()
+                      onGetStartedClick()
                   },
-                  modifier = Modifier.align(Alignment.BottomCenter).fillMaxWidth().padding(horizontal = 16.dp),
-                  colors = ButtonDefaults.buttonColors(
-                      containerColor = DarkPrimaryColor
-                  )
-              ) {
-                  Text(
-                      text = "Get started"
-                  )
-              }
+                  modifier = Modifier.align(Alignment.BottomCenter).fillMaxWidth().padding(horizontal = 24.dp),
+              )
           } else {
-              Button(
+              PrimaryButton(
                   onClick = {
                       scope.launch {
                           pagerState.animateScrollToPage(pagerState.currentPage + 1)
                       }
                   },
                   modifier = Modifier.align(Alignment.BottomCenter),
-                  colors = ButtonDefaults.buttonColors(
-                      containerColor = DarkPrimaryColor
-                  )
-              ) {
-                  Icon(
-                      imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                      contentDescription = "Submit", // Accessibility label
-                      tint = Color.White // Optional color styling
-                  )
-              }
+                  isIcon = true
+              )
           }
         }
     }
