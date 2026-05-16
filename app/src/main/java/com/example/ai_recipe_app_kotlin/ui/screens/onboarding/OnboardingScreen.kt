@@ -1,6 +1,5 @@
 package com.example.ai_recipe_app_kotlin.ui.screens.onboarding
 
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,14 +22,18 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.ai_recipe_app_kotlin.ui.theme.DarkPrimaryColor
 import kotlinx.coroutines.launch
+import com.example.ai_recipe_app_kotlin.viewmodel.OnboardingViewModel
 
 
 @Composable
 fun OnboardingScreen(){
     val pagerState = rememberPagerState(pageCount = { SimpleData.onboardingList.size})
     val scope = rememberCoroutineScope()
+    val onboardingViewModel: OnboardingViewModel = hiltViewModel()
+
     Scaffold(
         containerColor = PrimaryColor,
     ) { innerPadding ->
@@ -44,7 +47,9 @@ fun OnboardingScreen(){
 
           if(pagerState.currentPage == SimpleData.onboardingList.size - 1) {
               Button(
-                  onClick = { /*TODO*/ },
+                  onClick = {
+                      onboardingViewModel.saveOnboardingFinished()
+                  },
                   modifier = Modifier.align(Alignment.BottomCenter).fillMaxWidth().padding(horizontal = 16.dp),
                   colors = ButtonDefaults.buttonColors(
                       containerColor = DarkPrimaryColor

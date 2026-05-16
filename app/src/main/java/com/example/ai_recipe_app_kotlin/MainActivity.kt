@@ -14,7 +14,9 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.ai_recipe_app_kotlin.ui.theme.AirecipeappkotlinTheme
 import com.example.ai_recipe_app_kotlin.ui.theme.PrimaryColor
 import com.example.ai_recipe_app_kotlin.ui.navigation.AppNavHost
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()

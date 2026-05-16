@@ -4,4 +4,5 @@ import kotlinx.serialization.Serializable
 
 sealed class Screen() {
     @Serializable object Onboarding : Screen()
+    @Serializable object Login : Screen()
 }
