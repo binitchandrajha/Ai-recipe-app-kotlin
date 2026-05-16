@@ -29,7 +29,9 @@ import com.example.ai_recipe_app_kotlin.viewmodel.OnboardingViewModel
 
 
 @Composable
-fun OnboardingScreen(){
+fun OnboardingScreen(
+    onGetStartedClick: () -> Unit = {}
+){
     val pagerState = rememberPagerState(pageCount = { SimpleData.onboardingList.size})
     val scope = rememberCoroutineScope()
     val onboardingViewModel: OnboardingViewModel = hiltViewModel()
@@ -48,7 +50,7 @@ fun OnboardingScreen(){
           if(pagerState.currentPage == SimpleData.onboardingList.size - 1) {
               Button(
                   onClick = {
-                      onboardingViewModel.saveOnboardingFinished()
+                     onGetStartedClick()
                   },
                   modifier = Modifier.align(Alignment.BottomCenter).fillMaxWidth().padding(horizontal = 16.dp),
                   colors = ButtonDefaults.buttonColors(
