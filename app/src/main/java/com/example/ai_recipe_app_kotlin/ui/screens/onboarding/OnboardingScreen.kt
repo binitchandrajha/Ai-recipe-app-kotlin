@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
@@ -60,7 +62,7 @@ fun OnboardingScreen(
                           pagerState.animateScrollToPage(pagerState.currentPage + 1)
                       }
                   },
-                  modifier = Modifier.align(Alignment.BottomCenter),
+                  modifier = Modifier.align(Alignment.BottomCenter).wrapContentWidth(),
                   isIcon = true
               )
           }
