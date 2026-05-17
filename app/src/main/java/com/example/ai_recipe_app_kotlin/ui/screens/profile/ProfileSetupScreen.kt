@@ -1,5 +1,6 @@
 package com.example.ai_recipe_app_kotlin.ui.screens.profile
 
+import android.net.Uri
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,6 +30,7 @@ import com.example.ai_recipe_app_kotlin.ui.components.PrimaryButton
 fun ProfileSetupScreen(){
     var name by remember { mutableStateOf("") }
     var nameFeildErrorMessage by remember { mutableStateOf("") }
+    var profileImageUri: Uri by remember { mutableStateOf(Uri.EMPTY) }
     Scaffold(
         containerColor = PrimaryColor,
         modifier = Modifier.fillMaxSize()
@@ -51,12 +53,16 @@ fun ProfileSetupScreen(){
                 textAlign = TextAlign.Center,
             )
             Spacer(modifier = Modifier.size(30.dp))
-            ProfileImagePicker()
+            ProfileImagePicker(
+              selectedImageUri = profileImageUri,
+                onImagePicker = { uri: Uri ->
+                    profileImageUri = uri
+                }
+            )
             Spacer(modifier = Modifier.size(20.dp))
             AppOutlinedTextField(
                 value = name,
                 onValueChange = { input ->
-                    println("on-value-change-input --->>> $input");
                     if(input.length > 2){
                         nameFeildErrorMessage = ""
                     }else{
