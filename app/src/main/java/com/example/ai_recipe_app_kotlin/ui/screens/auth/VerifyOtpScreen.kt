@@ -26,10 +26,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ai_recipe_app_kotlin.ui.components.AuthTopSection
 import com.example.ai_recipe_app_kotlin.ui.components.OtpInput
 import com.example.ai_recipe_app_kotlin.ui.components.PrimaryButton
 import com.example.ai_recipe_app_kotlin.ui.theme.PrimaryColor
+import com.example.ai_recipe_app_kotlin.viewmodel.LoginViewModel
 import kotlinx.coroutines.delay
 
 @Composable
@@ -78,7 +80,9 @@ fun VerifyOtpScreen(
                     .fillMaxWidth()
                     .padding(horizontal = 24.dp),
                 enabled = otpText.length == 6,
-                onClick = onVerifyClick
+                onClick = {
+                    onVerifyClick();
+                }
             )
 
             Spacer(modifier = Modifier.height(20.dp))

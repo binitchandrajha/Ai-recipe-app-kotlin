@@ -10,17 +10,31 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.ai_recipe_app_kotlin.ui.screens.auth.LoginScreen
 import com.example.ai_recipe_app_kotlin.ui.screens.auth.VerifyOtpScreen
+import com.example.ai_recipe_app_kotlin.ui.screens.main.HomeScreen
 import com.example.ai_recipe_app_kotlin.ui.screens.onboarding.OnboardingScreen
 import com.example.ai_recipe_app_kotlin.ui.screens.profile.ProfileSetupScreen
+import com.example.ai_recipe_app_kotlin.viewmodel.LoginViewModel
 import com.example.ai_recipe_app_kotlin.viewmodel.OnboardingViewModel
+import com.example.ai_recipe_app_kotlin.viewmodel.ProfileSetupViewModel
 
 @Composable
 fun AppNavHost(){
     val navController = rememberNavController()
     val onboardingViewModel: OnboardingViewModel = hiltViewModel()
+    val loginViewModel: LoginViewModel = hiltViewModel()
+    val profileSetupViewModel: ProfileSetupViewModel = hiltViewModel()
 
     val isOnboardingCompleted by onboardingViewModel.isOnboardingCompleted.collectAsState()
-    NavHost(navController = navController, startDestination = if(isOnboardingCompleted) Screen.Login() else Screen.Onboarding){
+    val isLoggedIn by loginViewModel.isLoggedIn.collectAsState()
+    val isProfileSetupDone by profileSetupViewModel.isProfileSetupDone.collectAsState()
+
+    val startDestination = when {
+        isProfileSetupDone -> Screen.Home
+        isLoggedIn -> Screen.ProfileSetup()
+        isOnboardingCompleted -> Screen.Login()
+        else -> Screen.Onboarding
+    }
+    NavHost(navController = navController, startDestination = startDestination){
         composable<Screen.Onboarding>{
             OnboardingScreen(
               onGetStartedClick = {
@@ -46,12 +60,22 @@ fun AppNavHost(){
                 phoneNumber = verifyOtp.phoneNumber,
                 onVerifyClick = {
                     // Navigate to Home or next screen
+                    loginViewModel.saveLoginSession()
                     navController.navigate(Screen.ProfileSetup(phoneNumber = verifyOtp.phoneNumber))
                 }
             )
         }
         composable<Screen.ProfileSetup> {
-            ProfileSetupScreen()
+            ProfileSetupScreen(
+                onProfileSetupClick = {
+                    profileSetupViewModel.setInitialProfileSetup()
+                    navController.navigate(Screen.Home)
+                }
+            )
+        }
+
+        composable<Screen.Home> {
+            HomeScreen()
         }
     }
 }
