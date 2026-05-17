@@ -34,7 +34,7 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun VerifyOtpScreen(
-    phoneNumber: String = "+977 9812345678",
+    phoneNumber: String = "+977 1234567890",
     onVerifyClick: () -> Unit = {},
     onResendClick: () -> Unit = {}
 ) {

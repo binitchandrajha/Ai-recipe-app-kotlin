@@ -11,6 +11,7 @@ import androidx.navigation.toRoute
 import com.example.ai_recipe_app_kotlin.ui.screens.auth.LoginScreen
 import com.example.ai_recipe_app_kotlin.ui.screens.auth.VerifyOtpScreen
 import com.example.ai_recipe_app_kotlin.ui.screens.onboarding.OnboardingScreen
+import com.example.ai_recipe_app_kotlin.ui.screens.profile.ProfileSetupScreen
 import com.example.ai_recipe_app_kotlin.viewmodel.OnboardingViewModel
 
 @Composable
@@ -45,8 +46,12 @@ fun AppNavHost(){
                 phoneNumber = verifyOtp.phoneNumber,
                 onVerifyClick = {
                     // Navigate to Home or next screen
+                    navController.navigate(Screen.ProfileSetup(phoneNumber = verifyOtp.phoneNumber))
                 }
             )
+        }
+        composable<Screen.ProfileSetup> {
+            ProfileSetupScreen()
         }
     }
 }

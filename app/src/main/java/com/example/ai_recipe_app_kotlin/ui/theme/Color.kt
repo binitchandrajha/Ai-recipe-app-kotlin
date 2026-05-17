@@ -16,3 +16,8 @@ val DarkPrimaryColor = Color(0xFFFD5D69)
 val DisabledPrimaryColor = Color(0xFFFD5D69).copy(alpha = 0.4f)
 
 val TextBlack = Color(0xFF32201C)
+val LightGrayOutline = Color(0xFFE2E7E5)
+
+val SoftOffWhite = Color(0xFFF4F7F6)
+
+val MutedGreenishGray = Color(0xFFB2C4BD)
