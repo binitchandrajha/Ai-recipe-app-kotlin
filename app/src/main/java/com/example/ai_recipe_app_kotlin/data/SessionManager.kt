@@ -13,4 +13,17 @@ class SessionManager(context: Context) {
     fun setOnboardingCompleted(){
         sharedPreferences.edit { putBoolean("onboarding_completed", true) }
     }
+
+    fun isUserLoggedIn() : Boolean {
+        return sharedPreferences.getBoolean("is_logged_in", false)
+    }
+
+    fun setUserLoggedIn(){
+        sharedPreferences.edit { putBoolean("is_logged_in", true) }
+    }
+
+    fun clearLoginSession(){
+        sharedPreferences.edit { putBoolean("is_logged_in", false) }
+    }
+
 }
