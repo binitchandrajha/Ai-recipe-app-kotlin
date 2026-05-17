@@ -27,7 +27,9 @@ import com.example.ai_recipe_app_kotlin.ui.components.AppOutlinedTextField
 import com.example.ai_recipe_app_kotlin.ui.components.PrimaryButton
 
 @Composable
-fun ProfileSetupScreen(){
+fun ProfileSetupScreen(
+    onProfileSetupClick: () -> Unit = {}
+){
     var name by remember { mutableStateOf("") }
     var nameFeildErrorMessage by remember { mutableStateOf("") }
     var profileImageUri: Uri by remember { mutableStateOf(Uri.EMPTY) }
@@ -78,6 +80,7 @@ fun ProfileSetupScreen(){
             PrimaryButton(
                 btnText = "Continue",
                 enabled = nameFeildErrorMessage == "",
+                onClick = {onProfileSetupClick()}
             )
         }
     }

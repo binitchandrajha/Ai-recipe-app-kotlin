@@ -26,4 +26,14 @@ class SessionManager(context: Context) {
         sharedPreferences.edit { putBoolean("is_logged_in", false) }
     }
 
+    fun isInitialProfileSetupDone(): Boolean {
+        return  sharedPreferences.getBoolean("is_profile_setup", false)
+    }
+    fun setInitialProfileSetup(){
+        sharedPreferences.edit { putBoolean("is_profile_setup", true) }
+    }
+
+    fun clearInitialProfileSetup(){
+        sharedPreferences.edit { putBoolean("is_profile_setup", false) }
+    }
 }
