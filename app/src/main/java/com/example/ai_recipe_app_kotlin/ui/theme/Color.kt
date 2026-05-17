@@ -21,3 +21,5 @@ val LightGrayOutline = Color(0xFFE2E7E5)
 val SoftOffWhite = Color(0xFFF4F7F6)
 
 val MutedGreenishGray = Color(0xFFB2C4BD)
+
+val InputBorder = Color(0xFF415A8C)

@@ -9,6 +9,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -18,9 +21,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ai_recipe_app_kotlin.ui.components.ProfileImagePicker
 import com.example.ai_recipe_app_kotlin.ui.theme.PrimaryColor
+import androidx.compose.runtime.setValue
+import com.example.ai_recipe_app_kotlin.ui.components.AppOutlinedTextField
+import com.example.ai_recipe_app_kotlin.ui.components.PrimaryButton
 
 @Composable
 fun ProfileSetupScreen(){
+    var name by remember { mutableStateOf("") }
+    var nameFeildErrorMessage by remember { mutableStateOf("") }
     Scaffold(
         containerColor = PrimaryColor,
         modifier = Modifier.fillMaxSize()
@@ -44,6 +52,27 @@ fun ProfileSetupScreen(){
             )
             Spacer(modifier = Modifier.size(30.dp))
             ProfileImagePicker()
+            Spacer(modifier = Modifier.size(20.dp))
+            AppOutlinedTextField(
+                value = name,
+                onValueChange = { input ->
+                    println("on-value-change-input --->>> $input");
+                    if(input.length > 2){
+                        nameFeildErrorMessage = ""
+                    }else{
+                        nameFeildErrorMessage = "Name should be more than 2 characters"
+                    }
+                    name = input
+                },
+                label = "Name",
+                errorMessage = nameFeildErrorMessage,
+                isError = nameFeildErrorMessage != ""
+            )
+            Spacer(modifier = Modifier.size(30.dp))
+            PrimaryButton(
+                btnText = "Continue",
+                enabled = nameFeildErrorMessage == "",
+            )
         }
     }
 }

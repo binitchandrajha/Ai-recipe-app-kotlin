@@ -23,14 +23,15 @@ fun PrimaryButton(
     onClick: () -> Unit = {},
     isIcon: Boolean = false,
     btnText: String? = null,
-    modifier: Modifier,
-    enabled: Boolean = true
+    enabled: Boolean = true,
+    modifier: Modifier = Modifier,
 ){
+    val defaultModifier = Modifier.fillMaxWidth()
     Button(
         onClick = {
             onClick()
         },
-        modifier = modifier,
+        modifier = defaultModifier.then(modifier),
         colors = ButtonDefaults.buttonColors(
             containerColor = DarkPrimaryColor,
             disabledContainerColor = DisabledPrimaryColor,
