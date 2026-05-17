@@ -56,6 +56,7 @@ dependencies {
     implementation(libs.androidx.serialization.json)
     implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.contry.picker)
+    implementation(libs.coil.compose)
 
     // Hilt
     implementation(libs.hilt.android)
