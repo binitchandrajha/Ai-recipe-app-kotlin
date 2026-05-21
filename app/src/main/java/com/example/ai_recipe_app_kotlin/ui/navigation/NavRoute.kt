@@ -17,6 +17,15 @@ sealed class Screen {
     data class ProfileSetup(val phoneNumber: String? = null) : Screen()
 
     @Serializable
+    data object Main: Screen()
+
+    @Serializable
     data object Home : Screen()
+
+    @Serializable
+    data object Saved : Screen()
+
+    @Serializable
+    data object Profile : Screen()
 }
 
