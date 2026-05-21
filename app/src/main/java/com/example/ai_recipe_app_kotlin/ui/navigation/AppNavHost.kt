@@ -11,6 +11,9 @@ import androidx.navigation.toRoute
 import com.example.ai_recipe_app_kotlin.ui.screens.auth.LoginScreen
 import com.example.ai_recipe_app_kotlin.ui.screens.auth.VerifyOtpScreen
 import com.example.ai_recipe_app_kotlin.ui.screens.main.HomeScreen
+import com.example.ai_recipe_app_kotlin.ui.screens.main.MainScreen
+import com.example.ai_recipe_app_kotlin.ui.screens.main.ProfileScreen
+import com.example.ai_recipe_app_kotlin.ui.screens.main.SavedScreen
 import com.example.ai_recipe_app_kotlin.ui.screens.onboarding.OnboardingScreen
 import com.example.ai_recipe_app_kotlin.ui.screens.profile.ProfileSetupScreen
 import com.example.ai_recipe_app_kotlin.viewmodel.LoginViewModel
@@ -29,7 +32,7 @@ fun AppNavHost(){
     val isProfileSetupDone by profileSetupViewModel.isProfileSetupDone.collectAsState()
 
     val startDestination = when {
-        isProfileSetupDone -> Screen.Home
+        isProfileSetupDone -> Screen.Main
         isLoggedIn -> Screen.ProfileSetup()
         isOnboardingCompleted -> Screen.Login()
         else -> Screen.Onboarding
@@ -69,13 +72,13 @@ fun AppNavHost(){
             ProfileSetupScreen(
                 onProfileSetupClick = {
                     profileSetupViewModel.setInitialProfileSetup()
-                    navController.navigate(Screen.Home)
+                    navController.navigate(Screen.Main)
                 }
             )
         }
 
-        composable<Screen.Home> {
-            HomeScreen()
+        composable<Screen.Main> {
+            MainScreen()
         }
     }
 }
