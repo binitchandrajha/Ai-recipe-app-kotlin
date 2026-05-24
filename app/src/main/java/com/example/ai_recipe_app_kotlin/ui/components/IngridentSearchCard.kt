@@ -58,6 +58,8 @@ fun IngredientSearchCard(){
                 }
             )
             Spacer(modifier = Modifier.size(16.dp))
+            IngredientList()
+            Spacer(modifier = Modifier.size(16.dp))
             PrimaryButton(
                 btnText = "Generate Recipe",
                 modifier = Modifier.fillMaxWidth()
