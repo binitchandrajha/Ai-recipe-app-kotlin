@@ -10,10 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.ai_recipe_app_kotlin.ui.screens.auth.LoginScreen
 import com.example.ai_recipe_app_kotlin.ui.screens.auth.VerifyOtpScreen
-import com.example.ai_recipe_app_kotlin.ui.screens.main.HomeScreen
 import com.example.ai_recipe_app_kotlin.ui.screens.main.MainScreen
-import com.example.ai_recipe_app_kotlin.ui.screens.main.ProfileScreen
-import com.example.ai_recipe_app_kotlin.ui.screens.main.SavedScreen
 import com.example.ai_recipe_app_kotlin.ui.screens.onboarding.OnboardingScreen
 import com.example.ai_recipe_app_kotlin.ui.screens.profile.ProfileSetupScreen
 import com.example.ai_recipe_app_kotlin.viewmodel.LoginViewModel

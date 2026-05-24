@@ -1,12 +1,27 @@
 package com.example.ai_recipe_app_kotlin.ui.screens.main
 
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.ai_recipe_app_kotlin.ui.components.IngredientSearchCard
+import com.example.ai_recipe_app_kotlin.ui.components.ProfileHeader
+import com.example.ai_recipe_app_kotlin.ui.theme.PrimaryColor
 
 @Composable
 fun HomeScreen(){
-    Text(text = "Home screen")
+    Scaffold(
+        containerColor = PrimaryColor
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier.padding(innerPadding)
+        ){
+            ProfileHeader()
+            IngredientSearchCard()
+        }
+    }
 }
 
 @Preview
