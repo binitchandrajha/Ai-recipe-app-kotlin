@@ -1,8 +1,10 @@
 package com.example.ai_recipe_app_kotlin.data
 
 import com.example.ai_recipe_app_kotlin.R
+import com.example.ai_recipe_app_kotlin.model.Difficulty
 import com.example.ai_recipe_app_kotlin.model.IngredientItem
 import com.example.ai_recipe_app_kotlin.model.OnboardingItem
+import com.example.ai_recipe_app_kotlin.model.SavedRecipeItem
 
 object SimpleData {
     val onboardingList = listOf(
@@ -43,6 +45,37 @@ object SimpleData {
             title = "Tomato",
             description = "Fresh tomato",
             ingredientImage = "https://png.pngtree.com/png-clipart/20230129/original/pngtree-red-fresh-tomato-with-green-leaf-png-image_8933861.png"
+        )
+    )
+
+    val savedRecipes = listOf(
+        SavedRecipeItem(
+            title = "Spaghetti Bolognese",
+            recipeImage = "https://png.pngtree.com/png-clipart/20230129/original/pngtree-red-fresh-tomato-with-green-leaf-png-image_8933861.png",
+            recipeDuration = "30 min",
+            difficulty = Difficulty.Medium,
+            numberOfIngredientsUsed = 5
+        ),
+        SavedRecipeItem(
+            title = "Chicken Curry",
+            recipeImage = "https://png.pngtree.com/png-clipart/20230129/original/pngtree-red-fresh-tomato-with-green-leaf-png-image_8933861.png",
+            recipeDuration = "45 min",
+            difficulty = Difficulty.Hard,
+            numberOfIngredientsUsed = 6
+        ),
+        SavedRecipeItem(
+            title = "Vegetable Stir-Fry",
+            recipeImage = "https://png.pngtree.com/png-clipart/20230129/original/pngtree-red-fresh-tomato-with-green-leaf-png-image_8933861.png",
+            recipeDuration = "25 min",
+            difficulty = Difficulty.Easy,
+            numberOfIngredientsUsed = 4
+        ),
+        SavedRecipeItem(
+            title = "Beef Stroganoff",
+            recipeImage = "https://png.pngtree.com/png-clipart/20230129/original/pngtree-red-fresh-tomato-with-green-leaf-png-image_8933861.png",
+            recipeDuration = "60 min",
+            difficulty = Difficulty.Medium,
+            numberOfIngredientsUsed = 7
         )
     )
 }

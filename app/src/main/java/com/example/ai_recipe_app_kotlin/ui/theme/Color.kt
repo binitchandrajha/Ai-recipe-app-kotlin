@@ -13,7 +13,9 @@ val PrimaryColor = Color(0xFFFFFDF9)
 
 val DarkPrimaryColor = Color(0xFFFD5D69)
 
-val LightPrimaryColor = Color(0xFFFD5D69).copy(alpha = 0.4f)
+val LightPrimaryColor = Color(0xFFFD5D69).copy(alpha = 0.1f)
+
+val LightPrimaryBackground = Color(0xFFFFF0F1)
 
 val DisabledPrimaryColor = Color(0xFFFD5D69).copy(alpha = 0.4f)
 

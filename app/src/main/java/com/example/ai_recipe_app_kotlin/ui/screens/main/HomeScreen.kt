@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.ai_recipe_app_kotlin.ui.components.IngredientSearchCard
 import com.example.ai_recipe_app_kotlin.ui.components.ProfileHeader
+import com.example.ai_recipe_app_kotlin.ui.components.SavedRecipeCard
 import com.example.ai_recipe_app_kotlin.ui.theme.PrimaryColor
 
 @Composable
@@ -20,6 +21,7 @@ fun HomeScreen(){
         ){
             ProfileHeader()
             IngredientSearchCard()
+            SavedRecipeCard()
         }
     }
 }

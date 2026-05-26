@@ -22,9 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.ai_recipe_app_kotlin.model.IngredientItem
-import com.example.ai_recipe_app_kotlin.ui.theme.DarkPrimaryColor
 import com.example.ai_recipe_app_kotlin.ui.theme.LightPrimaryColor
-import com.example.ai_recipe_app_kotlin.ui.theme.PrimaryColor
 
 @Composable
 fun IngredientCard(
