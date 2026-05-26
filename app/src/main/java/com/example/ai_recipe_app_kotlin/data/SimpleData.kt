@@ -54,25 +54,26 @@ object SimpleData {
             recipeImage = "https://png.pngtree.com/png-clipart/20230129/original/pngtree-red-fresh-tomato-with-green-leaf-png-image_8933861.png",
             recipeDuration = "30 min",
             difficulty = Difficulty.Medium,
-            numberOfIngredientsUsed = 5
+            numberOfIngredientsUsed = 5,
+
         ),
         SavedRecipeItem(
             title = "Chicken Curry",
-            recipeImage = "https://png.pngtree.com/png-clipart/20230129/original/pngtree-red-fresh-tomato-with-green-leaf-png-image_8933861.png",
+            recipeImage = "https://www.whiskaffair.com/wp-content/uploads/2021/10/Andhra-Chicken-Curry-2-3.jpg",
             recipeDuration = "45 min",
             difficulty = Difficulty.Hard,
             numberOfIngredientsUsed = 6
         ),
         SavedRecipeItem(
             title = "Vegetable Stir-Fry",
-            recipeImage = "https://png.pngtree.com/png-clipart/20230129/original/pngtree-red-fresh-tomato-with-green-leaf-png-image_8933861.png",
+            recipeImage = "https://ohsweetbasil.com/wp-content/uploads/the-best-easy-stir-fry-vegetables-recipe-6.jpg",
             recipeDuration = "25 min",
             difficulty = Difficulty.Easy,
             numberOfIngredientsUsed = 4
         ),
         SavedRecipeItem(
-            title = "Beef Stroganoff",
-            recipeImage = "https://png.pngtree.com/png-clipart/20230129/original/pngtree-red-fresh-tomato-with-green-leaf-png-image_8933861.png",
+            title = "Spicy Mutton Curry Recipe",
+            recipeImage = "https://d3s8tbcesxr4jm.cloudfront.net/recipe-images/v0/spicy-mutton-curry_large.jpg",
             recipeDuration = "60 min",
             difficulty = Difficulty.Medium,
             numberOfIngredientsUsed = 7
