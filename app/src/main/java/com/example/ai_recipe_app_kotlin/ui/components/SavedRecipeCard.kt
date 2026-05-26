@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.ai_recipe_app_kotlin.ui.theme.DarkPrimaryColor
 import com.example.ai_recipe_app_kotlin.ui.theme.LightPrimaryBackground
@@ -73,7 +74,7 @@ fun SavedRecipeCard(){
                     Spacer(modifier = Modifier.size(6.dp))
                     Row(
                       modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceAround
+                        horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                       Row(
                           verticalAlignment = Alignment.CenterVertically
@@ -81,11 +82,14 @@ fun SavedRecipeCard(){
                           Icon(
                               imageVector = Icons.Default.AccessTime,
                               contentDescription = "AcesTimer",
-                              modifier = Modifier.size(12.dp),
+                              modifier = Modifier.size(14.dp),
                               tint = DarkPrimaryColor
                           )
                           Spacer(modifier = Modifier.size(4.dp))
-                          Text(text = "30 mins")
+                          Text(
+                              text = "30 mins",
+                              fontSize = 14.sp
+                              )
                       }
                       Row(
                           verticalAlignment = Alignment.CenterVertically
@@ -93,11 +97,14 @@ fun SavedRecipeCard(){
                           Icon(
                               imageVector = Icons.Outlined.Restaurant,
                               contentDescription = "AcesTimer",
-                              modifier = Modifier.size(12.dp),
+                              modifier = Modifier.size(14.dp),
                               tint = DarkPrimaryColor
                           )
                           Spacer(modifier = Modifier.size(4.dp))
-                          Text(text = "30 mins")
+                          Text(
+                              text = "30 mins",
+                              fontSize = 14.sp
+                          )
                       }
 
                         Row(
@@ -106,11 +113,14 @@ fun SavedRecipeCard(){
                             Icon(
                                 imageVector = Icons.Outlined.SoupKitchen,
                                 contentDescription = "AcesTimer",
-                                modifier = Modifier.size(12.dp),
+                                modifier = Modifier.size(14.dp),
                                 tint = DarkPrimaryColor
                             )
                             Spacer(modifier = Modifier.size(4.dp))
-                            Text(text = "30 mins")
+                            Text(
+                                text = "30 mins",
+                                fontSize = 14.sp
+                            )
                         }
                     }
                 }
