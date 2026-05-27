@@ -34,7 +34,7 @@ fun ProfileHeader(){
             Spacer(modifier = Modifier.size(5.dp))
             Text(text = "What will you work on today?")
         }
-        AsyncImage(
+        AppAsyncImage(
             model = "https://play-lh.googleusercontent.com/dSAi-HxlHjZDB0ycNR0t3BmIqKHE9Ix1-xgvvM-zeDW-QJa3mW7A8iHR6qgB3UQlJqaRwlcEavzRGScXMYjNeg=w240-h480-rw",
             contentDescription = "Profile picture",
             modifier = Modifier.clip(CircleShape).size(50.dp),

@@ -52,7 +52,7 @@ fun QuickIdeasRecipeListItem(
             }
         )
     ) {
-        AsyncImage(
+        AppAsyncImage(
             model = item.recipeImage,
             contentDescription = item.title,
             modifier = Modifier.fillMaxWidth().height(150.dp),
