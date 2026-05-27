@@ -1,6 +1,7 @@
 package com.example.ai_recipe_app_kotlin.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,7 +23,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun IngredientSearchCard(){
+fun IngredientSearchCard(
+    onRecipeClick: (String) -> Unit = {}
+){
     var searchInput by remember { mutableStateOf("") }
     fun onChangeSearchInput(input: String){
         searchInput = input
@@ -30,7 +33,7 @@ fun IngredientSearchCard(){
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(16.dp).clickable(onClick = {}),
         colors = CardDefaults.cardColors(
             containerColor = Color.White,
         ),

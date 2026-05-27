@@ -11,6 +11,7 @@ import androidx.navigation.toRoute
 import com.example.ai_recipe_app_kotlin.ui.screens.auth.LoginScreen
 import com.example.ai_recipe_app_kotlin.ui.screens.auth.VerifyOtpScreen
 import com.example.ai_recipe_app_kotlin.ui.screens.main.MainScreen
+import com.example.ai_recipe_app_kotlin.ui.screens.main.RecipeDetailScreen
 import com.example.ai_recipe_app_kotlin.ui.screens.onboarding.OnboardingScreen
 import com.example.ai_recipe_app_kotlin.ui.screens.profile.ProfileSetupScreen
 import com.example.ai_recipe_app_kotlin.viewmodel.LoginViewModel
@@ -75,7 +76,15 @@ fun AppNavHost(){
         }
 
         composable<Screen.Main> {
-            MainScreen()
+            MainScreen(
+                onRecipeClick = { recipeId ->
+                    navController.navigate(Screen.RecipeDetail(recipeId))
+                }
+            )
+        }
+
+        composable <Screen.RecipeDetail> {
+            RecipeDetailScreen()
         }
     }
 }

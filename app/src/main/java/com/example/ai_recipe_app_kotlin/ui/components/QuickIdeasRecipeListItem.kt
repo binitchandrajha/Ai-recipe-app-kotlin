@@ -1,6 +1,7 @@
 package com.example.ai_recipe_app_kotlin.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -35,7 +36,8 @@ import com.example.ai_recipe_app_kotlin.ui.theme.DarkPrimaryColor
 
 @Composable
 fun QuickIdeasRecipeListItem(
-    item: QuickRecipeItem
+    item: QuickRecipeItem,
+    onRecipeClick: (String) -> Unit = {}
 ){
     Card(
         colors = CardDefaults.cardColors(
@@ -44,7 +46,11 @@ fun QuickIdeasRecipeListItem(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 4.dp
         ),
-        modifier = Modifier.width(200.dp)
+        modifier = Modifier.width(200.dp).clickable(
+            onClick = {
+                onRecipeClick(item.title)
+            }
+        )
     ) {
         AsyncImage(
             model = item.recipeImage,
@@ -125,6 +131,7 @@ fun QuickIdeasRecipeListItem(
 fun QuickIdeasRecipeListItemPreview(){
     QuickIdeasRecipeListItem(
         item = QuickRecipeItem(
+            id = "quick-recipe-test-id",
             recipeImage = "https://vismaifood.com/storage/app/uploads/public/8b4/19e/427/thumb__1200_0_0_0_auto.jpg",
             title = "Masala dosa",
             recipeDuration = "30 min",

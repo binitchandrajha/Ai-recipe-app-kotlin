@@ -1,6 +1,7 @@
 package com.example.ai_recipe_app_kotlin.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,10 +37,11 @@ import com.example.ai_recipe_app_kotlin.ui.theme.LightPrimaryColor
 
 @Composable
 fun SavedRecipeCardItem(
-    item: SavedRecipeItem
+    item: SavedRecipeItem,
+    onRecipeClick: (String) -> Unit = {}
 ){
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().clickable(onClick = {onRecipeClick(item.id)}),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 4.dp
         ),
@@ -144,6 +146,7 @@ fun SavedRecipeCardItem(
 fun SavedRecipeCardItemPreview(){
     SavedRecipeCardItem(
         item = SavedRecipeItem(
+            id = "saved-item-test-id",
             title = "Spaghetti Bolognese",
             recipeImage = "https://png.pngtree.com/png-clipart/20230129/original/pngtree-red-fresh-tomato-with-green-leaf-png-image_8933861.png",
             recipeDuration = "30 min",

@@ -63,6 +63,7 @@ fun IngredientCard(
 fun IngredientCardPreview(){
     IngredientCard(
         item = IngredientItem(
+            id = "ingredient-first-item-id",
             title = "Flour",
             description = "All purpose flour",
             ingredientImage = "https://www.thespruceeats.com/thmb/J1_oUODgxQi9Gm6iccam2LNYPpQ=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-126372385-58950f353df78caebc239b4d.jpg"

@@ -13,7 +13,12 @@ import androidx.compose.ui.unit.dp
 import com.example.ai_recipe_app_kotlin.data.SimpleData
 
 @Composable
-fun SavedRecipeCard(){
+fun SavedRecipeCard(
+    onRecipeClick: (String) -> Unit = {}
+){
+    fun handleOnRecipeClick(recipeId: String){
+        onRecipeClick(recipeId)
+    }
     Column(
         modifier = Modifier.padding(16.dp)
     ) {
@@ -23,7 +28,11 @@ fun SavedRecipeCard(){
             )
         Spacer(modifier = Modifier.size(10.dp))
         SimpleData.savedRecipes.forEach { item ->
-            SavedRecipeCardItem(item = item)
+            SavedRecipeCardItem(item = item, onRecipeClick = {
+                handleOnRecipeClick(
+                    recipeId = it
+                )
+            })
             Spacer(modifier = Modifier.size(10.dp))
         }
     }
