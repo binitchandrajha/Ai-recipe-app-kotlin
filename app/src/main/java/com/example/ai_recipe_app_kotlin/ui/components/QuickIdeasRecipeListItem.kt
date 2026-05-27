@@ -44,13 +44,13 @@ fun QuickIdeasRecipeListItem(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 4.dp
         ),
-        modifier = Modifier.width(170.dp)
+        modifier = Modifier.width(200.dp)
     ) {
         AsyncImage(
             model = item.recipeImage,
             contentDescription = item.title,
-            modifier = Modifier.fillMaxWidth(),
-            contentScale = ContentScale.Crop
+            modifier = Modifier.fillMaxWidth().height(150.dp),
+            contentScale = ContentScale.Crop,
         )
         Row(
             modifier = Modifier.fillMaxWidth().padding(8.dp),
@@ -82,7 +82,7 @@ fun QuickIdeasRecipeListItem(
                         )
                         Spacer(modifier = Modifier.size(4.dp))
                         Text(
-                            text = "30 min",
+                            text = item.recipeDuration,
                             fontSize = 14.sp
                         )
                     }
@@ -98,7 +98,7 @@ fun QuickIdeasRecipeListItem(
                         )
                         Spacer(modifier = Modifier.size(4.dp))
                         Text(
-                            text = "Easy",
+                            text = "${item.difficulty}",
                             fontSize = 14.sp
                         )
                     }
@@ -113,7 +113,7 @@ fun QuickIdeasRecipeListItem(
                     imageVector = Icons.Default.Bookmark,
                     contentDescription = "Bookmark",
                     modifier = Modifier.size(22.dp),
-                    tint = DarkPrimaryColor
+                    tint = if(item.isFavorite) DarkPrimaryColor else Color.Black
                 )
             }
         }
