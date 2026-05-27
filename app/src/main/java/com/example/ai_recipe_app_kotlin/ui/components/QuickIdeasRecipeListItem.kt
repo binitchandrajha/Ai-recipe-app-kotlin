@@ -29,10 +29,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.ai_recipe_app_kotlin.model.Difficulty
+import com.example.ai_recipe_app_kotlin.model.QuickRecipeItem
 import com.example.ai_recipe_app_kotlin.ui.theme.DarkPrimaryColor
 
 @Composable
-fun QuickIdeasRecipeListItem(){
+fun QuickIdeasRecipeListItem(
+    item: QuickRecipeItem
+){
     Card(
         colors = CardDefaults.cardColors(
             containerColor = Color.White
@@ -43,8 +47,8 @@ fun QuickIdeasRecipeListItem(){
         modifier = Modifier.width(170.dp)
     ) {
         AsyncImage(
-            model = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQACh1yWbIwNiWJOZ-8lkt9oGkf5cdMK4DV8Q&s",
-            contentDescription = "Masala dosa",
+            model = item.recipeImage,
+            contentDescription = item.title,
             modifier = Modifier.fillMaxWidth(),
             contentScale = ContentScale.Crop
         )
@@ -56,7 +60,7 @@ fun QuickIdeasRecipeListItem(){
                 modifier = Modifier.fillMaxWidth().weight(1f)
             ){
                 Text(
-                    text = "Masala Dosa",
+                    text = item.title,
                     fontWeight = FontWeight.SemiBold,
                     color = Color.DarkGray
                 )
@@ -119,5 +123,13 @@ fun QuickIdeasRecipeListItem(){
 @Preview
 @Composable
 fun QuickIdeasRecipeListItemPreview(){
-    QuickIdeasRecipeListItem()
+    QuickIdeasRecipeListItem(
+        item = QuickRecipeItem(
+            recipeImage = "https://vismaifood.com/storage/app/uploads/public/8b4/19e/427/thumb__1200_0_0_0_auto.jpg",
+            title = "Masala dosa",
+            recipeDuration = "30 min",
+            difficulty = Difficulty.Easy,
+            isFavorite = false
+        )
+    )
 }

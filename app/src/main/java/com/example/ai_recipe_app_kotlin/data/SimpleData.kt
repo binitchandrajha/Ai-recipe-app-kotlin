@@ -4,6 +4,7 @@ import com.example.ai_recipe_app_kotlin.R
 import com.example.ai_recipe_app_kotlin.model.Difficulty
 import com.example.ai_recipe_app_kotlin.model.IngredientItem
 import com.example.ai_recipe_app_kotlin.model.OnboardingItem
+import com.example.ai_recipe_app_kotlin.model.QuickRecipeItem
 import com.example.ai_recipe_app_kotlin.model.SavedRecipeItem
 
 object SimpleData {
@@ -77,6 +78,37 @@ object SimpleData {
             recipeDuration = "60 min",
             difficulty = Difficulty.Medium,
             numberOfIngredientsUsed = 7
+        )
+    )
+
+    val quickIdeas = listOf(
+        QuickRecipeItem(
+            recipeImage = "https://vismaifood.com/storage/app/uploads/public/8b4/19e/427/thumb__1200_0_0_0_auto.jpg",
+            title = "Masala dosa",
+            recipeDuration = "30 min",
+            difficulty = Difficulty.Easy,
+            isFavorite = false
+        ),
+        QuickRecipeItem(
+            recipeImage = "https://www.maggi.in/sites/default/files/srh_recipes/26de2f669c90f0fcc1a363cbd0b763e6.jpg",
+            title = "Chicken Roll",
+            recipeDuration = "20 min",
+            difficulty = Difficulty.Hard,
+            isFavorite = true
+        ),
+        QuickRecipeItem(
+            recipeImage = "https://www.spicebangla.com/wp-content/uploads/2024/08/Egg-Masala-Curry.webp",
+            title = "Egg curry",
+            recipeDuration = "40 min",
+            difficulty = Difficulty.Medium,
+            isFavorite = false
+        ),
+        QuickRecipeItem(
+            recipeImage = "https://images.food52.com/VOfOuvcQe7fBeSqixNe1L-LhUBY=/d815e816-4664-472e-990b-d880be41499f--chicken-biryani-recipe.jpg",
+            title = "Chicken biryani",
+            recipeDuration = "60 min",
+            difficulty = Difficulty.Hard,
+            isFavorite = true
         )
     )
 }
