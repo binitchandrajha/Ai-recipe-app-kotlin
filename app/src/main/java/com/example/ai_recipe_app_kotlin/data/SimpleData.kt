@@ -5,6 +5,8 @@ import com.example.ai_recipe_app_kotlin.model.Difficulty
 import com.example.ai_recipe_app_kotlin.model.IngredientItem
 import com.example.ai_recipe_app_kotlin.model.OnboardingItem
 import com.example.ai_recipe_app_kotlin.model.QuickRecipeItem
+import com.example.ai_recipe_app_kotlin.model.RecipeDetailIngredientItem
+import com.example.ai_recipe_app_kotlin.model.RecipeMakingStepsItem
 import com.example.ai_recipe_app_kotlin.model.SavedRecipeItem
 
 object SimpleData {
@@ -121,6 +123,72 @@ object SimpleData {
             recipeDuration = "60 min",
             difficulty = Difficulty.Hard,
             isFavorite = true
+        )
+    )
+
+    val recipeDetailIngredients = listOf(
+        RecipeDetailIngredientItem(
+            title = "Flour",
+            quantity = "200g"
+        ),
+        RecipeDetailIngredientItem(
+            title = "Onion",
+            quantity = "1kg"
+        ),
+        RecipeDetailIngredientItem(
+            title = "Milk",
+            quantity = "1L"
+        ),
+        RecipeDetailIngredientItem(
+            title = "Tomato",
+            quantity = "1kg"
+        ),
+        RecipeDetailIngredientItem(
+            title = "Salt",
+            quantity = "1 tsp"
+        ),
+        RecipeDetailIngredientItem(
+            title = "Pepper",
+            quantity = "1 tsp"
+        ),
+        RecipeDetailIngredientItem(
+            title = "Garlic",
+            quantity = "1 tsp"
+        ),
+        RecipeDetailIngredientItem(
+            title = "Sugar",
+            quantity = "1 tsp"
+        ),
+        RecipeDetailIngredientItem(
+            title = "Butter",
+            quantity = "100g"
+        ),
+    )
+
+    val recipeMakingSteps = listOf(
+        RecipeMakingStepsItem(
+            step = "Step 1",
+            stepDescription = "Preheat the oven to 180°C (350°F)."
+        ),
+        RecipeMakingStepsItem(
+            step = "Step 2",
+            stepDescription = "Mix the flour, sugar, baking powder, and salt in a large bowl."
+        ),
+        RecipeMakingStepsItem(
+            step = "Step 3",
+            stepDescription = "Bake for 25-30 minutes or until a toothpick inserted into the center of the dough comes out clean."
+        ),
+        RecipeMakingStepsItem(
+            step = "Step 4",
+            stepDescription = "Let the cake cool in the oven for a few minutes before removing it from the pan."
+        ),
+        RecipeMakingStepsItem(
+            step = "Step 5",
+            stepDescription = "Serve the cake immediately."
+        ),
+        RecipeMakingStepsItem(
+            step = "Step 6",
+            stepDescription = "Enjoy!"
         )
     )
 }
