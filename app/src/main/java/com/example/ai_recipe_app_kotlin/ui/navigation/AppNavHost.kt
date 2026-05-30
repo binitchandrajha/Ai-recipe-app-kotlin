@@ -84,7 +84,7 @@ fun AppNavHost(){
         }
 
         composable <Screen.RecipeDetail> {
-            RecipeDetailScreen()
+            RecipeDetailScreen(navController)
         }
     }
 }

@@ -17,8 +17,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.ai_recipe_app_kotlin.ui.components.AppAsyncImage
 import com.example.ai_recipe_app_kotlin.ui.components.AppHeader
 import com.example.ai_recipe_app_kotlin.ui.components.RecipeDetailContent
@@ -27,7 +29,7 @@ import com.example.ai_recipe_app_kotlin.ui.theme.SoftWhite
 
 
 @Composable
-fun RecipeDetailScreen(){
+fun RecipeDetailScreen(navController: NavController){
     val scrollState = rememberScrollState()
     Scaffold(
         containerColor = SoftWhite,
@@ -40,7 +42,11 @@ fun RecipeDetailScreen(){
                 modifier = Modifier.clip(RoundedCornerShape(bottomEnd = 16.dp, bottomStart = 16.dp)).background(LightPrimaryColor).height(400.dp).
                 padding(top = innerPadding.calculateTopPadding())
             ) {
-                AppHeader()
+                AppHeader(
+                    onBackClick = {
+                        navController.popBackStack()
+                    }
+                )
                 AppAsyncImage(
                     model = "https://img.magnific.com/free-photo/penne-pasta-tomato-sauce-with-chicken-tomatoes-wooden-table_2829-19744.jpg?semt=ais_hybrid&w=740&q=80",
                     contentDescription = "Chicken Biryani",
@@ -58,5 +64,7 @@ fun RecipeDetailScreen(){
 @Preview(showBackground = true)
 @Composable
 fun RecipeDetailPreview(){
-    RecipeDetailScreen()
+    RecipeDetailScreen(
+        navController = NavController(LocalContext.current)
+    )
 }

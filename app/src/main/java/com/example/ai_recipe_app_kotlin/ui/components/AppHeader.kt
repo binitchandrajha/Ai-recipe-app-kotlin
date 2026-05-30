@@ -16,14 +16,17 @@ import com.example.ai_recipe_app_kotlin.ui.theme.DarkPrimaryColor
 
 @Composable
 fun AppHeader(
-    isFavorite: Boolean = false
+    isFavorite: Boolean = false,
+    onBackClick: () -> Unit = {},
 ){
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         IconButton(
-            onClick = {}
+            onClick = {
+                onBackClick()
+            }
         ) {
             Icon(
                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
