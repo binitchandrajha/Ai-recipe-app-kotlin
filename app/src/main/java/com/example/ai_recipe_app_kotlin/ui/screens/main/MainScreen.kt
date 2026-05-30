@@ -23,7 +23,9 @@ import com.example.ai_recipe_app_kotlin.ui.navigation.Screen
 import com.example.ai_recipe_app_kotlin.ui.theme.DarkPrimaryColor
 
 @Composable
-fun MainScreen(){
+fun MainScreen(
+    onRecipeClick: (String) -> Unit = {}
+){
     val navController = rememberNavController()
 
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
@@ -73,7 +75,9 @@ fun MainScreen(){
             modifier = Modifier.padding(innerPadding)
         ) {
             composable <Screen.Home> {
-                HomeScreen()
+                HomeScreen(
+                    onRecipeClick = onRecipeClick
+                )
             }
             composable<Screen.Saved> {
                 SavedScreen()

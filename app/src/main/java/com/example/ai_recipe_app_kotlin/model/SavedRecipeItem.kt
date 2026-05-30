@@ -7,6 +7,7 @@ enum class Difficulty {
 }
 
 data class SavedRecipeItem (
+    val id: String,
     val title: String,
     val recipeImage: String,
     val recipeDuration: String,

@@ -15,7 +15,12 @@ import androidx.compose.ui.unit.dp
 import com.example.ai_recipe_app_kotlin.data.SimpleData
 
 @Composable
-fun QuickIdeasRecipeList(){
+fun QuickIdeasRecipeList(
+    onRecipeClick: (String) -> Unit = {}
+){
+    fun handleOnRecipeClick(recipeId: String){
+        onRecipeClick(recipeId)
+    }
     Column(
         modifier = Modifier.padding(16.dp)
     ){
@@ -26,7 +31,10 @@ fun QuickIdeasRecipeList(){
         Spacer(modifier = Modifier.size(10.dp))
         LazyRow() {
             items(SimpleData.quickIdeas){ item ->
-              QuickIdeasRecipeListItem(item = item)
+              QuickIdeasRecipeListItem(item = item,
+                  onRecipeClick = {
+                  handleOnRecipeClick(recipeId = it)
+              })
                 Spacer(modifier = Modifier.size(10.dp))
             }
         }

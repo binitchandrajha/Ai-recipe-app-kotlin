@@ -16,7 +16,9 @@ import com.example.ai_recipe_app_kotlin.ui.components.SavedRecipeCard
 import com.example.ai_recipe_app_kotlin.ui.theme.PrimaryColor
 
 @Composable
-fun HomeScreen(){
+fun HomeScreen(
+    onRecipeClick: (String) -> Unit = {}
+){
     val scrollState = rememberScrollState()
     Scaffold(
         containerColor = PrimaryColor
@@ -25,9 +27,15 @@ fun HomeScreen(){
             modifier = Modifier.padding(innerPadding).verticalScroll(scrollState)
         ){
             ProfileHeader()
-            IngredientSearchCard()
-            SavedRecipeCard()
-            QuickIdeasRecipeList()
+            IngredientSearchCard(
+                onRecipeClick = onRecipeClick
+            )
+            SavedRecipeCard(
+                onRecipeClick = onRecipeClick
+            )
+            QuickIdeasRecipeList(
+                onRecipeClick = onRecipeClick
+            )
         }
     }
 }
