@@ -1,5 +1,6 @@
 package com.example.ai_recipe_app_kotlin.ui.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -24,19 +25,24 @@ fun PrimaryButton(
     isIcon: Boolean = false,
     btnText: String? = null,
     enabled: Boolean = true,
-    modifier: Modifier = Modifier,
+    containerColor: Color = DarkPrimaryColor,
+    buttonContentColor: Color = Color.White.copy(alpha = 0.6f),
+    disabledContainerColor: Color = DisabledPrimaryColor,
+    border: BorderStroke? = null,
+    btnTextColor: Color = Color.White,
+    modifier: Modifier = Modifier.fillMaxWidth(),
 ){
-    val defaultModifier = Modifier.fillMaxWidth()
     Button(
         onClick = {
             onClick()
         },
-        modifier = defaultModifier.then(modifier),
+        modifier = modifier,
         colors = ButtonDefaults.buttonColors(
-            containerColor = DarkPrimaryColor,
-            disabledContainerColor = DisabledPrimaryColor,
-            disabledContentColor = Color.White.copy(alpha = 0.6f)
+            containerColor = containerColor,
+            disabledContainerColor = disabledContainerColor,
+            disabledContentColor = buttonContentColor,
         ),
+        border = border,
         enabled = enabled
     ) {
         if(isIcon){
@@ -48,7 +54,8 @@ fun PrimaryButton(
         }
         if(btnText != null){
             Text(
-                text = btnText
+                text = btnText,
+                color = btnTextColor
             )
         }
     }

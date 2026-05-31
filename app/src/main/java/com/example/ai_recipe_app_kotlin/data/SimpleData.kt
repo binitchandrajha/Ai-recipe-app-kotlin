@@ -1,9 +1,18 @@
 package com.example.ai_recipe_app_kotlin.data
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.HelpOutline
+import androidx.compose.material.icons.automirrored.outlined.Logout
+import androidx.compose.material.icons.outlined.BookmarkBorder
+import androidx.compose.material.icons.outlined.Description
+import androidx.compose.material.icons.outlined.History
+import androidx.compose.material.icons.outlined.Share
+import androidx.compose.material.icons.outlined.Tune
 import com.example.ai_recipe_app_kotlin.R
 import com.example.ai_recipe_app_kotlin.model.Difficulty
 import com.example.ai_recipe_app_kotlin.model.IngredientItem
 import com.example.ai_recipe_app_kotlin.model.OnboardingItem
+import com.example.ai_recipe_app_kotlin.model.ProfileMenuItem
 import com.example.ai_recipe_app_kotlin.model.QuickRecipeItem
 import com.example.ai_recipe_app_kotlin.model.RecipeDetailIngredientItem
 import com.example.ai_recipe_app_kotlin.model.RecipeMakingStepsItem
@@ -189,6 +198,47 @@ object SimpleData {
         RecipeMakingStepsItem(
             step = "Step 6",
             stepDescription = "Enjoy!"
+        )
+    )
+
+    val activityItems = listOf(
+        ProfileMenuItem(
+            menuTitle = "Saved Recipes",
+            menuIcon = Icons.Outlined.BookmarkBorder,
+            onClick = {}
+        ),
+        ProfileMenuItem(
+            menuTitle = "Recently Viewed",
+            menuIcon = Icons.Outlined.History,
+            onClick = {}
+        ),
+    )
+
+    val appSettings = listOf(
+        ProfileMenuItem(
+            menuTitle = "Preferences",
+            menuIcon = Icons.Outlined.Tune,
+            onClick = {}
+        ),
+        ProfileMenuItem(
+            menuTitle = "Share App",
+            menuIcon = Icons.Outlined.Share,
+            onClick = {}
+        ),
+        ProfileMenuItem(
+            menuTitle = "Help & Support",
+            menuIcon = Icons.AutoMirrored.Outlined.HelpOutline,
+            onClick = {}
+        ),
+        ProfileMenuItem(
+            menuTitle = "Privacy Policy",
+            menuIcon = Icons.Outlined.Description,
+            onClick = {}
+        ),
+        ProfileMenuItem(
+            menuTitle = "Logout",
+            menuIcon = Icons.AutoMirrored.Outlined.Logout,
+            onClick = {}
         )
     )
 }
