@@ -30,5 +30,8 @@ sealed class Screen {
 
     @Serializable
     data class RecipeDetail(val recipeId: String) : Screen()
+
+    @Serializable
+    data object EditProfile : Screen()
 }
 

@@ -1,24 +1,19 @@
 package com.example.ai_recipe_app_kotlin.ui.screens.main
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,7 +36,7 @@ import com.example.ai_recipe_app_kotlin.ui.theme.LightPrimaryColor
 import com.example.ai_recipe_app_kotlin.ui.theme.PrimaryColor
 
 @Composable
-fun ProfileHeader(){
+fun ProfileHeader(onEditClick: () -> Unit){
     Card(
         colors = CardDefaults.cardColors(
             containerColor = Color.White
@@ -49,13 +44,17 @@ fun ProfileHeader(){
         elevation = CardDefaults.cardElevation(
             defaultElevation = 4.dp
         ),
-        modifier = Modifier.fillMaxWidth().padding(
-            start = 16.dp,
-            end = 16.dp
-        )
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                start = 16.dp,
+                end = 16.dp
+            )
     ) {
         Row(
-            modifier = Modifier.padding(16.dp).fillMaxWidth(),
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ){
             Row(
@@ -64,7 +63,9 @@ fun ProfileHeader(){
                 AppAsyncImage(
                     model = "https://play-lh.googleusercontent.com/dSAi-HxlHjZDB0ycNR0t3BmIqKHE9Ix1-xgvvM-zeDW-QJa3mW7A8iHR6qgB3UQlJqaRwlcEavzRGScXMYjNeg=w240-h480-rw",
                     contentDescription = "Profile picture",
-                    modifier = Modifier.clip(CircleShape).size(60.dp),
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .size(60.dp),
                     contentScale = ContentScale.Crop
                 )
                 Column(
@@ -90,7 +91,8 @@ fun ProfileHeader(){
                     containerColor = LightPrimaryColor,
                     border = BorderStroke(2.dp, DarkPrimaryColor),
                     btnTextColor = Color.Black,
-                    modifier = Modifier.wrapContentWidth()
+                    modifier = Modifier.wrapContentWidth(),
+                    onClick = { onEditClick() }
                 )
             }
         }
@@ -109,7 +111,9 @@ fun ProfileMenu(title: String, lists: List<ProfileMenuItem>){
         Spacer(modifier = Modifier.size(12.dp))
         lists.forEach { item ->
             Row(
-                modifier = Modifier.clickable(onClick = { item.onClick() }).padding(start = 16.dp),
+                modifier = Modifier
+                    .clickable(onClick = { item.onClick() })
+                    .padding(start = 16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
@@ -130,12 +134,16 @@ fun ProfileMenu(title: String, lists: List<ProfileMenuItem>){
 }
 
 @Composable
-fun ProfileScreen(){
+fun ProfileScreen(
+    onEditClick: () -> Unit = {}
+){
     Scaffold(
         containerColor = PrimaryColor,
         modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
-        Column(modifier = Modifier.fillMaxWidth().padding(innerPadding)) {
+        Column(modifier = Modifier
+            .fillMaxWidth()
+            .padding(innerPadding)) {
             Text(
                 text = "Profile",
                 fontWeight = FontWeight.SemiBold,
@@ -145,7 +153,7 @@ fun ProfileScreen(){
             )
             Spacer(modifier = Modifier.size(20.dp))
 
-            ProfileHeader()
+            ProfileHeader(onEditClick)
 
             Spacer(modifier = Modifier.size(24.dp))
             ProfileMenu("Your Activity", SimpleData.activityItems)
