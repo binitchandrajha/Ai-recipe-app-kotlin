@@ -33,5 +33,8 @@ sealed class Screen {
 
     @Serializable
     data object EditProfile : Screen()
+
+    @Serializable
+    data object PrivacyPolicy : Screen()
 }
 

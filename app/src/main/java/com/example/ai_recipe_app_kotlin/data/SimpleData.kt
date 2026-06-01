@@ -17,6 +17,8 @@ import com.example.ai_recipe_app_kotlin.model.QuickRecipeItem
 import com.example.ai_recipe_app_kotlin.model.RecipeDetailIngredientItem
 import com.example.ai_recipe_app_kotlin.model.RecipeMakingStepsItem
 import com.example.ai_recipe_app_kotlin.model.SavedRecipeItem
+import com.example.ai_recipe_app_kotlin.utils.ActivitySettings
+import com.example.ai_recipe_app_kotlin.utils.AppSettings
 
 object SimpleData {
     val onboardingList = listOf(
@@ -203,12 +205,12 @@ object SimpleData {
 
     val activityItems = listOf(
         ProfileMenuItem(
-            menuTitle = "Saved Recipes",
+            menuTitle = ActivitySettings.SAVED_RECIPES,
             menuIcon = Icons.Outlined.BookmarkBorder,
             onClick = {}
         ),
         ProfileMenuItem(
-            menuTitle = "Recently Viewed",
+            menuTitle = ActivitySettings.RECENTLY_VIEWED,
             menuIcon = Icons.Outlined.History,
             onClick = {}
         ),
@@ -216,27 +218,27 @@ object SimpleData {
 
     val appSettings = listOf(
         ProfileMenuItem(
-            menuTitle = "Preferences",
+            menuTitle = AppSettings.PREFERENCES,
             menuIcon = Icons.Outlined.Tune,
             onClick = {}
         ),
         ProfileMenuItem(
-            menuTitle = "Share App",
+            menuTitle = AppSettings.SHARE_APP,
             menuIcon = Icons.Outlined.Share,
             onClick = {}
         ),
         ProfileMenuItem(
-            menuTitle = "Help & Support",
+            menuTitle = AppSettings.HELP_SUPPORT,
             menuIcon = Icons.AutoMirrored.Outlined.HelpOutline,
             onClick = {}
         ),
         ProfileMenuItem(
-            menuTitle = "Privacy Policy",
+            menuTitle = AppSettings.PRIVACY_POLICY,
             menuIcon = Icons.Outlined.Description,
             onClick = {}
         ),
         ProfileMenuItem(
-            menuTitle = "Logout",
+            menuTitle = AppSettings.LOGOUT,
             menuIcon = Icons.AutoMirrored.Outlined.Logout,
             onClick = {}
         )

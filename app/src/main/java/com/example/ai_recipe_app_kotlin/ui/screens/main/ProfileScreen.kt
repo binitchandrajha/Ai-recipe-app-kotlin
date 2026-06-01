@@ -34,6 +34,7 @@ import com.example.ai_recipe_app_kotlin.ui.components.PrimaryButton
 import com.example.ai_recipe_app_kotlin.ui.theme.DarkPrimaryColor
 import com.example.ai_recipe_app_kotlin.ui.theme.LightPrimaryColor
 import com.example.ai_recipe_app_kotlin.ui.theme.PrimaryColor
+import com.example.ai_recipe_app_kotlin.utils.AppSettings
 
 @Composable
 fun ProfileHeader(onEditClick: () -> Unit){
@@ -98,8 +99,9 @@ fun ProfileHeader(onEditClick: () -> Unit){
         }
     }
 }
+
 @Composable
-fun ProfileMenu(title: String, lists: List<ProfileMenuItem>){
+fun ProfileMenu(title: String, lists: List<ProfileMenuItem>, onItemClick: (String) -> Unit){
     Column(
         modifier = Modifier.padding(start = 16.dp)
     ) {
@@ -112,7 +114,9 @@ fun ProfileMenu(title: String, lists: List<ProfileMenuItem>){
         lists.forEach { item ->
             Row(
                 modifier = Modifier
-                    .clickable(onClick = { item.onClick() })
+                    .clickable(onClick = {
+                        onItemClick(item.menuTitle)
+                    })
                     .padding(start = 16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -135,7 +139,8 @@ fun ProfileMenu(title: String, lists: List<ProfileMenuItem>){
 
 @Composable
 fun ProfileScreen(
-    onEditClick: () -> Unit = {}
+    onEditClick: () -> Unit = {},
+    onPrivacyPolicyClick: () -> Unit = {}
 ){
     Scaffold(
         containerColor = PrimaryColor,
@@ -156,9 +161,15 @@ fun ProfileScreen(
             ProfileHeader(onEditClick)
 
             Spacer(modifier = Modifier.size(24.dp))
-            ProfileMenu("Your Activity", SimpleData.activityItems)
+            ProfileMenu("Your Activity", SimpleData.activityItems, onItemClick = {
+
+            })
             Spacer(modifier = Modifier.size(16.dp))
-            ProfileMenu("App Settings", SimpleData.appSettings)
+            ProfileMenu("App Settings", SimpleData.appSettings, onItemClick = {
+                if(it == AppSettings.PRIVACY_POLICY){
+                    onPrivacyPolicyClick()
+                }
+            })
         }
     }
 }
