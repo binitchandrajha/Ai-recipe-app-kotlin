@@ -19,7 +19,8 @@ fun AppOutlinedTextField(
     label: String,
     modifier: Modifier = Modifier,
     isError: Boolean = false,
-    errorMessage: String? = null
+    errorMessage: String? = null,
+    enabled: Boolean = true
 ){
     val defaultModifier = Modifier
         .fillMaxWidth()
@@ -36,10 +37,12 @@ fun AppOutlinedTextField(
             focusedBorderColor = InputBorder,
             unfocusedBorderColor = TextBlack,
             errorLabelColor = Color.Red,
-            errorBorderColor = Color.Red
+            errorBorderColor = Color.Red,
+            disabledContainerColor = Color.LightGray,
         ),
         modifier = defaultModifier.then(modifier),
         isError = isError,
+        enabled = enabled,
         supportingText = {
             if(isError && errorMessage != null){
                 Text(text = errorMessage, color = Color.Red)

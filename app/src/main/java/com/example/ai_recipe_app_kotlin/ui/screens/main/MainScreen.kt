@@ -24,7 +24,8 @@ import com.example.ai_recipe_app_kotlin.ui.theme.DarkPrimaryColor
 
 @Composable
 fun MainScreen(
-    onRecipeClick: (String) -> Unit = {}
+    onRecipeClick: (String) -> Unit = {},
+    onEditProfileClick: () -> Unit = {}
 ){
     val navController = rememberNavController()
 
@@ -38,8 +39,6 @@ fun MainScreen(
                    val isSelected = currentBackStackEntry
                        ?.destination
                        ?.hasRoute(item.route::class) == true
-
-                   println("is-selected ====>>>> $isSelected $currentRoute ${item.route}")
                    NavigationBarItem(
                        selected = isSelected,
                        onClick = {
@@ -83,7 +82,11 @@ fun MainScreen(
                 SavedScreen()
             }
             composable<Screen.Profile> {
-                ProfileScreen()
+                ProfileScreen(
+                    onEditClick = {
+                        onEditProfileClick()
+                    }
+                )
             }
         }
     }

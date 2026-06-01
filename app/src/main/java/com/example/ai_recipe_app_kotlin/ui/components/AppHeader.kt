@@ -1,6 +1,8 @@
 package com.example.ai_recipe_app_kotlin.ui.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
@@ -8,7 +10,9 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.outlined.Bookmark
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -18,10 +22,12 @@ import com.example.ai_recipe_app_kotlin.ui.theme.DarkPrimaryColor
 fun AppHeader(
     isFavorite: Boolean = false,
     onBackClick: () -> Unit = {},
+    title: String = "",
 ){
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
     ) {
         IconButton(
             onClick = {
@@ -34,14 +40,27 @@ fun AppHeader(
             )
         }
 
-        IconButton(
-            onClick = {}
-        ) {
-            Icon(
-                imageVector = Icons.Outlined.Bookmark,
-                contentDescription = "Bookmark",
-                tint = if (isFavorite) DarkPrimaryColor else Color.Black
-            )
+        Box(
+            modifier = Modifier.fillMaxWidth().weight(1f),
+            contentAlignment = Alignment.Center
+        ){
+            if(!title.isEmpty()){
+                Text(
+                    text = title
+                )
+            }
+        }
+
+        if (isFavorite){
+            IconButton(
+                onClick = {}
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.Bookmark,
+                    contentDescription = "Bookmark",
+                    tint = if (isFavorite) DarkPrimaryColor else Color.Black
+                )
+            }
         }
     }
 }
@@ -49,5 +68,8 @@ fun AppHeader(
 @Preview(showBackground = true)
 @Composable
 fun AppHeaderPreview(){
-    AppHeader()
+    AppHeader(
+        title = "Title",
+        isFavorite = true
+    )
 }

@@ -12,8 +12,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.FontScaling
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.ai_recipe_app_kotlin.ui.theme.DarkPrimaryColor
 import com.example.ai_recipe_app_kotlin.ui.theme.DisabledPrimaryColor
 import com.example.ai_recipe_app_kotlin.ui.theme.PrimaryColor
@@ -30,6 +34,9 @@ fun PrimaryButton(
     disabledContainerColor: Color = DisabledPrimaryColor,
     border: BorderStroke? = null,
     btnTextColor: Color = Color.White,
+    textModifier: Modifier = Modifier,
+    fontSize: TextUnit = 16.sp,
+    fontWeight: FontWeight = FontWeight.Medium,
     modifier: Modifier = Modifier.fillMaxWidth(),
 ){
     Button(
@@ -55,7 +62,10 @@ fun PrimaryButton(
         if(btnText != null){
             Text(
                 text = btnText,
-                color = btnTextColor
+                color = btnTextColor,
+                modifier = textModifier,
+                fontSize = fontSize,
+                fontWeight = fontWeight
             )
         }
     }
