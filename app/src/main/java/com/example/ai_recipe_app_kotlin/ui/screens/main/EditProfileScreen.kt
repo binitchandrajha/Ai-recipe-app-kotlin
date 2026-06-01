@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -31,12 +32,13 @@ import com.example.ai_recipe_app_kotlin.ui.components.AppOutlinedTextField
 import com.example.ai_recipe_app_kotlin.ui.components.PrimaryButton
 import com.example.ai_recipe_app_kotlin.ui.theme.DarkPrimaryColor
 import androidx.core.net.toUri
+import androidx.navigation.NavController
 
 val DEFAULT_PROFILE_IMAGE: Uri =
     "https://play-lh.googleusercontent.com/dSAi-HxlHjZDB0ycNR0t3BmIqKHE9Ix1-xgvvM-zeDW-QJa3mW7A8iHR6qgB3UQlJqaRwlcEavzRGScXMYjNeg=w240-h480-rw".toUri()
 
 @Composable
-fun EditProfileScreen(){
+fun EditProfileScreen(navController: NavController){
     var username by remember { mutableStateOf("") }
     var userProfileImage by remember { mutableStateOf<Uri>(DEFAULT_PROFILE_IMAGE) }
 
@@ -58,7 +60,10 @@ fun EditProfileScreen(){
         ){
             AppHeader(
                 isFavorite = false,
-                title = "Edit Profile"
+                title = "Edit Profile",
+                onBackClick = {
+                    navController.popBackStack()
+                }
             )
             Spacer(modifier = Modifier.size(10.dp))
 
@@ -118,5 +123,7 @@ fun EditProfileScreen(){
 @Preview(showBackground = true)
 @Composable
 fun EditProfileScreenPreview(){
-    EditProfileScreen()
+    EditProfileScreen(
+        navController = NavController(LocalContext.current)
+    )
 }

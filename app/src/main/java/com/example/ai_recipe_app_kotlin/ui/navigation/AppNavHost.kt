@@ -91,7 +91,7 @@ fun AppNavHost(){
             RecipeDetailScreen(navController)
         }
         composable<Screen.EditProfile> {
-            EditProfileScreen()
+            EditProfileScreen(navController)
         }
     }
 }
