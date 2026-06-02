@@ -12,6 +12,7 @@ import com.example.ai_recipe_app_kotlin.ui.screens.auth.LoginScreen
 import com.example.ai_recipe_app_kotlin.ui.screens.auth.VerifyOtpScreen
 import com.example.ai_recipe_app_kotlin.ui.screens.main.EditProfileScreen
 import com.example.ai_recipe_app_kotlin.ui.screens.main.MainScreen
+import com.example.ai_recipe_app_kotlin.ui.screens.main.PrivacyPolicyScreen
 import com.example.ai_recipe_app_kotlin.ui.screens.main.RecipeDetailScreen
 import com.example.ai_recipe_app_kotlin.ui.screens.onboarding.OnboardingScreen
 import com.example.ai_recipe_app_kotlin.ui.screens.profile.ProfileSetupScreen
@@ -72,7 +73,7 @@ fun AppNavHost(){
                 onProfileSetupClick = {
                     profileSetupViewModel.setInitialProfileSetup()
                     navController.navigate(Screen.Main)
-                }
+                },
             )
         }
 
@@ -83,6 +84,9 @@ fun AppNavHost(){
                 },
                 onEditProfileClick = {
                     navController.navigate(Screen.EditProfile)
+                },
+                onPrivacyPolicyClick = {
+                    navController.navigate(Screen.PrivacyPolicy)
                 }
             )
         }
@@ -92,6 +96,9 @@ fun AppNavHost(){
         }
         composable<Screen.EditProfile> {
             EditProfileScreen(navController)
+        }
+        composable<Screen.PrivacyPolicy> {
+            PrivacyPolicyScreen(navController )
         }
     }
 }

@@ -28,7 +28,7 @@ import com.example.ai_recipe_app_kotlin.ui.components.PrimaryButton
 
 @Composable
 fun ProfileSetupScreen(
-    onProfileSetupClick: () -> Unit = {}
+    onProfileSetupClick: () -> Unit = {},
 ){
     var name by remember { mutableStateOf("") }
     var nameFeildErrorMessage by remember { mutableStateOf("") }

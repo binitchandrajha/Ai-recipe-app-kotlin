@@ -25,7 +25,8 @@ import com.example.ai_recipe_app_kotlin.ui.theme.DarkPrimaryColor
 @Composable
 fun MainScreen(
     onRecipeClick: (String) -> Unit = {},
-    onEditProfileClick: () -> Unit = {}
+    onEditProfileClick: () -> Unit = {},
+    onPrivacyPolicyClick: () -> Unit = {}
 ){
     val navController = rememberNavController()
 
@@ -85,6 +86,9 @@ fun MainScreen(
                 ProfileScreen(
                     onEditClick = {
                         onEditProfileClick()
+                    },
+                    onPrivacyPolicyClick = {
+                        onPrivacyPolicyClick()
                     }
                 )
             }
