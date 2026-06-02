@@ -98,7 +98,7 @@ fun AppNavHost(){
             EditProfileScreen(navController)
         }
         composable<Screen.PrivacyPolicy> {
-            PrivacyPolicyScreen()
+            PrivacyPolicyScreen(navController )
         }
     }
 }
