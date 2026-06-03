@@ -12,6 +12,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.ai_recipe_app_kotlin.data.SimpleData
 
+val savedRecipes = SimpleData.savedRecipes.take(4)
+
 @Composable
 fun SavedRecipeCard(
     onRecipeClick: (String) -> Unit = {}
@@ -27,7 +29,7 @@ fun SavedRecipeCard(
             fontWeight = FontWeight.Bold,
             )
         Spacer(modifier = Modifier.size(10.dp))
-        SimpleData.savedRecipes.forEach { item ->
+        savedRecipes.forEach { item ->
             SavedRecipeCardItem(item = item, onRecipeClick = {
                 handleOnRecipeClick(
                     recipeId = it
