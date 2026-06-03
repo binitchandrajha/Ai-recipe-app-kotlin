@@ -17,9 +17,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ai_recipe_app_kotlin.data.SimpleData
-import com.example.ai_recipe_app_kotlin.ui.components.SavedRecipeCard
+import com.example.ai_recipe_app_kotlin.ui.components.ListEmptyContent
 import com.example.ai_recipe_app_kotlin.ui.components.SavedRecipeCardItem
 import com.example.ai_recipe_app_kotlin.ui.theme.PrimaryColor
+
+
 
 @Composable
 fun SavedScreen(){
@@ -38,10 +40,14 @@ fun SavedScreen(){
             )
             Spacer(modifier = Modifier.size(20.dp))
 
-            LazyColumn() {
-                items(SimpleData.savedRecipes) { item ->
-                  SavedRecipeCardItem(item = item)
-                    Spacer(modifier = Modifier.size(10.dp))
+            if(SimpleData.savedRecipes.isEmpty()){
+               ListEmptyContent()
+            } else {
+                LazyColumn() {
+                    items(SimpleData.savedRecipes) { item ->
+                        SavedRecipeCardItem(item = item)
+                        Spacer(modifier = Modifier.size(10.dp))
+                    }
                 }
             }
         }

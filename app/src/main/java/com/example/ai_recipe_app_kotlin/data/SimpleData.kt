@@ -229,6 +229,8 @@ object SimpleData {
         )
     )
 
+//    val savedRecipes = listOf<SavedRecipeItem>()
+
     val quickIdeas = listOf(
         QuickRecipeItem(
             id = "quick-recipe-first-item-id",
