@@ -68,16 +68,15 @@ object SimpleData {
 
     val savedRecipes = listOf(
         SavedRecipeItem(
-            id = "saved-recipe-first-item-id",
+            id = "saved-recipe-1",
             title = "Spaghetti Bolognese",
             recipeImage = "https://png.pngtree.com/png-clipart/20230129/original/pngtree-red-fresh-tomato-with-green-leaf-png-image_8933861.png",
             recipeDuration = "30 min",
             difficulty = Difficulty.Medium,
-            numberOfIngredientsUsed = 5,
-
+            numberOfIngredientsUsed = 5
         ),
         SavedRecipeItem(
-            id = "saved-recipe-second-item-id",
+            id = "saved-recipe-2",
             title = "Chicken Curry",
             recipeImage = "https://www.whiskaffair.com/wp-content/uploads/2021/10/Andhra-Chicken-Curry-2-3.jpg",
             recipeDuration = "45 min",
@@ -85,7 +84,7 @@ object SimpleData {
             numberOfIngredientsUsed = 6
         ),
         SavedRecipeItem(
-            id = "saved-recipe-third-item-id",
+            id = "saved-recipe-3",
             title = "Vegetable Stir-Fry",
             recipeImage = "https://ohsweetbasil.com/wp-content/uploads/the-best-easy-stir-fry-vegetables-recipe-6.jpg",
             recipeDuration = "25 min",
@@ -93,14 +92,144 @@ object SimpleData {
             numberOfIngredientsUsed = 4
         ),
         SavedRecipeItem(
-            id = "saved-recipe-fourth-item-id",
-            title = "Spicy Mutton Curry Recipe",
+            id = "saved-recipe-4",
+            title = "Spicy Mutton Curry",
             recipeImage = "https://d3s8tbcesxr4jm.cloudfront.net/recipe-images/v0/spicy-mutton-curry_large.jpg",
             recipeDuration = "60 min",
             difficulty = Difficulty.Medium,
             numberOfIngredientsUsed = 7
+        ),
+        SavedRecipeItem(
+            id = "saved-recipe-5",
+            title = "Paneer Butter Masala",
+            recipeImage = "https://png.pngtree.com/png-clipart/20230129/original/pngtree-red-fresh-tomato-with-green-leaf-png-image_8933861.png",
+            recipeDuration = "35 min",
+            difficulty = Difficulty.Medium,
+            numberOfIngredientsUsed = 8
+        ),
+        SavedRecipeItem(
+            id = "saved-recipe-6",
+            title = "Chicken Biryani",
+            recipeImage = "https://www.whiskaffair.com/wp-content/uploads/2021/10/Andhra-Chicken-Curry-2-3.jpg",
+            recipeDuration = "70 min",
+            difficulty = Difficulty.Hard,
+            numberOfIngredientsUsed = 10
+        ),
+        SavedRecipeItem(
+            id = "saved-recipe-7",
+            title = "Veg Fried Rice",
+            recipeImage = "https://ohsweetbasil.com/wp-content/uploads/the-best-easy-stir-fry-vegetables-recipe-6.jpg",
+            recipeDuration = "20 min",
+            difficulty = Difficulty.Easy,
+            numberOfIngredientsUsed = 5
+        ),
+        SavedRecipeItem(
+            id = "saved-recipe-8",
+            title = "Mutton Rogan Josh",
+            recipeImage = "https://d3s8tbcesxr4jm.cloudfront.net/recipe-images/v0/spicy-mutton-curry_large.jpg",
+            recipeDuration = "80 min",
+            difficulty = Difficulty.Hard,
+            numberOfIngredientsUsed = 9
+        ),
+        SavedRecipeItem(
+            id = "saved-recipe-9",
+            title = "Margherita Pizza",
+            recipeImage = "https://png.pngtree.com/png-clipart/20230129/original/pngtree-red-fresh-tomato-with-green-leaf-png-image_8933861.png",
+            recipeDuration = "40 min",
+            difficulty = Difficulty.Medium,
+            numberOfIngredientsUsed = 6
+        ),
+        SavedRecipeItem(
+            id = "saved-recipe-10",
+            title = "Butter Chicken",
+            recipeImage = "https://www.whiskaffair.com/wp-content/uploads/2021/10/Andhra-Chicken-Curry-2-3.jpg",
+            recipeDuration = "50 min",
+            difficulty = Difficulty.Medium,
+            numberOfIngredientsUsed = 8
+        ),
+        SavedRecipeItem(
+            id = "saved-recipe-11",
+            title = "Mixed Vegetable Curry",
+            recipeImage = "https://ohsweetbasil.com/wp-content/uploads/the-best-easy-stir-fry-vegetables-recipe-6.jpg",
+            recipeDuration = "30 min",
+            difficulty = Difficulty.Easy,
+            numberOfIngredientsUsed = 7
+        ),
+        SavedRecipeItem(
+            id = "saved-recipe-12",
+            title = "Lamb Curry",
+            recipeImage = "https://d3s8tbcesxr4jm.cloudfront.net/recipe-images/v0/spicy-mutton-curry_large.jpg",
+            recipeDuration = "65 min",
+            difficulty = Difficulty.Medium,
+            numberOfIngredientsUsed = 8
+        ),
+        SavedRecipeItem(
+            id = "saved-recipe-13",
+            title = "Tomato Pasta",
+            recipeImage = "https://png.pngtree.com/png-clipart/20230129/original/pngtree-red-fresh-tomato-with-green-leaf-png-image_8933861.png",
+            recipeDuration = "25 min",
+            difficulty = Difficulty.Easy,
+            numberOfIngredientsUsed = 5
+        ),
+        SavedRecipeItem(
+            id = "saved-recipe-14",
+            title = "Chicken Tikka Masala",
+            recipeImage = "https://www.whiskaffair.com/wp-content/uploads/2021/10/Andhra-Chicken-Curry-2-3.jpg",
+            recipeDuration = "55 min",
+            difficulty = Difficulty.Hard,
+            numberOfIngredientsUsed = 9
+        ),
+        SavedRecipeItem(
+            id = "saved-recipe-15",
+            title = "Vegetable Noodles",
+            recipeImage = "https://ohsweetbasil.com/wp-content/uploads/the-best-easy-stir-fry-vegetables-recipe-6.jpg",
+            recipeDuration = "20 min",
+            difficulty = Difficulty.Easy,
+            numberOfIngredientsUsed = 4
+        ),
+        SavedRecipeItem(
+            id = "saved-recipe-16",
+            title = "Mutton Stew",
+            recipeImage = "https://d3s8tbcesxr4jm.cloudfront.net/recipe-images/v0/spicy-mutton-curry_large.jpg",
+            recipeDuration = "75 min",
+            difficulty = Difficulty.Hard,
+            numberOfIngredientsUsed = 10
+        ),
+        SavedRecipeItem(
+            id = "saved-recipe-17",
+            title = "Cheese Pasta",
+            recipeImage = "https://png.pngtree.com/png-clipart/20230129/original/pngtree-red-fresh-tomato-with-green-leaf-png-image_8933861.png",
+            recipeDuration = "28 min",
+            difficulty = Difficulty.Easy,
+            numberOfIngredientsUsed = 5
+        ),
+        SavedRecipeItem(
+            id = "saved-recipe-18",
+            title = "Grilled Chicken",
+            recipeImage = "https://www.whiskaffair.com/wp-content/uploads/2021/10/Andhra-Chicken-Curry-2-3.jpg",
+            recipeDuration = "35 min",
+            difficulty = Difficulty.Medium,
+            numberOfIngredientsUsed = 6
+        ),
+        SavedRecipeItem(
+            id = "saved-recipe-19",
+            title = "Veg Manchurian",
+            recipeImage = "https://ohsweetbasil.com/wp-content/uploads/the-best-easy-stir-fry-vegetables-recipe-6.jpg",
+            recipeDuration = "30 min",
+            difficulty = Difficulty.Medium,
+            numberOfIngredientsUsed = 7
+        ),
+        SavedRecipeItem(
+            id = "saved-recipe-20",
+            title = "Mutton Biryani",
+            recipeImage = "https://d3s8tbcesxr4jm.cloudfront.net/recipe-images/v0/spicy-mutton-curry_large.jpg",
+            recipeDuration = "90 min",
+            difficulty = Difficulty.Hard,
+            numberOfIngredientsUsed = 12
         )
     )
+
+//    val savedRecipes = listOf<SavedRecipeItem>()
 
     val quickIdeas = listOf(
         QuickRecipeItem(
