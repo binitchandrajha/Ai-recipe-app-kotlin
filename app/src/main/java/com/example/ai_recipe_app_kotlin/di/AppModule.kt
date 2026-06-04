@@ -2,12 +2,18 @@ package com.example.ai_recipe_app_kotlin.di
 
 import android.content.Context
 import com.example.ai_recipe_app_kotlin.data.SessionManager
+import com.example.ai_recipe_app_kotlin.data.network.AuthService
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
+import retrofit2.Retrofit
 import javax.inject.Singleton
+import com.example.ai_recipe_app_kotlin.BuildConfig
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -17,5 +23,21 @@ object AppModule {
     @Singleton
     fun provideSessionManager(@ApplicationContext context: Context): SessionManager {
         return SessionManager(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(): Retrofit {
+        val json = Json { ignoreUnknownKeys = true }
+        return Retrofit.Builder()
+            .baseUrl(BuildConfig.BASE_URL)
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideAuthService(retrofit: Retrofit): AuthService {
+        return retrofit.create(AuthService::class.java)
     }
 }
