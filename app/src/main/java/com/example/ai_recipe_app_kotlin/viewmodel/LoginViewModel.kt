@@ -38,12 +38,13 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun onSendOtpClick(payload: SendOtpRequest){
+    fun onSendOtpClick(payload: SendOtpRequest, onSuccess: () -> Unit){
         viewModelScope.launch {
             _isSendingOtp.value = true
             val result = authRepository.sendOtp(payload)
             result.onSuccess {
                 _isSendingOtp.value = false
+                onSuccess()
             }.onFailure {
                 _isSendingOtp.value = false
             }
