@@ -18,9 +18,11 @@ fun LoginScreen(
       LoginContent(
           isLoading = isSendingOtp,
           onLoginClick = { payload ->
-              loginViewModel.onSendOtpClick(payload, {
-                  ToastManager.showSuccess("Login successful!")
+              loginViewModel.onSendOtpClick(payload, { successMessage ->
+                  ToastManager.showSuccess(successMessage)
                   onLoginClick(payload.mobileNumber)
+              }, onFailure = { errorMessage ->
+                 ToastManager.showError(errorMessage)
               })
           }
       )

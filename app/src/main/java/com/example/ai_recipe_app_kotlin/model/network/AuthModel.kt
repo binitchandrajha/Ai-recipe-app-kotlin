@@ -14,10 +14,3 @@ data class SendOtpData(
     val mobileNumber: String,
     val devOtp: String
 )
-
-@Serializable
-data class SendOtpResponse(
-   val success: Boolean,
-    val message: String,
-    val data: SendOtpData
-)
