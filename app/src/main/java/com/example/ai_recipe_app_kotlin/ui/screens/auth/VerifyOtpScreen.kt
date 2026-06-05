@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ai_recipe_app_kotlin.model.network.SendOtpRequest
+import com.example.ai_recipe_app_kotlin.model.network.VerifyOtpRequest
 import com.example.ai_recipe_app_kotlin.ui.components.AuthTopSection
 import com.example.ai_recipe_app_kotlin.ui.components.OtpInput
 import com.example.ai_recipe_app_kotlin.ui.components.OverlayLoader
@@ -49,7 +50,7 @@ fun VerifyOtpScreen(
     var otpText by remember { mutableStateOf("") }
     var timeLeft by remember { mutableIntStateOf(30) }
     var isResendEnabled by remember { mutableStateOf(false) }
-    val isResendingOtp by loginViewModel.isSendingOtp.collectAsState()
+    val isResendingOtp by loginViewModel.isVerifyingOtp.collectAsState()
     LaunchedEffect(timeLeft) {
         if (timeLeft > 0) {
             delay(1000L)
@@ -100,7 +101,20 @@ fun VerifyOtpScreen(
                     .padding(horizontal = 24.dp),
                 enabled = otpText.length == 6,
                 onClick = {
-                    onVerifyClick();
+                    val payload = VerifyOtpRequest(
+                        countryCode = countryCode ?: "NP",
+                        mobileNumber = phoneNumber,
+                        code = otpText
+                    )
+
+                    loginViewModel.onVerifyOtpClick(payload, {
+                        successMessage ->
+                        ToastManager.showSuccess(successMessage)
+                        onVerifyClick();
+                    }, {
+                        errorMessage ->
+                        ToastManager.showError(errorMessage)
+                    })
                 }
             )
 
@@ -127,11 +141,10 @@ fun VerifyOtpScreen(
                         onResendClick()
                     }
             )
+            OverlayLoader(
+                isLoading = isResendingOtp
+            )
         }
-
-        OverlayLoader(
-            isLoading = isResendingOtp
-        )
     }
 }
 

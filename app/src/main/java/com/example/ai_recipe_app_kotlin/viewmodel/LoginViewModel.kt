@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.ai_recipe_app_kotlin.data.repository.AuthRepository
 import com.example.ai_recipe_app_kotlin.data.repository.LoginRepository
 import com.example.ai_recipe_app_kotlin.model.network.SendOtpRequest
+import com.example.ai_recipe_app_kotlin.model.network.VerifyOtpRequest
 import com.example.ai_recipe_app_kotlin.utils.NetworkUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,8 +21,10 @@ class LoginViewModel @Inject constructor(
 ) : ViewModel() {
     private val _isLoggedIn = MutableStateFlow<Boolean>(false)
     private val _isSendingOtp = MutableStateFlow<Boolean>(false)
+    private val _isVerifyingOtp = MutableStateFlow<Boolean>(false)
     val isLoggedIn = _isLoggedIn.asStateFlow()
     val isSendingOtp = _isSendingOtp.asStateFlow()
+    val isVerifyingOtp = _isVerifyingOtp.asStateFlow()
 
     init {
         checkLoginStatus()
@@ -52,6 +55,21 @@ class LoginViewModel @Inject constructor(
                 _isSendingOtp.value = false
                 println("send-otp-error --->>>>$exception")
                 val errMessage = NetworkUtils.parseError(exception)
+                onFailure(errMessage)
+            }
+        }
+    }
+
+    fun onVerifyOtpClick(payload: VerifyOtpRequest, onSuccess: (successMessage: String) -> Unit, onFailure: (errorMessage: String) -> Unit){
+        viewModelScope.launch {
+            _isVerifyingOtp.value = true
+            val result = authRepository.verifyOtp(payload)
+            result.onSuccess { response ->
+                _isVerifyingOtp.value = false
+                onSuccess(response.message)
+            }.onFailure {
+                _isVerifyingOtp.value = false
+                val errMessage = NetworkUtils.parseError(it)
                 onFailure(errMessage)
             }
         }
