@@ -12,6 +12,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -26,24 +27,30 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.ai_recipe_app_kotlin.model.network.SendOtpRequest
+import com.example.ai_recipe_app_kotlin.model.network.VerifyOtpRequest
 import com.example.ai_recipe_app_kotlin.ui.components.AuthTopSection
 import com.example.ai_recipe_app_kotlin.ui.components.OtpInput
+import com.example.ai_recipe_app_kotlin.ui.components.OverlayLoader
 import com.example.ai_recipe_app_kotlin.ui.components.PrimaryButton
 import com.example.ai_recipe_app_kotlin.ui.theme.PrimaryColor
+import com.example.ai_recipe_app_kotlin.utils.ToastManager
 import com.example.ai_recipe_app_kotlin.viewmodel.LoginViewModel
 import kotlinx.coroutines.delay
 
 @Composable
 fun VerifyOtpScreen(
-    phoneNumber: String = "+977 1234567890",
+    phoneNumber: String = "",
+    countryCode: String? = null,
     onVerifyClick: () -> Unit = {},
-    onResendClick: () -> Unit = {}
+    loginViewModel: LoginViewModel = hiltViewModel()
 ) {
     var otpText by remember { mutableStateOf("") }
     var timeLeft by remember { mutableIntStateOf(30) }
     var isResendEnabled by remember { mutableStateOf(false) }
-
+    val isResendingOtp by loginViewModel.isVerifyingOtp.collectAsState()
     LaunchedEffect(timeLeft) {
         if (timeLeft > 0) {
             delay(1000L)
@@ -51,6 +58,19 @@ fun VerifyOtpScreen(
         } else {
             isResendEnabled = true
         }
+    }
+
+    fun onResendClick() {
+        val payload = SendOtpRequest(
+            mobileNumber = phoneNumber,
+            countryCode = countryCode ?: "NP"
+        )
+       loginViewModel.onSendOtpClick(payload, { successMessage ->
+           ToastManager.showSuccess(successMessage)
+       }, {
+           errorMessage ->
+           ToastManager.showError(errorMessage)
+       })
     }
 
     Scaffold(
@@ -81,7 +101,20 @@ fun VerifyOtpScreen(
                     .padding(horizontal = 24.dp),
                 enabled = otpText.length == 6,
                 onClick = {
-                    onVerifyClick();
+                    val payload = VerifyOtpRequest(
+                        countryCode = countryCode ?: "NP",
+                        mobileNumber = phoneNumber,
+                        code = otpText
+                    )
+
+                    loginViewModel.onVerifyOtpClick(payload, {
+                        successMessage ->
+                        ToastManager.showSuccess(successMessage)
+                        onVerifyClick();
+                    }, {
+                        errorMessage ->
+                        ToastManager.showError(errorMessage)
+                    })
                 }
             )
 
@@ -107,6 +140,9 @@ fun VerifyOtpScreen(
                         isResendEnabled = false
                         onResendClick()
                     }
+            )
+            OverlayLoader(
+                isLoading = isResendingOtp
             )
         }
     }

@@ -1,5 +1,6 @@
 package com.example.ai_recipe_app_kotlin.ui.navigation
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -16,6 +17,7 @@ import com.example.ai_recipe_app_kotlin.ui.screens.main.PrivacyPolicyScreen
 import com.example.ai_recipe_app_kotlin.ui.screens.main.RecipeDetailScreen
 import com.example.ai_recipe_app_kotlin.ui.screens.onboarding.OnboardingScreen
 import com.example.ai_recipe_app_kotlin.ui.screens.profile.ProfileSetupScreen
+import com.example.ai_recipe_app_kotlin.utils.ToastManager
 import com.example.ai_recipe_app_kotlin.viewmodel.LoginViewModel
 import com.example.ai_recipe_app_kotlin.viewmodel.OnboardingViewModel
 import com.example.ai_recipe_app_kotlin.viewmodel.ProfileSetupViewModel
@@ -52,7 +54,7 @@ fun AppNavHost(){
         }
         composable<Screen.Login> {
             LoginScreen(
-                onLoginClick = { phoneNumber ->
+                onLoginClick = { phoneNumber, countryCode ->
                     navController.navigate(Screen.VerifyOtp(phoneNumber))
                 }
             )
@@ -61,6 +63,7 @@ fun AppNavHost(){
             val verifyOtp: Screen.VerifyOtp = backStackEntry.toRoute()
             VerifyOtpScreen(
                 phoneNumber = verifyOtp.phoneNumber,
+                countryCode = verifyOtp.countryCode,
                 onVerifyClick = {
                     // Navigate to Home or next screen
                     loginViewModel.saveLoginSession()

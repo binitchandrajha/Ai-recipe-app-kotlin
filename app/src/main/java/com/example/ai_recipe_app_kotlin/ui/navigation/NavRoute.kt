@@ -11,7 +11,7 @@ sealed class Screen {
     data class Login(val phoneNumber: String? = null) : Screen()
 
     @Serializable
-    data class VerifyOtp(val phoneNumber: String) : Screen()
+    data class VerifyOtp(val phoneNumber: String, val countryCode: String? = null) : Screen()
     
     @Serializable
     data class ProfileSetup(val phoneNumber: String? = null) : Screen()
