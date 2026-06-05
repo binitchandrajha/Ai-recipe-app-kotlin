@@ -54,7 +54,7 @@ fun AppNavHost(){
         }
         composable<Screen.Login> {
             LoginScreen(
-                onLoginClick = { phoneNumber ->
+                onLoginClick = { phoneNumber, countryCode ->
                     navController.navigate(Screen.VerifyOtp(phoneNumber))
                 }
             )
@@ -63,6 +63,7 @@ fun AppNavHost(){
             val verifyOtp: Screen.VerifyOtp = backStackEntry.toRoute()
             VerifyOtpScreen(
                 phoneNumber = verifyOtp.phoneNumber,
+                countryCode = verifyOtp.countryCode,
                 onVerifyClick = {
                     // Navigate to Home or next screen
                     loginViewModel.saveLoginSession()

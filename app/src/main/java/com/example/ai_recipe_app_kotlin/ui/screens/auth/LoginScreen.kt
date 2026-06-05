@@ -11,7 +11,7 @@ import com.example.ai_recipe_app_kotlin.viewmodel.LoginViewModel
 
 @Composable
 fun LoginScreen(
-    onLoginClick : (String) -> Unit = {},
+    onLoginClick : (mobileNumber: String, countryCode: String?) -> Unit = {_, _ ->},
     loginViewModel: LoginViewModel = hiltViewModel()
 ){
       val isSendingOtp by loginViewModel.isSendingOtp.collectAsState()
@@ -20,7 +20,7 @@ fun LoginScreen(
           onLoginClick = { payload ->
               loginViewModel.onSendOtpClick(payload, { successMessage ->
                   ToastManager.showSuccess(successMessage)
-                  onLoginClick(payload.mobileNumber)
+                  onLoginClick(payload.mobileNumber, payload.countryCode)
               }, onFailure = { errorMessage ->
                  ToastManager.showError(errorMessage)
               })
@@ -32,6 +32,8 @@ fun LoginScreen(
 @Composable
 fun LoginScreenPreview(){
     LoginScreen(
-        onLoginClick = {},
+        onLoginClick = {
+                mobileNumber, countryCode ->
+        },
     )
 }
