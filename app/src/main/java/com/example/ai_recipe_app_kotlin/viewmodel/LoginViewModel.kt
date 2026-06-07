@@ -42,18 +42,15 @@ class LoginViewModel @Inject constructor(
             _isLoggedIn.value = true
         }
     }
-
     fun onSendOtpClick(payload: SendOtpRequest, onSuccess: (successMessage: String) -> Unit, onFailure: (errorMessage: String) -> Unit){
         viewModelScope.launch {
             _isSendingOtp.value = true
             val result = authRepository.sendOtp(payload)
             result.onSuccess { response ->
-                println("send-otp-success --->>>>$response")
                 _isSendingOtp.value = false
                 onSuccess(response.message)
             }.onFailure { exception ->
                 _isSendingOtp.value = false
-                println("send-otp-error --->>>>$exception")
                 val errMessage = NetworkUtils.parseError(exception)
                 onFailure(errMessage)
             }
