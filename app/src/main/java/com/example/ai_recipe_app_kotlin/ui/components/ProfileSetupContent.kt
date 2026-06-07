@@ -28,14 +28,17 @@ import com.example.ai_recipe_app_kotlin.ui.theme.PrimaryColor
 fun ProfileSetupContent(
     isLoading: Boolean = false,
     onClick: (name: String) -> Unit = {},
-    initialName: String = ""
+    initialName: String = "",
+    initialProfileImageUri: Uri = Uri.EMPTY,
+    updateProfileImage: (image: Uri) -> Unit = {}
 ){
     var name by remember { mutableStateOf(initialName) }
     var nameFeildErrorMessage by remember { mutableStateOf("") }
-    var profileImageUri: Uri by remember { mutableStateOf(Uri.EMPTY) }
+    var profileImageUri: Uri by remember { mutableStateOf(initialProfileImageUri) }
 
-    LaunchedEffect(initialName) {
+    LaunchedEffect(initialName, initialProfileImageUri) {
         name = initialName
+        profileImageUri = initialProfileImageUri
     }
     Scaffold(
         containerColor = PrimaryColor,
@@ -62,7 +65,7 @@ fun ProfileSetupContent(
             ProfileImagePicker(
                 selectedImageUri = profileImageUri,
                 onImagePicker = { uri: Uri ->
-                    profileImageUri = uri
+                    updateProfileImage(uri)
                 }
             )
             Spacer(modifier = Modifier.size(20.dp))
