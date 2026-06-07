@@ -1,6 +1,5 @@
 package com.example.ai_recipe_app_kotlin.ui.navigation
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -17,7 +16,6 @@ import com.example.ai_recipe_app_kotlin.ui.screens.main.PrivacyPolicyScreen
 import com.example.ai_recipe_app_kotlin.ui.screens.main.RecipeDetailScreen
 import com.example.ai_recipe_app_kotlin.ui.screens.onboarding.OnboardingScreen
 import com.example.ai_recipe_app_kotlin.ui.screens.profile.ProfileSetupScreen
-import com.example.ai_recipe_app_kotlin.utils.ToastManager
 import com.example.ai_recipe_app_kotlin.viewmodel.LoginViewModel
 import com.example.ai_recipe_app_kotlin.viewmodel.OnboardingViewModel
 import com.example.ai_recipe_app_kotlin.viewmodel.ProfileSetupViewModel

@@ -36,4 +36,15 @@ class SessionManager(context: Context) {
     fun clearInitialProfileSetup(){
         sharedPreferences.edit { putBoolean("is_profile_setup", false) }
     }
+
+    fun getAuthToken() : String?{
+        return  sharedPreferences.getString("auth_token", null)
+    }
+
+    fun saveAuthToken(token: String){
+        sharedPreferences.edit { putString("auth_token", token) }
+    }
+    fun clearAuthToken(){
+        sharedPreferences.edit { remove("auth_token") }
+    }
 }

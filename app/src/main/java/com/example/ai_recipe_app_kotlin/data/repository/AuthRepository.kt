@@ -1,5 +1,6 @@
 package com.example.ai_recipe_app_kotlin.data.repository
 
+import com.example.ai_recipe_app_kotlin.data.SessionManager
 import com.example.ai_recipe_app_kotlin.data.network.AuthService
 import com.example.ai_recipe_app_kotlin.model.network.BaseResponse
 import com.example.ai_recipe_app_kotlin.model.network.SendOtpData
@@ -9,8 +10,18 @@ import com.example.ai_recipe_app_kotlin.model.network.VerifyOtpRequest
 import javax.inject.Inject
 
 class AuthRepository @Inject constructor(
-    private val authService: AuthService
+    private val authService: AuthService,
+    private val sessionManager: SessionManager
 ) {
+    fun saveAuthToken(token: String){
+        println("my-log-save-auth-token --->>>>$token")
+        sessionManager.saveAuthToken(token)
+    }
+
+    fun clearAuthToken(){
+        sessionManager.clearAuthToken()
+    }
+
     suspend fun sendOtp(request: SendOtpRequest): Result<BaseResponse<SendOtpData>> {
        return try {
            val response = authService.sendOtp(request)
@@ -23,6 +34,7 @@ class AuthRepository @Inject constructor(
     suspend fun verifyOtp(request: VerifyOtpRequest) : Result<BaseResponse<VerifyOtpData>>{
         return try {
             val response = authService.verifyOtp(request)
+            response.data?.token?.let { saveAuthToken(it) }
             Result.success(response)
         } catch (e: Exception){
             Result.failure(e)

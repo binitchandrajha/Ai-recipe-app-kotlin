@@ -106,7 +106,6 @@ fun VerifyOtpScreen(
                         mobileNumber = phoneNumber,
                         code = otpText
                     )
-
                     loginViewModel.onVerifyOtpClick(payload, {
                         successMessage ->
                         ToastManager.showSuccess(successMessage)
