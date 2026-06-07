@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,10 +28,15 @@ import com.example.ai_recipe_app_kotlin.ui.theme.PrimaryColor
 fun ProfileSetupContent(
     isLoading: Boolean = false,
     onClick: (name: String) -> Unit = {},
+    initialName: String = ""
 ){
-    var name by remember { mutableStateOf("") }
+    var name by remember { mutableStateOf(initialName) }
     var nameFeildErrorMessage by remember { mutableStateOf("") }
     var profileImageUri: Uri by remember { mutableStateOf(Uri.EMPTY) }
+
+    LaunchedEffect(initialName) {
+        name = initialName
+    }
     Scaffold(
         containerColor = PrimaryColor,
         modifier = Modifier.fillMaxSize()

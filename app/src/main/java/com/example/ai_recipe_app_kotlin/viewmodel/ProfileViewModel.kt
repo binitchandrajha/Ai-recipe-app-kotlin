@@ -1,5 +1,6 @@
 package com.example.ai_recipe_app_kotlin.viewmodel
 
+import com.example.ai_recipe_app_kotlin.model.network.UserData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ai_recipe_app_kotlin.data.repository.ProfileRepository
@@ -16,7 +17,10 @@ class ProfileViewModel @Inject constructor(
     private val profileRepository: ProfileRepository
 ) : ViewModel() {
     private val _isUpdatingProfile = MutableStateFlow<Boolean>(false)
+    private val _isFetchingProfileInfo = MutableStateFlow<Boolean>(true)
+
     val isUpdatingProfile = _isUpdatingProfile.asStateFlow()
+    val isFetchingProfileInfo = _isFetchingProfileInfo.asStateFlow()
 
      fun updateProfile(request: ProfileUpdateRequest, onSuccess: (successMessage: String) -> Unit, onFailure: (errorMessage: String) -> Unit){
        viewModelScope.launch {
@@ -31,5 +35,20 @@ class ProfileViewModel @Inject constructor(
                onFailure(errMessage)
            }
        }
+    }
+
+    fun getUserProfile(onSuccess: (profileInfo: UserData?) -> Unit, onFailure: (errorMessage: String) -> Unit) {
+        viewModelScope.launch {
+            _isFetchingProfileInfo.value = true
+            val result = profileRepository.getProfile()
+            result.onSuccess { response ->
+                _isFetchingProfileInfo.value = false
+                onSuccess(response.data)
+            }.onFailure {
+                _isFetchingProfileInfo.value = false
+                val errMessage = NetworkUtils.parseError(it)
+                onFailure(errMessage)
+            }
+        }
     }
 }

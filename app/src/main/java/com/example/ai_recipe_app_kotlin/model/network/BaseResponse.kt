@@ -10,6 +10,17 @@ data class BaseResponse<T>(
 )
 
 @Serializable
+data class BaseResponseWithoutMessage<T>(
+    val success: Boolean,
+    val data: T? = null
+)
+
+@Serializable
+data class BaseResponseWithoutData<T>(
+    val success: Boolean,
+)
+
+@Serializable
 data class SimpleResponse(
     val success: Boolean,
     val message: String
