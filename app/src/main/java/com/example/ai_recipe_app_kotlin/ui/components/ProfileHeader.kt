@@ -16,9 +16,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.example.ai_recipe_app_kotlin.model.network.UserData
+import com.example.ai_recipe_app_kotlin.utils.FileUtils
 
 @Composable
-fun ProfileHeader(){
+fun ProfileHeader(
+    userInfo: UserData? = null
+){
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -27,15 +31,17 @@ fun ProfileHeader(){
         Column(
             modifier = Modifier.weight(1f)
         ) {
-            Text(
-                text = "Hello, Alex",
-                fontWeight = FontWeight.Bold,
+            userInfo?.name?.let {
+                Text(
+                    text = it,
+                    fontWeight = FontWeight.Bold,
                 )
+            }
             Spacer(modifier = Modifier.size(5.dp))
             Text(text = "What will you work on today?")
         }
         AppAsyncImage(
-            model = "https://play-lh.googleusercontent.com/dSAi-HxlHjZDB0ycNR0t3BmIqKHE9Ix1-xgvvM-zeDW-QJa3mW7A8iHR6qgB3UQlJqaRwlcEavzRGScXMYjNeg=w240-h480-rw",
+            model = FileUtils.formatImageUrl(userInfo?.profileImage),
             contentDescription = "Profile picture",
             modifier = Modifier.clip(CircleShape).size(50.dp),
             contentScale = ContentScale.Crop

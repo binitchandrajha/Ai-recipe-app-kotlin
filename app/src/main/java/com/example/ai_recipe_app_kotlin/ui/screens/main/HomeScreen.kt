@@ -1,47 +1,42 @@
 package com.example.ai_recipe_app_kotlin.ui.screens.main
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.ai_recipe_app_kotlin.ui.components.AppModal
-import com.example.ai_recipe_app_kotlin.ui.components.IngredientSearchCard
-import com.example.ai_recipe_app_kotlin.ui.components.ProfileHeader
-import com.example.ai_recipe_app_kotlin.ui.components.QuickIdeasRecipeList
-import com.example.ai_recipe_app_kotlin.ui.components.SavedRecipeCard
-import com.example.ai_recipe_app_kotlin.ui.theme.PrimaryColor
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.ai_recipe_app_kotlin.model.network.UserData
+import com.example.ai_recipe_app_kotlin.ui.components.HomeContent
+import com.example.ai_recipe_app_kotlin.utils.ToastManager
+import com.example.ai_recipe_app_kotlin.viewmodel.ProfileViewModel
 
 @Composable
 fun HomeScreen(
-    onRecipeClick: (String) -> Unit = {}
+    onRecipeClick: (String) -> Unit = {},
+    profileViewModel: ProfileViewModel = hiltViewModel()
 ){
-    val scrollState = rememberScrollState()
-    Scaffold(
-        containerColor = PrimaryColor
-    ) { innerPadding ->
-        Column(
-            modifier = Modifier.padding(innerPadding).verticalScroll(scrollState)
-        ){
-            ProfileHeader()
-            IngredientSearchCard(
-                onRecipeClick = onRecipeClick
-            )
-            SavedRecipeCard(
-                onRecipeClick = onRecipeClick
-            )
-            QuickIdeasRecipeList(
-                onRecipeClick = onRecipeClick
-            )
-        }
+    var userInfo by remember {mutableStateOf<UserData?>(null)}
+    val isFetchingProfileInfo by profileViewModel.isFetchingProfileInfo.collectAsState()
+
+    LaunchedEffect(Unit) {
+        profileViewModel.getUserProfile({
+                profileInfo ->
+            userInfo = profileInfo
+        }, {
+                errorMessage ->
+            ToastManager.showError(errorMessage)
+        })
     }
+
+    HomeContent(
+        onRecipeClick = onRecipeClick,
+        userInfo = userInfo,
+        isLoading = isFetchingProfileInfo
+    )
 }
 
 @Preview

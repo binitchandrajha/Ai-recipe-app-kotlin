@@ -27,4 +27,9 @@ object FileUtils {
             null
         }
     }
+
+    fun formatImageUrl(url: String?) : String? {
+        if(url?.isEmpty() == true) return  null
+        return url?.replace("localhost", "10.0.2.2")
+    }
 }
