@@ -26,13 +26,15 @@ import com.example.ai_recipe_app_kotlin.ui.theme.LightPrimaryColor
 
 @Composable
 fun IngredientCard(
-    item: IngredientItem
+    item: IngredientItem,
+    cardModifier: Modifier = Modifier.padding(6.dp),
+    cardContainerContainer: Color = LightPrimaryColor,
 ){
     Card(
         colors = CardDefaults.cardColors(
-            containerColor = LightPrimaryColor
+            containerColor = cardContainerContainer
         ),
-        modifier = Modifier.padding(6.dp)
+        modifier = cardModifier
     ) {
         Row(
             modifier = Modifier.padding(8.dp),

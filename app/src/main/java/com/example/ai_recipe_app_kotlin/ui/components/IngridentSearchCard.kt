@@ -2,6 +2,7 @@ package com.example.ai_recipe_app_kotlin.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -33,12 +34,16 @@ fun IngredientSearchCard(
     var searchInput by remember { mutableStateOf("") }
     var showModal by remember { mutableStateOf(false) }
     var currentProgress by remember { mutableFloatStateOf(0f) }
+    var isSearchInputFocused by remember { mutableStateOf(false) }
 
     fun onChangeSearchInput(input: String){
         searchInput = input
     }
     fun updateProgress(progress: Float){
         currentProgress = progress
+    }
+    fun handleSearchInputFocus(isFocused: Boolean){
+        isSearchInputFocused = isFocused
     }
 
     /** Iterate the progress value */
@@ -85,18 +90,29 @@ fun IngredientSearchCard(
                 },
                 onMicClick = {
                     println("mic clicked....")
+                },
+                onFocusChange = {
+                    handleSearchInputFocus(it)
                 }
             )
-            Spacer(modifier = Modifier.size(16.dp))
-            IngredientList()
-            Spacer(modifier = Modifier.size(16.dp))
-            PrimaryButton(
-                btnText = "Generate Recipe",
-                modifier = Modifier.fillMaxWidth(),
-                onClick = {
-                    showModal = true
+            Box(){
+                Column() {
+                    Spacer(modifier = Modifier.size(16.dp))
+                    IngredientList()
+                    Spacer(modifier = Modifier.size(16.dp))
+                    PrimaryButton(
+                        btnText = "Generate Recipe",
+                        modifier = Modifier.fillMaxWidth(),
+                        onClick = {
+                            showModal = true
+                        }
+                    )
                 }
-            )
+                if(isSearchInputFocused){
+                    Spacer(modifier = Modifier.size(16.dp))
+                    SearchSuggestionList()
+                }
+            }
         }
 
         AppModal(
