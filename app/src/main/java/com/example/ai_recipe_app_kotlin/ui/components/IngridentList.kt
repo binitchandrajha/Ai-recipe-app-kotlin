@@ -5,13 +5,16 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.ai_recipe_app_kotlin.data.SimpleData
+import com.example.ai_recipe_app_kotlin.model.network.IngredientData
 
 @Composable
-fun IngredientList() {
+fun IngredientList(
+    ingredientList: List<IngredientData>? = null
+) {
     LazyRow(
 
     ) {
-        items(SimpleData.ingredients) { item ->
+        items(ingredientList ?: emptyList()) { item ->
             IngredientCard(item = item)
         }
     }

@@ -21,6 +21,8 @@ fun HomeContent(
     ingredientList: List<IngredientData>? = null,
     searchInput: String = "",
     onChangeSearchInput: (String) -> Unit = {},
+    selectedIngredientList: List<IngredientData> = emptyList(),
+    handleSelectedIngredient: (IngredientData) -> Unit = {}
 ){
     val scrollState = rememberScrollState()
     Scaffold(
@@ -36,7 +38,9 @@ fun HomeContent(
                 onRecipeClick = onRecipeClick,
                 ingredientList = ingredientList,
                 searchInput = searchInput,
-                onChangeSearchInput = onChangeSearchInput
+                onChangeSearchInput = onChangeSearchInput,
+                selectedIngredientList = selectedIngredientList,
+                handleSelectedIngredient = handleSelectedIngredient
             )
             SavedRecipeCard(
                 onRecipeClick = onRecipeClick

@@ -15,32 +15,49 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
+import androidx.compose.ui.window.Popup
 import com.example.ai_recipe_app_kotlin.data.SimpleData
 import com.example.ai_recipe_app_kotlin.model.network.IngredientData
 
 @Composable
 fun SearchSuggestionList(
-    ingredientList: List<IngredientData>? = null
+    ingredientList: List<IngredientData>? = null,
+    handleSelectedIngredient: (IngredientData) -> Unit = {},
+    selectedIngredientList: List<IngredientData>? = null,
+    onDismissRequest: () -> Unit = {}
 ){
-   Card(
-       colors = CardDefaults.cardColors(
-           containerColor = Color.White,
-       ),
-       elevation = CardDefaults.cardElevation(
-           defaultElevation = 8.dp
-       )
-   ) {
-       LazyColumn(
-           modifier = Modifier.heightIn(max = 300.dp)
-       ) {
-           ingredientList?.let { list ->
-               items(list) {
-                       item ->
-                   IngredientCard(item, cardModifier = Modifier.fillMaxWidth().padding(4.dp), cardContainerContainer = Color.White)
-               }
-           }
-       }
-   }
+    Popup(
+        onDismissRequest = onDismissRequest,
+
+    ){
+        Card(
+            colors = CardDefaults.cardColors(
+                containerColor = Color.White,
+            ),
+            elevation = CardDefaults.cardElevation(
+                defaultElevation = 8.dp
+            ),
+            modifier = Modifier.padding(16.dp)
+        ) {
+            LazyColumn(
+                modifier = Modifier.heightIn(max = 300.dp)
+            ) {
+                ingredientList?.let { list ->
+                    items(list) {
+                            item ->
+                        val isAlreadySelected = selectedIngredientList?.any { it.id == item.id } ?: false
+                        IngredientCard(
+                            item,
+                            cardModifier = Modifier.fillMaxWidth().padding(4.dp),
+                            cardContainerContainer = Color.White,
+                            onClick = handleSelectedIngredient,
+                            isSelected = isAlreadySelected
+                        )
+                    }
+                }
+            }
+        }
+    }
 }
 
 @Preview(showBackground = true)

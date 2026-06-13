@@ -28,6 +28,7 @@ fun HomeScreen(
     val isFetchingIngredients by ingredientViewModel.isFetchingIngredients.collectAsState()
     var searchInput by remember { mutableStateOf("") }
     var ingredientList by remember { mutableStateOf<List<IngredientData>?>(null) }
+    var selectedIngredientList by remember { mutableStateOf(emptyList<IngredientData>()) }
 
     LaunchedEffect(Unit) {
         profileViewModel.getUserProfile({
@@ -37,6 +38,17 @@ fun HomeScreen(
                 errorMessage ->
             ToastManager.showError(errorMessage)
         })
+    }
+
+    fun handleSelectedIngredient(ingredient: IngredientData){
+        println("selected ingredient: ${ingredient.title}")
+       val isAlreadySelected = selectedIngredientList.any { it.id == ingredient.id }
+
+        if(isAlreadySelected){
+            selectedIngredientList = selectedIngredientList.filter { it.id != ingredient.id }
+        }else{
+            selectedIngredientList = selectedIngredientList + ingredient
+        }
     }
 
     suspend fun searchIngredients(query: String){
@@ -67,6 +79,10 @@ fun HomeScreen(
         searchInput = searchInput,
         onChangeSearchInput = { input ->
             onChangeSearchInput(input)
+        },
+        selectedIngredientList = selectedIngredientList,
+        handleSelectedIngredient= { item: IngredientData ->
+            handleSelectedIngredient(item)
         }
     )
 }

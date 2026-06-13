@@ -1,13 +1,18 @@
 package com.example.ai_recipe_app_kotlin.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.ai_recipe_app_kotlin.model.network.IngredientData
+import com.example.ai_recipe_app_kotlin.ui.theme.DarkPrimaryColor
 import com.example.ai_recipe_app_kotlin.ui.theme.LightPrimaryColor
 
 @Composable
@@ -27,12 +33,16 @@ fun IngredientCard(
     item: IngredientData,
     cardModifier: Modifier = Modifier.padding(6.dp),
     cardContainerContainer: Color = LightPrimaryColor,
+    onClick: (IngredientData) -> Unit = {},
+    isSelected: Boolean = false
 ){
     Card(
         colors = CardDefaults.cardColors(
             containerColor = cardContainerContainer
         ),
-        modifier = cardModifier
+        modifier = cardModifier.clickable{
+            onClick(item)
+        }
     ) {
         Row(
             modifier = Modifier.padding(8.dp),
@@ -54,6 +64,14 @@ fun IngredientCard(
                 fontWeight = FontWeight.Medium,
                 color = Color.Black.copy(alpha = 0.6f)
             )
+
+            if(isSelected){
+                Icon(
+                    imageVector = Icons.Default.Check,
+                    contentDescription = "selected",
+                    tint = DarkPrimaryColor
+                )
+            }
         }
     }
 }
