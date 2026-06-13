@@ -15,12 +15,12 @@ object NetworkUtils {
                     val errorResponse = errorBody?.let {
                         json.decodeFromString<ErrorResponse>(it)
                     }
-                    errorResponse?.message ?: "An unexpected server error occured"
+                    errorResponse?.message ?: "An unexpected server error occurred"
                 } catch (ex: Exception) {
                     "Server Error ${e.code()}"
                 }
             }
-            else -> e.localizedMessage ?: "An unexpected error occured"
+            else -> e.localizedMessage ?: "An unexpected error occurred"
         }
     }
 }

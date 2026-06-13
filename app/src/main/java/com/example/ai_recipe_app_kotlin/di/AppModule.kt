@@ -15,6 +15,7 @@ import retrofit2.Retrofit
 import javax.inject.Singleton
 import com.example.ai_recipe_app_kotlin.BuildConfig
 import com.example.ai_recipe_app_kotlin.data.network.AuthInterceptor
+import com.example.ai_recipe_app_kotlin.data.network.IngredientService
 import com.example.ai_recipe_app_kotlin.data.network.ProfileService
 import okhttp3.OkHttpClient
 
@@ -57,5 +58,11 @@ object AppModule {
     @Singleton
     fun provideProfileService(retrofit: Retrofit): ProfileService {
         return retrofit.create(ProfileService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideIngredientService(retrofit: Retrofit): IngredientService {
+        return retrofit.create(IngredientService::class.java)
     }
 }

@@ -25,20 +25,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.ai_recipe_app_kotlin.model.network.IngredientData
 import kotlinx.coroutines.delay
 
 @Composable
 fun IngredientSearchCard(
-    onRecipeClick: (String) -> Unit = {}
+    onRecipeClick: (String) -> Unit = {},
+    ingredientList: List<IngredientData>? = null,
+    searchInput: String = "",
+    onChangeSearchInput: (String) -> Unit = {},
 ){
-    var searchInput by remember { mutableStateOf("") }
     var showModal by remember { mutableStateOf(false) }
     var currentProgress by remember { mutableFloatStateOf(0f) }
     var isSearchInputFocused by remember { mutableStateOf(false) }
 
-    fun onChangeSearchInput(input: String){
-        searchInput = input
-    }
     fun updateProgress(progress: Float){
         currentProgress = progress
     }
@@ -110,7 +110,9 @@ fun IngredientSearchCard(
                 }
                 if(isSearchInputFocused){
                     Spacer(modifier = Modifier.size(16.dp))
-                    SearchSuggestionList()
+                    SearchSuggestionList(
+                        ingredientList = ingredientList
+                    )
                 }
             }
         }

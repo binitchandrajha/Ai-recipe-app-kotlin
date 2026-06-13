@@ -16,9 +16,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import com.example.ai_recipe_app_kotlin.data.SimpleData
+import com.example.ai_recipe_app_kotlin.model.network.IngredientData
 
 @Composable
-fun SearchSuggestionList(){
+fun SearchSuggestionList(
+    ingredientList: List<IngredientData>? = null
+){
    Card(
        colors = CardDefaults.cardColors(
            containerColor = Color.White,
@@ -30,9 +33,11 @@ fun SearchSuggestionList(){
        LazyColumn(
            modifier = Modifier.heightIn(max = 300.dp)
        ) {
-           items(SimpleData.ingredients) {
-                   item ->
-               IngredientCard(item, cardModifier = Modifier.fillMaxWidth().padding(4.dp), cardContainerContainer = Color.White)
+           ingredientList?.let { list ->
+               items(list) {
+                       item ->
+                   IngredientCard(item, cardModifier = Modifier.fillMaxWidth().padding(4.dp), cardContainerContainer = Color.White)
+               }
            }
        }
    }

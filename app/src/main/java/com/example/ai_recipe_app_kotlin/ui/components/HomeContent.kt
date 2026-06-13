@@ -8,6 +8,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.ai_recipe_app_kotlin.model.network.IngredientData
 import com.example.ai_recipe_app_kotlin.model.network.UserData
 import com.example.ai_recipe_app_kotlin.ui.theme.PrimaryColor
 
@@ -15,7 +16,11 @@ import com.example.ai_recipe_app_kotlin.ui.theme.PrimaryColor
 fun HomeContent(
     onRecipeClick: (String) -> Unit = {},
     userInfo: UserData? = null,
-    isLoading: Boolean = false
+    isLoading: Boolean = false,
+    isFetchingIngredients: Boolean = false,
+    ingredientList: List<IngredientData>? = null,
+    searchInput: String = "",
+    onChangeSearchInput: (String) -> Unit = {},
 ){
     val scrollState = rememberScrollState()
     Scaffold(
@@ -28,7 +33,10 @@ fun HomeContent(
                 userInfo = userInfo
             )
             IngredientSearchCard(
-                onRecipeClick = onRecipeClick
+                onRecipeClick = onRecipeClick,
+                ingredientList = ingredientList,
+                searchInput = searchInput,
+                onChangeSearchInput = onChangeSearchInput
             )
             SavedRecipeCard(
                 onRecipeClick = onRecipeClick
