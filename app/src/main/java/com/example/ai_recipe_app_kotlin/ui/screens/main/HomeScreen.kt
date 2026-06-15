@@ -11,6 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.ai_recipe_app_kotlin.model.network.GenerateRecipeRequest
 import com.example.ai_recipe_app_kotlin.model.network.IngredientData
+import com.example.ai_recipe_app_kotlin.model.network.RecipeItem
 import com.example.ai_recipe_app_kotlin.model.network.UserData
 import com.example.ai_recipe_app_kotlin.ui.components.GenerateRecipeProgressModal
 import com.example.ai_recipe_app_kotlin.ui.components.HomeContent
@@ -23,6 +24,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun HomeScreen(
     onRecipeClick: (String) -> Unit = {},
+    onRecipesGenerated: (List<RecipeItem>) -> Unit = {},
     profileViewModel: ProfileViewModel = hiltViewModel(),
     ingredientViewModel: IngredientViewModel = hiltViewModel(),
     recipeViewModel: RecipeViewModel = hiltViewModel()
@@ -33,10 +35,9 @@ fun HomeScreen(
     var searchInput by remember { mutableStateOf("") }
     var ingredientList by remember { mutableStateOf<List<IngredientData>?>(null) }
     var selectedIngredientList by remember { mutableStateOf(emptyList<IngredientData>()) }
-    var isGeneratingRecipes by remember { mutableStateOf(false) }
-
-    var
-            showModal by remember { mutableStateOf(false) }
+    var isGenerating by remember { mutableStateOf(false) }
+    var generatedRecipes by remember { mutableStateOf<List<RecipeItem>>(emptyList()) }
+    var showModal by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         profileViewModel.getUserProfile({
@@ -68,14 +69,16 @@ fun HomeScreen(
                 ingredients = ingredientsTitle
             )
             showModal = true
+            isGenerating = true
             recipeViewModel.generateRecipes(request, {
                     recipes ->
-                println("recipes response: $recipes")
-                showModal = false
+                generatedRecipes = recipes ?: emptyList()
+                isGenerating = false
             },{ errorMessage ->
                 ToastManager.showError(errorMessage)
                 println("recipes errorMessage ===>>>$errorMessage")
                 showModal = false
+                isGenerating = false
             })
         }
     }
@@ -120,7 +123,11 @@ fun HomeScreen(
 
     GenerateRecipeProgressModal(
         showModal = showModal,
-        currentProgress = 0f,
+        isLoading = isGenerating,
+        onFinished = {
+            showModal = false
+            onRecipesGenerated(generatedRecipes)
+        },
         onDismiss = {
             showModal = false
         }

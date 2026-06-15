@@ -14,11 +14,17 @@ import com.example.ai_recipe_app_kotlin.ui.screens.main.EditProfileScreen
 import com.example.ai_recipe_app_kotlin.ui.screens.main.MainScreen
 import com.example.ai_recipe_app_kotlin.ui.screens.main.PrivacyPolicyScreen
 import com.example.ai_recipe_app_kotlin.ui.screens.main.RecipeDetailScreen
+import com.example.ai_recipe_app_kotlin.ui.screens.main.RecipesListScreen
 import com.example.ai_recipe_app_kotlin.ui.screens.onboarding.OnboardingScreen
 import com.example.ai_recipe_app_kotlin.ui.screens.profile.ProfileSetupScreen
+import com.example.ai_recipe_app_kotlin.model.network.RecipeItem
 import com.example.ai_recipe_app_kotlin.viewmodel.LoginViewModel
 import com.example.ai_recipe_app_kotlin.viewmodel.OnboardingViewModel
 import com.example.ai_recipe_app_kotlin.viewmodel.ProfileSetupViewModel
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+
+private val recipesJson = Json { ignoreUnknownKeys = true }
 
 @Composable
 fun AppNavHost(){
@@ -83,6 +89,10 @@ fun AppNavHost(){
                 onRecipeClick = { recipeId ->
                     navController.navigate(Screen.RecipeDetail(recipeId))
                 },
+                onRecipesGenerated = { recipes ->
+                    val json = recipesJson.encodeToString<List<RecipeItem>>(recipes)
+                    navController.navigate(Screen.RecipesList(json))
+                },
                 onEditProfileClick = {
                     navController.navigate(Screen.EditProfile)
                 },
@@ -94,6 +104,11 @@ fun AppNavHost(){
 
         composable <Screen.RecipeDetail> {
             RecipeDetailScreen(navController)
+        }
+        composable<Screen.RecipesList> { backStackEntry ->
+            val route: Screen.RecipesList = backStackEntry.toRoute()
+            val recipes = recipesJson.decodeFromString<List<RecipeItem>>(route.recipesJson)
+            RecipesListScreen(navController = navController, recipes = recipes)
         }
         composable<Screen.EditProfile> {
             EditProfileScreen(navController)

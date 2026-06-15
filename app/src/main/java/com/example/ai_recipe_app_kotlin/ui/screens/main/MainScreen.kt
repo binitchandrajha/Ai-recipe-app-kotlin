@@ -19,12 +19,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.ai_recipe_app_kotlin.data.BottomNavItems
+import com.example.ai_recipe_app_kotlin.model.network.RecipeItem
 import com.example.ai_recipe_app_kotlin.ui.navigation.Screen
 import com.example.ai_recipe_app_kotlin.ui.theme.DarkPrimaryColor
 
 @Composable
 fun MainScreen(
     onRecipeClick: (String) -> Unit = {},
+    onRecipesGenerated: (List<RecipeItem>) -> Unit = {},
     onEditProfileClick: () -> Unit = {},
     onPrivacyPolicyClick: () -> Unit = {}
 ){
@@ -76,7 +78,8 @@ fun MainScreen(
         ) {
             composable <Screen.Home> {
                 HomeScreen(
-                    onRecipeClick = onRecipeClick
+                    onRecipeClick = onRecipeClick,
+                    onRecipesGenerated = onRecipesGenerated
                 )
             }
             composable<Screen.Saved> {
