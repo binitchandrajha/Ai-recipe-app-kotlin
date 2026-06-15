@@ -17,6 +17,7 @@ import com.example.ai_recipe_app_kotlin.model.QuickRecipeItem
 import com.example.ai_recipe_app_kotlin.model.RecipeDetailIngredientItem
 import com.example.ai_recipe_app_kotlin.model.RecipeMakingStepsItem
 import com.example.ai_recipe_app_kotlin.model.SavedRecipeItem
+import com.example.ai_recipe_app_kotlin.model.network.IngredientData
 import com.example.ai_recipe_app_kotlin.utils.ActivitySettings
 import com.example.ai_recipe_app_kotlin.utils.AppSettings
 
@@ -40,29 +41,37 @@ object SimpleData {
     )
 
     val ingredients = listOf(
-        IngredientItem(
+        IngredientData(
             id = "ingredient-first-item-id",
             title = "Flour",
             description = "All purpose flour",
-            ingredientImage = "https://www.thespruceeats.com/thmb/J1_oUODgxQi9Gm6iccam2LNYPpQ=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-126372385-58950f353df78caebc239b4d.jpg"
+            ingredientImage = "https://www.thespruceeats.com/thmb/J1_oUODgxQi9Gm6iccam2LNYPpQ=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-126372385-58950f353df78caebc239b4d.jpg",
+            createdAt = "2024-01-01T00:00:00Z",
+            updatedAt = "2024-01-01T00:00:00Z"
         ),
-        IngredientItem(
+        IngredientData(
             id = "ingredient-second-item-id",
             title = "Onion",
             description = "Red onion",
-            ingredientImage = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxNCVwAjM6p7NJKuHirmaGkgEB9Q1aQp4a2Q&s"
+            ingredientImage = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxNCVwAjM6p7NJKuHirmaGkgEB9Q1aQp4a2Q&s",
+            createdAt = "2024-01-01T00:00:00Z",
+            updatedAt = "2024-01-01T00:00:00Z"
         ),
-        IngredientItem(
+        IngredientData(
             id = "ingredient-third-item-id",
             title = "Milk",
             description = "Whole milk",
-            ingredientImage = "https://img.magnific.com/free-photo/pitcher-with-some-milk_93675-128649.jpg?semt=ais_hybrid&w=740&q=80"
+            ingredientImage = "https://img.magnific.com/free-photo/pitcher-with-some-milk_93675-128649.jpg?semt=ais_hybrid&w=740&q=80",
+            createdAt = "2024-01-01T00:00:00Z",
+            updatedAt = "2024-01-01T00:00:00Z"
         ),
-        IngredientItem(
+        IngredientData(
             id = "ingredient-fourth-item-id",
             title = "Tomato",
             description = "Fresh tomato",
-            ingredientImage = "https://png.pngtree.com/png-clipart/20230129/original/pngtree-red-fresh-tomato-with-green-leaf-png-image_8933861.png"
+            ingredientImage = "https://png.pngtree.com/png-clipart/20230129/original/pngtree-red-fresh-tomato-with-green-leaf-png-image_8933861.png",
+            createdAt = "2024-01-01T00:00:00Z",
+            updatedAt = "2024-01-01T00:00:00Z"
         )
     )
 

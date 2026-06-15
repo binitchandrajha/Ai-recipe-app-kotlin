@@ -48,7 +48,7 @@ fun ProfileSetupScreen(
         profileViewModel.getUserProfile({
                 profileInfo ->
             userInfo = profileInfo
-            val imageUrl = profileInfo?.profileImage?.replace("localhost", "10.0.2.2")
+            val imageUrl = FileUtils.formatImageUrl(profileInfo?.profileImage)
             initialProfileImageUri = imageUrl?.toUri() ?: Uri.EMPTY
         }, {
                 errorMessage ->

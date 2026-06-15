@@ -2,6 +2,7 @@ package com.example.ai_recipe_app_kotlin.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,41 +21,35 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.ai_recipe_app_kotlin.model.network.IngredientData
 import kotlinx.coroutines.delay
 
 @Composable
 fun IngredientSearchCard(
-    onRecipeClick: (String) -> Unit = {}
+    onRecipeClick: (String) -> Unit = {},
+    ingredientList: List<IngredientData>? = null,
+    searchInput: String = "",
+    onChangeSearchInput: (String) -> Unit = {},
+    selectedIngredientList: List<IngredientData> = emptyList(),
+    handleSelectedIngredient: (IngredientData) -> Unit = {},
+    onGenerateRecipeClick: () -> Unit = {}
 ){
-    var searchInput by remember { mutableStateOf("") }
     var showModal by remember { mutableStateOf(false) }
     var currentProgress by remember { mutableFloatStateOf(0f) }
+    var isSearchInputFocused by remember { mutableStateOf(false) }
 
-    fun onChangeSearchInput(input: String){
-        searchInput = input
-    }
+    val focusManager = LocalFocusManager.current
+
     fun updateProgress(progress: Float){
         currentProgress = progress
     }
-
-    /** Iterate the progress value */
-    suspend fun loadProgress(updateProgress: (Float) -> Unit){
-        for (i in 1..100){
-            updateProgress(i.toFloat() / 100f)
-            delay(100)
-        }
-    }
-
-    LaunchedEffect(showModal) {
-        if (showModal) {
-            loadProgress { progress ->
-                currentProgress = progress
-            }
-        }
+    fun handleSearchInputFocus(isFocused: Boolean){
+        isSearchInputFocused = isFocused
     }
 
     Card(
@@ -85,61 +80,43 @@ fun IngredientSearchCard(
                 },
                 onMicClick = {
                     println("mic clicked....")
+                },
+                onFocusChange = {
+                    handleSearchInputFocus(it)
                 }
             )
-            Spacer(modifier = Modifier.size(16.dp))
-            IngredientList()
-            Spacer(modifier = Modifier.size(16.dp))
-            PrimaryButton(
-                btnText = "Generate Recipe",
-                modifier = Modifier.fillMaxWidth(),
-                onClick = {
-                    showModal = true
+            Box(){
+                Column() {
+                    Spacer(modifier = Modifier.size(16.dp))
+                    IngredientList(
+                        ingredientList = selectedIngredientList
+                    )
+                    Spacer(modifier = Modifier.size(16.dp))
+                    PrimaryButton(
+                        btnText = "Generate Recipe",
+                        modifier = Modifier.fillMaxWidth(),
+                        onClick = {
+//                            showModal = true
+                            onGenerateRecipeClick()
+                        }
+                    )
                 }
-            )
-        }
-
-        AppModal(
-            isVisible = showModal,
-            onDismiss = {
-                showModal = false
-                currentProgress = 0f
+                if(isSearchInputFocused){
+                    Spacer(modifier = Modifier.size(16.dp))
+                    SearchSuggestionList(
+                        ingredientList = ingredientList,
+                        selectedIngredientList = selectedIngredientList,
+                        handleSelectedIngredient = {
+                            handleSelectedIngredient(it)
                         },
-            content = {
-                Column(
-                    modifier = Modifier.padding(
-                        top = 24.dp,
-                        bottom = 0.dp,
-                        start = 24.dp,
-                        end = 24.dp
-                    )
-                ) {
-                    Text(
-                        text = "Finding recipes for you...",
-                        fontSize = 16.sp,
-                        color = Color.Gray,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                    Spacer(modifier = Modifier.size(6.dp))
-                    Text(
-                        text = "Mixing your Ingredients to create delicious ideas",
-                        fontSize = 14.sp,
-                        color = Color.Gray,
-                        fontWeight = FontWeight.Normal
-                    )
-                    Spacer(modifier = Modifier.size(6.dp))
-                    RecipeProgressIndicator(
-                        currentProgress = currentProgress,
-                    )
-                    Spacer(modifier = Modifier.size(6.dp))
-                    AppAsyncImage(
-                        model = "https://img.magnific.com/free-vector/vegetables-pot-realistic-concept-with-ingredients-cooking-symbols-vector-illustration_1284-16244.jpg?semt=ais_hybrid&w=740&q=80",
-                        contentDescription = "Ingredients",
-                        modifier = Modifier.fillMaxWidth().background(Color.White).height(400.dp)
+                        onDismissRequest = {
+                            isSearchInputFocused = false
+                            focusManager.clearFocus()
+                        }
                     )
                 }
             }
-        )
+        }
     }
 }
 

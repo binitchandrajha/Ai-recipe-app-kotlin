@@ -32,3 +32,10 @@ data class ErrorResponse(
     val success: Boolean,
     val message: String
 )
+
+@Serializable
+data class CountedResponse<T>(
+    val success: Boolean,
+    val count: Int,
+    val data: T? = null
+)

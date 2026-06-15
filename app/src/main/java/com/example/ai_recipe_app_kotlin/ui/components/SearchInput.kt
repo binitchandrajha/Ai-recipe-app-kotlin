@@ -18,6 +18,8 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -27,12 +29,17 @@ import com.example.ai_recipe_app_kotlin.ui.theme.DarkPrimaryColor
 fun SearchInput(
     value: String,
     onValueChange: (String) -> Unit,
+    onFocusChange: (focusStatus: Boolean) -> Unit = {},
     onMicClick: () -> Unit = {},
     placeholder: String = "Search ingredients"
 ){
     TextField(
         value = value,
-        modifier = Modifier.fillMaxWidth().border(
+        modifier = Modifier.fillMaxWidth()
+            .onFocusChanged{
+                focusState -> onFocusChange(focusState.isFocused)
+            }
+            .border(
             1.dp,
             Color.LightGray,
             shape = RoundedCornerShape(50.dp)
