@@ -36,7 +36,8 @@ fun IngredientSearchCard(
     searchInput: String = "",
     onChangeSearchInput: (String) -> Unit = {},
     selectedIngredientList: List<IngredientData> = emptyList(),
-    handleSelectedIngredient: (IngredientData) -> Unit = {}
+    handleSelectedIngredient: (IngredientData) -> Unit = {},
+    onGenerateRecipeClick: () -> Unit = {}
 ){
     var showModal by remember { mutableStateOf(false) }
     var currentProgress by remember { mutableFloatStateOf(0f) }
@@ -49,22 +50,6 @@ fun IngredientSearchCard(
     }
     fun handleSearchInputFocus(isFocused: Boolean){
         isSearchInputFocused = isFocused
-    }
-
-    /** Iterate the progress value */
-    suspend fun loadProgress(updateProgress: (Float) -> Unit){
-        for (i in 1..100){
-            updateProgress(i.toFloat() / 100f)
-            delay(100)
-        }
-    }
-
-    LaunchedEffect(showModal) {
-        if (showModal) {
-            loadProgress { progress ->
-                currentProgress = progress
-            }
-        }
     }
 
     Card(
@@ -111,7 +96,8 @@ fun IngredientSearchCard(
                         btnText = "Generate Recipe",
                         modifier = Modifier.fillMaxWidth(),
                         onClick = {
-                            showModal = true
+//                            showModal = true
+                            onGenerateRecipeClick()
                         }
                     )
                 }
@@ -131,48 +117,6 @@ fun IngredientSearchCard(
                 }
             }
         }
-
-        AppModal(
-            isVisible = showModal,
-            onDismiss = {
-                showModal = false
-                currentProgress = 0f
-                        },
-            content = {
-                Column(
-                    modifier = Modifier.padding(
-                        top = 24.dp,
-                        bottom = 0.dp,
-                        start = 24.dp,
-                        end = 24.dp
-                    )
-                ) {
-                    Text(
-                        text = "Finding recipes for you...",
-                        fontSize = 16.sp,
-                        color = Color.Gray,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                    Spacer(modifier = Modifier.size(6.dp))
-                    Text(
-                        text = "Mixing your Ingredients to create delicious ideas",
-                        fontSize = 14.sp,
-                        color = Color.Gray,
-                        fontWeight = FontWeight.Normal
-                    )
-                    Spacer(modifier = Modifier.size(6.dp))
-                    RecipeProgressIndicator(
-                        currentProgress = currentProgress,
-                    )
-                    Spacer(modifier = Modifier.size(6.dp))
-                    AppAsyncImage(
-                        model = "https://img.magnific.com/free-vector/vegetables-pot-realistic-concept-with-ingredients-cooking-symbols-vector-illustration_1284-16244.jpg?semt=ais_hybrid&w=740&q=80",
-                        contentDescription = "Ingredients",
-                        modifier = Modifier.fillMaxWidth().background(Color.White).height(400.dp)
-                    )
-                }
-            }
-        )
     }
 }
 

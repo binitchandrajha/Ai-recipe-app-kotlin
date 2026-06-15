@@ -9,19 +9,23 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.ai_recipe_app_kotlin.model.network.GenerateRecipeRequest
 import com.example.ai_recipe_app_kotlin.model.network.IngredientData
 import com.example.ai_recipe_app_kotlin.model.network.UserData
+import com.example.ai_recipe_app_kotlin.ui.components.GenerateRecipeProgressModal
 import com.example.ai_recipe_app_kotlin.ui.components.HomeContent
 import com.example.ai_recipe_app_kotlin.utils.ToastManager
 import com.example.ai_recipe_app_kotlin.viewmodel.IngredientViewModel
 import com.example.ai_recipe_app_kotlin.viewmodel.ProfileViewModel
+import com.example.ai_recipe_app_kotlin.viewmodel.RecipeViewModel
 import kotlinx.coroutines.delay
 
 @Composable
 fun HomeScreen(
     onRecipeClick: (String) -> Unit = {},
     profileViewModel: ProfileViewModel = hiltViewModel(),
-    ingredientViewModel: IngredientViewModel = hiltViewModel()
+    ingredientViewModel: IngredientViewModel = hiltViewModel(),
+    recipeViewModel: RecipeViewModel = hiltViewModel()
 ){
     var userInfo by remember {mutableStateOf<UserData?>(null)}
     val isFetchingProfileInfo by profileViewModel.isFetchingProfileInfo.collectAsState()
@@ -29,6 +33,10 @@ fun HomeScreen(
     var searchInput by remember { mutableStateOf("") }
     var ingredientList by remember { mutableStateOf<List<IngredientData>?>(null) }
     var selectedIngredientList by remember { mutableStateOf(emptyList<IngredientData>()) }
+    var isGeneratingRecipes by remember { mutableStateOf(false) }
+
+    var
+            showModal by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         profileViewModel.getUserProfile({
@@ -48,6 +56,27 @@ fun HomeScreen(
             selectedIngredientList = selectedIngredientList.filter { it.id != ingredient.id }
         }else{
             selectedIngredientList = selectedIngredientList + ingredient
+        }
+    }
+
+    fun onGenerateRecipeClick(){
+        if(selectedIngredientList.isEmpty()){
+            ToastManager.showError("Please select at least one ingredient")
+        } else {
+            val ingredientsTitle = selectedIngredientList.map { it.title }
+            val request = GenerateRecipeRequest(
+                ingredients = ingredientsTitle
+            )
+            showModal = true
+            recipeViewModel.generateRecipes(request, {
+                    recipes ->
+                println("recipes response: $recipes")
+                showModal = false
+            },{ errorMessage ->
+                ToastManager.showError(errorMessage)
+                println("recipes errorMessage ===>>>$errorMessage")
+                showModal = false
+            })
         }
     }
 
@@ -83,6 +112,17 @@ fun HomeScreen(
         selectedIngredientList = selectedIngredientList,
         handleSelectedIngredient= { item: IngredientData ->
             handleSelectedIngredient(item)
+        },
+        onGenerateRecipeClick = {
+            onGenerateRecipeClick()
+        }
+    )
+
+    GenerateRecipeProgressModal(
+        showModal = showModal,
+        currentProgress = 0f,
+        onDismiss = {
+            showModal = false
         }
     )
 }
