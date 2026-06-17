@@ -27,4 +27,13 @@ class RecipeRepository @Inject constructor(
             Result.failure(e)
         }
     }
+
+    suspend fun getRecipesQuickIdeas(): Result<CountedResponse<List<RecipeItem>>> {
+        return try {
+            val response = recipeService.getRecipesQuickIdeas()
+            Result.success(response)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 }

@@ -1,6 +1,5 @@
 package com.example.ai_recipe_app_kotlin.ui.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -29,14 +28,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
 import com.example.ai_recipe_app_kotlin.model.Difficulty
 import com.example.ai_recipe_app_kotlin.model.QuickRecipeItem
+import com.example.ai_recipe_app_kotlin.model.network.RecipeItem
 import com.example.ai_recipe_app_kotlin.ui.theme.DarkPrimaryColor
 
 @Composable
 fun QuickIdeasRecipeListItem(
-    item: QuickRecipeItem,
+    item: RecipeItem,
     onRecipeClick: (String) -> Unit = {}
 ){
     Card(
@@ -48,7 +47,7 @@ fun QuickIdeasRecipeListItem(
         ),
         modifier = Modifier.width(200.dp).clickable(
             onClick = {
-                onRecipeClick(item.title)
+                onRecipeClick(item.id)
             }
         )
     ) {
@@ -104,7 +103,7 @@ fun QuickIdeasRecipeListItem(
                         )
                         Spacer(modifier = Modifier.size(4.dp))
                         Text(
-                            text = "${item.difficulty}",
+                            text = item.difficulty,
                             fontSize = 14.sp
                         )
                     }
@@ -129,14 +128,21 @@ fun QuickIdeasRecipeListItem(
 @Preview
 @Composable
 fun QuickIdeasRecipeListItemPreview(){
+    val dummyRecipe = RecipeItem(
+        id = "1",
+        title = "Tomato Basil Pasta",
+        recipeImage = "",
+        recipeDuration = "30 mins",
+        difficulty = "Easy",
+        numberOfIngredientsUsed = 5,
+        isFavorite = false,
+        ingredients = emptyList(),
+        steps = emptyList(),
+        isQuickIdea = false,
+        createdAt = "",
+        updatedAt = ""
+    )
     QuickIdeasRecipeListItem(
-        item = QuickRecipeItem(
-            id = "quick-recipe-test-id",
-            recipeImage = "https://vismaifood.com/storage/app/uploads/public/8b4/19e/427/thumb__1200_0_0_0_auto.jpg",
-            title = "Masala dosa",
-            recipeDuration = "30 min",
-            difficulty = Difficulty.Easy,
-            isFavorite = false
-        )
+        item = dummyRecipe
     )
 }

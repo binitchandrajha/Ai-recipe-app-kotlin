@@ -31,12 +31,13 @@ fun HomeScreen(
 ){
     var userInfo by remember {mutableStateOf<UserData?>(null)}
     val isFetchingProfileInfo by profileViewModel.isFetchingProfileInfo.collectAsState()
-    val isFetchingIngredients by ingredientViewModel.isFetchingIngredients.collectAsState()
+    val isGettingRecipeQuickIdeas by recipeViewModel.isGettingRecipeQuickIdeas.collectAsState()
     var searchInput by remember { mutableStateOf("") }
     var ingredientList by remember { mutableStateOf<List<IngredientData>?>(null) }
     var selectedIngredientList by remember { mutableStateOf(emptyList<IngredientData>()) }
     var isGenerating by remember { mutableStateOf(false) }
     var generatedRecipes by remember { mutableStateOf<List<RecipeItem>>(emptyList()) }
+    var quickIdeas by remember { mutableStateOf<List<RecipeItem>>(emptyList()) }
     var showModal by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
@@ -102,11 +103,21 @@ fun HomeScreen(
         searchIngredients(searchInput)
     }
 
+    LaunchedEffect(Unit) {
+        recipeViewModel.getRecipesQuickIdeas({
+                recipes ->
+            quickIdeas = recipes ?: emptyList()
+        }, {
+                errorMessage ->
+            ToastManager.showError(errorMessage)
+        })
+    }
+
     HomeContent(
         onRecipeClick = onRecipeClick,
         userInfo = userInfo,
         isLoading = isFetchingProfileInfo,
-        isFetchingIngredients = isFetchingIngredients,
+        isGettingRecipeQuickIdeas = isGettingRecipeQuickIdeas,
         ingredientList = ingredientList,
         searchInput = searchInput,
         onChangeSearchInput = { input ->
@@ -118,7 +129,8 @@ fun HomeScreen(
         },
         onGenerateRecipeClick = {
             onGenerateRecipeClick()
-        }
+        },
+        quickIdeas = quickIdeas,
     )
 
     GenerateRecipeProgressModal(
