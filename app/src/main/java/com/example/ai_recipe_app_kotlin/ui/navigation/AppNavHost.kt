@@ -102,8 +102,12 @@ fun AppNavHost(){
             )
         }
 
-        composable <Screen.RecipeDetail> {
-            RecipeDetailScreen(navController)
+        composable <Screen.RecipeDetail> { backStackEntry ->
+            val route: Screen.RecipeDetail = backStackEntry.toRoute()
+            RecipeDetailScreen(
+                navController,
+                recipeId = route.recipeId
+            )
         }
         composable<Screen.RecipesList> { backStackEntry ->
             val route: Screen.RecipesList = backStackEntry.toRoute()

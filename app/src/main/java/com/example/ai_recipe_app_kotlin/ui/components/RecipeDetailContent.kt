@@ -1,10 +1,8 @@
 package com.example.ai_recipe_app_kotlin.ui.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -12,8 +10,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.Restaurant
 import androidx.compose.material.icons.filled.SoupKitchen
-import androidx.compose.material.icons.outlined.Restaurant
-import androidx.compose.material.icons.outlined.SoupKitchen
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -27,19 +23,26 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ai_recipe_app_kotlin.data.SimpleData
+import com.example.ai_recipe_app_kotlin.model.network.RecipeItem
 import com.example.ai_recipe_app_kotlin.ui.theme.DarkPrimaryColor
 
 @Composable
-fun RecipeDetailContent(){
+fun RecipeDetailContent(
+    recipe: RecipeItem?,
+    onBackClick: () -> Unit,
+    isLoading: Boolean
+){
     Column(
         modifier = Modifier.padding(24.dp)
     ) {
-        Text(
-            text = "Tomato Bail Pasta",
-            fontWeight = FontWeight.Bold,
-            fontSize = 18.sp,
-            color = Color.DarkGray
+        recipe?.title?.let {
+            Text(
+                text = it,
+                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp,
+                color = Color.DarkGray
             )
+        }
         Spacer(modifier = Modifier.size(12.dp))
         Row() {
             Row(
@@ -53,10 +56,12 @@ fun RecipeDetailContent(){
 
                 )
                 Spacer(modifier = Modifier.size(2.dp))
-                Text(
-                    text = "30mins",
-                    fontSize = 14.sp
-                )
+                recipe?.recipeDuration?.let {
+                    Text(
+                        text = it,
+                        fontSize = 14.sp
+                    )
+                }
             }
 
             Row(
@@ -72,7 +77,7 @@ fun RecipeDetailContent(){
                 )
                 Spacer(modifier = Modifier.size(2.dp))
                 Text(
-                    text = "30mins",
+                    text = recipe?.difficulty ?: "",
                     fontSize = 14.sp
                 )
             }
@@ -90,7 +95,7 @@ fun RecipeDetailContent(){
                 )
                 Spacer(modifier = Modifier.size(2.dp))
                 Text(
-                    text = "30mins",
+                    text = recipe?.numberOfIngredientsUsed?.toString() ?: "",
                     fontSize = 14.sp
                 )
             }
@@ -98,14 +103,14 @@ fun RecipeDetailContent(){
 
         Spacer(modifier = Modifier.size(12.dp))
         Text(
-            text = "Ingridents",
+            text = "Ingredients",
             fontWeight = FontWeight.Bold,
             fontSize = 18.sp,
             color = Color.DarkGray
         )
         Spacer(modifier = Modifier.size(12.dp))
 
-        SimpleData.recipeDetailIngredients.forEach { item ->
+        recipe?.ingredients?.forEach { item ->
                 Column() {
                     Row () {
                         Text(
@@ -129,7 +134,7 @@ fun RecipeDetailContent(){
             }
         Spacer(modifier = Modifier.size(12.dp))
 
-        SimpleData.recipeMakingSteps.forEach { item ->
+        recipe?.steps?.forEach { item ->
             Card(
                 colors = CardDefaults.cardColors(
                     containerColor = Color.White
@@ -155,11 +160,33 @@ fun RecipeDetailContent(){
                 }
             }
         }
+
+        OverlayLoader(
+            isLoading = isLoading
+        )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun RecipeDetailContentPreview(){
-    RecipeDetailContent()
+    val dummyRecipe = RecipeItem(
+        id = "1",
+        title = "Tomato Basil Pasta",
+        recipeImage = "",
+        recipeDuration = "30 mins",
+        difficulty = "Easy",
+        numberOfIngredientsUsed = 5,
+        isFavorite = false,
+        ingredients = emptyList(),
+        steps = emptyList(),
+        isQuickIdea = false,
+        createdAt = "",
+        updatedAt = ""
+    )
+    RecipeDetailContent(
+        recipe = dummyRecipe, // Dummy data pass karein
+        onBackClick = { },
+        isLoading = false
+    )
 }
