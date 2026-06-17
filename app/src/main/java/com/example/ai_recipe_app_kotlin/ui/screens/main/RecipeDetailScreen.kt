@@ -42,6 +42,7 @@ fun RecipeDetailScreen(
     recipeId: String,
     viewModel: RecipeViewModel = hiltViewModel()
 ){
+    println("recipe-id ===>>>>>$recipeId")
     val isGettingRecipeDetail by viewModel.isGettingRecipeDetail.collectAsState()
     var recipeDetail by remember { mutableStateOf<RecipeItem?>(null) }
 

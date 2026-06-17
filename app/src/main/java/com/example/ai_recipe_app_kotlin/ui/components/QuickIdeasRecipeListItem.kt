@@ -47,7 +47,7 @@ fun QuickIdeasRecipeListItem(
         ),
         modifier = Modifier.width(200.dp).clickable(
             onClick = {
-                onRecipeClick(item.title)
+                onRecipeClick(item.id)
             }
         )
     ) {

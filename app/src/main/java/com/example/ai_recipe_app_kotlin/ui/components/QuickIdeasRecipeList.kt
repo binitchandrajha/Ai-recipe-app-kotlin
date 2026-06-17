@@ -40,8 +40,8 @@ fun QuickIdeasRecipeList(
             items(quickIdeas){ item ->
               QuickIdeasRecipeListItem(
                   item = item,
-                  onRecipeClick = {
-                  handleOnRecipeClick(recipeId = it)
+                  onRecipeClick = { recipeId ->
+                  handleOnRecipeClick(recipeId = recipeId)
               })
                 Spacer(modifier = Modifier.size(10.dp))
             }
