@@ -11,13 +11,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.ai_recipe_app_kotlin.data.SimpleData
-
-val savedRecipes = SimpleData.savedRecipes.take(4)
+import com.example.ai_recipe_app_kotlin.model.network.RecipeItem
 
 @Composable
 fun SavedRecipeCard(
-    onRecipeClick: (String) -> Unit = {}
+    onRecipeClick: (String) -> Unit = {},
+    savedRecipes: List<RecipeItem> = emptyList()
 ){
+    val filteredSavedRecipes = savedRecipes.take(4)
     fun handleOnRecipeClick(recipeId: String){
         onRecipeClick(recipeId)
     }
@@ -29,7 +30,7 @@ fun SavedRecipeCard(
             fontWeight = FontWeight.Bold,
             )
         Spacer(modifier = Modifier.size(10.dp))
-        savedRecipes.forEach { item ->
+        filteredSavedRecipes.forEach { item ->
             SavedRecipeCardItem(item = item, onRecipeClick = {
                 handleOnRecipeClick(
                     recipeId = it

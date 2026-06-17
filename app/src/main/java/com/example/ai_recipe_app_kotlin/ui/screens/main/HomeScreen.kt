@@ -38,6 +38,7 @@ fun HomeScreen(
     var isGenerating by remember { mutableStateOf(false) }
     var generatedRecipes by remember { mutableStateOf<List<RecipeItem>>(emptyList()) }
     var quickIdeas by remember { mutableStateOf<List<RecipeItem>>(emptyList()) }
+    var savedRecipes by remember { mutableStateOf<List<RecipeItem>>(emptyList<RecipeItem>()) }
     var showModal by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
@@ -45,6 +46,16 @@ fun HomeScreen(
                 profileInfo ->
             userInfo = profileInfo
         }, {
+                errorMessage ->
+            ToastManager.showError(errorMessage)
+        })
+    }
+
+    LaunchedEffect(Unit) {
+        recipeViewModel.getSavedRecipes({
+                recipes ->
+            savedRecipes = recipes ?: emptyList()
+        },{
                 errorMessage ->
             ToastManager.showError(errorMessage)
         })
@@ -131,6 +142,7 @@ fun HomeScreen(
             onGenerateRecipeClick()
         },
         quickIdeas = quickIdeas,
+        savedRecipes = savedRecipes
     )
 
     GenerateRecipeProgressModal(

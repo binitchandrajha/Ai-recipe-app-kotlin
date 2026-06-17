@@ -20,4 +20,7 @@ interface RecipesService {
 
     @GET(value = "$RECIPES_BASE_PATH/quick-ideas")
     suspend fun getRecipesQuickIdeas() : CountedResponse<List<RecipeItem>>
+
+    @GET(value = "$RECIPES_BASE_PATH/saved")
+    suspend fun getSavedRecipes() : CountedResponse<List<RecipeItem>>
 }
