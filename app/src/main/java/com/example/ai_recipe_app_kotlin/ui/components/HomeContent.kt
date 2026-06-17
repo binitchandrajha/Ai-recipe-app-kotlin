@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.ai_recipe_app_kotlin.model.network.IngredientData
+import com.example.ai_recipe_app_kotlin.model.network.RecipeItem
 import com.example.ai_recipe_app_kotlin.model.network.UserData
 import com.example.ai_recipe_app_kotlin.ui.theme.PrimaryColor
 
@@ -17,7 +18,8 @@ fun HomeContent(
     onRecipeClick: (String) -> Unit = {},
     userInfo: UserData? = null,
     isLoading: Boolean = false,
-    isFetchingIngredients: Boolean = false,
+    isGettingRecipeQuickIdeas: Boolean = false,
+    quickIdeas: List<RecipeItem> = emptyList(),
     ingredientList: List<IngredientData>? = null,
     searchInput: String = "",
     onChangeSearchInput: (String) -> Unit = {},
@@ -43,13 +45,17 @@ fun HomeContent(
                 selectedIngredientList = selectedIngredientList,
                 handleSelectedIngredient = handleSelectedIngredient,
                 onGenerateRecipeClick = onGenerateRecipeClick,
-//                isFetchingIngredients = isFetchingIngredients
             )
             SavedRecipeCard(
                 onRecipeClick = onRecipeClick
             )
             QuickIdeasRecipeList(
-                onRecipeClick = onRecipeClick
+                onRecipeClick = {
+                    recipeId ->
+                    onRecipeClick(recipeId)
+                },
+                isLoading = isGettingRecipeQuickIdeas,
+                quickIdeas = quickIdeas
             )
 
             OverlayLoader(

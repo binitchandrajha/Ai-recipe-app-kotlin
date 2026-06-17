@@ -17,4 +17,7 @@ interface RecipesService {
 
     @GET("$RECIPES_BASE_PATH{id}")
     suspend fun getRecipeById(@Path("id") id: String) : BaseResponseWithoutMessage<RecipeItem>
+
+    @GET(value = "$RECIPES_BASE_PATH/quick-ideas")
+    suspend fun getRecipesQuickIdeas() : CountedResponse<List<RecipeItem>>
 }

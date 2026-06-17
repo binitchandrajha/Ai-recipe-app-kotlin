@@ -18,9 +18,11 @@ class RecipeViewModel @Inject constructor(
 ) : ViewModel() {
     private val _isGeneratingRecipes = MutableStateFlow<Boolean>(false)
     private val _isGettingRecipeDetail = MutableStateFlow<Boolean>(false)
+    private val _isGettingRecipeQuickIdeas = MutableStateFlow<Boolean>(false)
 
     val isGeneratingRecipes = _isGeneratingRecipes.asStateFlow()
     val isGettingRecipeDetail = _isGettingRecipeDetail.asStateFlow()
+    val isGettingRecipeQuickIdeas = _isGettingRecipeQuickIdeas.asStateFlow()
 
     fun generateRecipes(
         request: GenerateRecipeRequest,
@@ -52,6 +54,20 @@ class RecipeViewModel @Inject constructor(
                 _isGettingRecipeDetail.value = false
                 val errMessage = NetworkUtils.parseError(exception)
                 onFailure(errMessage)
+            }
+        }
+    }
+
+    fun getRecipesQuickIdeas(onSuccess: (List<RecipeItem>?) -> Unit, onFailure: (errorMessage: String) -> Unit){
+        viewModelScope.launch {
+            _isGettingRecipeQuickIdeas.value = true
+            val result = recipeRepository.getRecipesQuickIdeas()
+            result.onSuccess { response ->
+             _isGettingRecipeQuickIdeas.value = false
+                onSuccess(response.data)
+            }.onFailure { exception ->
+                val errorMessage = NetworkUtils.parseError(exception)
+                onFailure(errorMessage)
             }
         }
     }
