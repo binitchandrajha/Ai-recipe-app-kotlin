@@ -13,6 +13,7 @@ import com.example.ai_recipe_app_kotlin.model.network.GenerateRecipeRequest
 import com.example.ai_recipe_app_kotlin.model.network.IngredientData
 import com.example.ai_recipe_app_kotlin.model.network.RecipeItem
 import com.example.ai_recipe_app_kotlin.model.network.UserData
+import com.example.ai_recipe_app_kotlin.ui.components.ConfirmationPopupModal
 import com.example.ai_recipe_app_kotlin.ui.components.GenerateRecipeProgressModal
 import com.example.ai_recipe_app_kotlin.ui.components.HomeContent
 import com.example.ai_recipe_app_kotlin.utils.ToastManager
@@ -42,6 +43,8 @@ fun HomeScreen(
     var showModal by remember { mutableStateOf(false) }
     val isMarkingRecipeFavorite by recipeViewModel.isMarkingRecipeFavorite.collectAsState()
     val isRemoveRecipeFavorite by recipeViewModel.isRemoveRecipeFavorite.collectAsState()
+    var showConfirmationModal by remember { mutableStateOf(false) }
+    var selectedRecipeID by remember { mutableStateOf<String>("") }
 
     LaunchedEffect(Unit) {
         profileViewModel.getUserProfile({
@@ -165,6 +168,8 @@ fun HomeScreen(
         })
     }
 
+
+
     HomeContent(
         onRecipeClick = onRecipeClick,
         userInfo = userInfo,
@@ -186,7 +191,8 @@ fun HomeScreen(
             handleMarkSaveRecipe(recipeID)
         },
         removeFavorite = { recipeID: String ->
-            handleRemoveFavorite(recipeID)
+            selectedRecipeID = recipeID
+            showConfirmationModal = true
         },
         quickIdeas = quickIdeas,
         savedRecipes = savedRecipes
@@ -202,6 +208,19 @@ fun HomeScreen(
         onDismiss = {
             showModal = false
         }
+    )
+
+    ConfirmationPopupModal(
+        showModal = showConfirmationModal,
+        onDismiss = {
+            showConfirmationModal = false
+            selectedRecipeID = ""
+        },
+        onConfirm = {
+            handleRemoveFavorite(selectedRecipeID)
+            showConfirmationModal = false
+        },
+        confirmationText = "Are you sure want to remove this recipe from your saved recipes?"
     )
 }
 
