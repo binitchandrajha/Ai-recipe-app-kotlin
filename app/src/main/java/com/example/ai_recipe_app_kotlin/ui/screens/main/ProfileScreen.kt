@@ -17,6 +17,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,17 +31,22 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.ai_recipe_app_kotlin.data.SimpleData
 import com.example.ai_recipe_app_kotlin.model.ProfileMenuItem
 import com.example.ai_recipe_app_kotlin.ui.components.AppAsyncImage
+import com.example.ai_recipe_app_kotlin.ui.components.ConfirmationPopupModal
 import com.example.ai_recipe_app_kotlin.ui.components.PrimaryButton
 import com.example.ai_recipe_app_kotlin.ui.theme.DarkPrimaryColor
 import com.example.ai_recipe_app_kotlin.ui.theme.LightPrimaryColor
 import com.example.ai_recipe_app_kotlin.ui.theme.PrimaryColor
 import com.example.ai_recipe_app_kotlin.utils.AppSettings
+import com.example.ai_recipe_app_kotlin.utils.ToastManager
+import com.example.ai_recipe_app_kotlin.viewmodel.LoginViewModel
 
 @Composable
-fun ProfileHeader(onEditClick: () -> Unit){
+fun ProfileHeader(
+    onEditClick: () -> Unit){
     Card(
         colors = CardDefaults.cardColors(
             containerColor = Color.White
@@ -140,8 +149,11 @@ fun ProfileMenu(title: String, lists: List<ProfileMenuItem>, onItemClick: (Strin
 @Composable
 fun ProfileScreen(
     onEditClick: () -> Unit = {},
-    onPrivacyPolicyClick: () -> Unit = {}
+    onPrivacyPolicyClick: () -> Unit = {},
+    loginViewModel: LoginViewModel = hiltViewModel(),
+    onLogoutPress: () -> Unit = {},
 ){
+    var showConfirmationModal by remember { mutableStateOf(false) }
     Scaffold(
         containerColor = PrimaryColor,
         modifier = Modifier.fillMaxSize()
@@ -169,7 +181,30 @@ fun ProfileScreen(
                 if(it == AppSettings.PRIVACY_POLICY){
                     onPrivacyPolicyClick()
                 }
+                if(it === AppSettings.LOGOUT){
+                    showConfirmationModal = true
+                }
             })
+
+            ConfirmationPopupModal(
+                showModal = showConfirmationModal,
+                onDismiss = {
+                    showConfirmationModal = false
+                },
+                onConfirm = {
+                    showConfirmationModal = false
+                    loginViewModel.logout(
+                        onSuccess = { successMessage ->
+                            ToastManager.showSuccess(successMessage)
+                            onLogoutPress()
+                        },
+                        onFailure = { errorMessage ->
+                            ToastManager.showError(errorMessage)
+                        }
+                    )
+                },
+                confirmationText = "Are you sure want to logout?"
+            )
         }
     }
 }

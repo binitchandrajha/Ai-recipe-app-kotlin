@@ -28,7 +28,8 @@ fun MainScreen(
     onRecipeClick: (String) -> Unit = {},
     onRecipesGenerated: (List<RecipeItem>) -> Unit = {},
     onEditProfileClick: () -> Unit = {},
-    onPrivacyPolicyClick: () -> Unit = {}
+    onPrivacyPolicyClick: () -> Unit = {},
+    onLogoutPress: () -> Unit = {}
 ){
     val navController = rememberNavController()
 
@@ -96,6 +97,9 @@ fun MainScreen(
                     },
                     onPrivacyPolicyClick = {
                         onPrivacyPolicyClick()
+                    },
+                    onLogoutPress = {
+                        onLogoutPress()
                     }
                 )
             }

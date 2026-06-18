@@ -14,7 +14,6 @@ class AuthRepository @Inject constructor(
     private val sessionManager: SessionManager
 ) {
     fun saveAuthToken(token: String){
-        println("my-log-save-auth-token --->>>>$token")
         sessionManager.saveAuthToken(token)
     }
 

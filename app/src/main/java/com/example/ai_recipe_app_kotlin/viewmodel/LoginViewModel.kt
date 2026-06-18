@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ai_recipe_app_kotlin.data.repository.AuthRepository
 import com.example.ai_recipe_app_kotlin.data.repository.LoginRepository
+import com.example.ai_recipe_app_kotlin.data.repository.ProfileSetupRepository
 import com.example.ai_recipe_app_kotlin.model.network.SendOtpRequest
 import com.example.ai_recipe_app_kotlin.model.network.VerifyOtpRequest
 import com.example.ai_recipe_app_kotlin.utils.NetworkUtils
@@ -17,7 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val loginRepository: LoginRepository,
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val profileSetupRepository: ProfileSetupRepository
 ) : ViewModel() {
     private val _isLoggedIn = MutableStateFlow<Boolean>(false)
     private val _isSendingOtp = MutableStateFlow<Boolean>(false)
@@ -68,6 +70,21 @@ class LoginViewModel @Inject constructor(
                 _isVerifyingOtp.value = false
                 val errMessage = NetworkUtils.parseError(it)
                 onFailure(errMessage)
+            }
+        }
+    }
+
+    fun logout(onSuccess: (successMessage: String) -> Unit, onFailure: (errorMessage: String) -> Unit){
+        viewModelScope.launch {
+            try {
+                loginRepository.clearLoginSession()
+                authRepository.clearAuthToken()
+                profileSetupRepository.clearInitialProfileSetup()
+                _isLoggedIn.value = false
+                onSuccess("Logged out successfully")
+            } catch (e: Exception){
+                println("Error logging out: ${e.message}")
+                onFailure("Failed to logout")
             }
         }
     }
