@@ -30,20 +30,24 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.ai_recipe_app_kotlin.data.SimpleData.dummyRecipe
 import com.example.ai_recipe_app_kotlin.model.SavedRecipeItem
+import com.example.ai_recipe_app_kotlin.model.network.RecipeItem
 import com.example.ai_recipe_app_kotlin.ui.theme.DarkPrimaryColor
 import com.example.ai_recipe_app_kotlin.ui.theme.LightPrimaryColor
 
 @Composable
 fun SavedRecipeCardItem(
-    item: SavedRecipeItem,
-    onRecipeClick: (String) -> Unit = {}
+    item: RecipeItem,
+    onRecipeClick: (String) -> Unit = {},
+    removeFavorite: (String) -> Unit = {}
 ){
     Card(
-        modifier = Modifier.fillMaxWidth().clickable(onClick = {onRecipeClick(item.id)}),
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 4.dp
         ),
+        onClick = {onRecipeClick(item.id)},
         colors = CardDefaults.cardColors(
             containerColor = Color.White
         )
@@ -126,7 +130,9 @@ fun SavedRecipeCardItem(
             }
 
             IconButton(
-                onClick = {},
+                onClick = {
+                    removeFavorite(item.id)
+                },
                 modifier = Modifier.align(Alignment.Top).size(22.dp)
             ) {
                 Icon(
@@ -144,13 +150,6 @@ fun SavedRecipeCardItem(
 @Composable
 fun SavedRecipeCardItemPreview(){
     SavedRecipeCardItem(
-        item = SavedRecipeItem(
-            id = "saved-item-test-id",
-            title = "Spaghetti Bolognese",
-            recipeImage = "https://png.pngtree.com/png-clipart/20230129/original/pngtree-red-fresh-tomato-with-green-leaf-png-image_8933861.png",
-            recipeDuration = "30 min",
-            difficulty = com.example.ai_recipe_app_kotlin.model.Difficulty.Medium,
-            numberOfIngredientsUsed = 5,
-        )
+        item = dummyRecipe
     )
 }

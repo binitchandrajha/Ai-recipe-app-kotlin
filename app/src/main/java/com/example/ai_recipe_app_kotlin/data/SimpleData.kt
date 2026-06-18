@@ -18,6 +18,7 @@ import com.example.ai_recipe_app_kotlin.model.RecipeDetailIngredientItem
 import com.example.ai_recipe_app_kotlin.model.RecipeMakingStepsItem
 import com.example.ai_recipe_app_kotlin.model.SavedRecipeItem
 import com.example.ai_recipe_app_kotlin.model.network.IngredientData
+import com.example.ai_recipe_app_kotlin.model.network.RecipeItem
 import com.example.ai_recipe_app_kotlin.utils.ActivitySettings
 import com.example.ai_recipe_app_kotlin.utils.AppSettings
 
@@ -380,5 +381,20 @@ object SimpleData {
             menuIcon = Icons.AutoMirrored.Outlined.Logout,
             onClick = {}
         )
+    )
+
+    val dummyRecipe = RecipeItem(
+        id = "1",
+        title = "Tomato Basil Pasta",
+        recipeImage = "",
+        recipeDuration = "30 mins",
+        difficulty = "Easy",
+        numberOfIngredientsUsed = 5,
+        isFavorite = false,
+        ingredients = emptyList(),
+        steps = emptyList(),
+        isQuickIdea = false,
+        createdAt = "",
+        updatedAt = ""
     )
 }

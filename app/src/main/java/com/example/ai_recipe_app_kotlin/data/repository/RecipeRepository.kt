@@ -1,6 +1,8 @@
 package com.example.ai_recipe_app_kotlin.data.repository
 
+import android.R
 import com.example.ai_recipe_app_kotlin.data.network.RecipesService
+import com.example.ai_recipe_app_kotlin.model.network.BaseResponse
 import com.example.ai_recipe_app_kotlin.model.network.BaseResponseWithoutMessage
 import com.example.ai_recipe_app_kotlin.model.network.CountedResponse
 import com.example.ai_recipe_app_kotlin.model.network.GenerateRecipeRequest
@@ -31,6 +33,33 @@ class RecipeRepository @Inject constructor(
     suspend fun getRecipesQuickIdeas(): Result<CountedResponse<List<RecipeItem>>> {
         return try {
             val response = recipeService.getRecipesQuickIdeas()
+            Result.success(response)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun getSavedRecipes(): Result<CountedResponse<List<RecipeItem>>> {
+        return try {
+            val response = recipeService.getSavedRecipes()
+            Result.success(response)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun markRecipeFavorite(id: String): Result<BaseResponse<RecipeItem>> {
+        return try {
+            val response = recipeService.markFavorite(id)
+            Result.success(response)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun removeRecipeFavorite(id: String): Result<BaseResponse<RecipeItem>> {
+        return try {
+            val response = recipeService.removeFavorite(id)
             Result.success(response)
         } catch (e: Exception) {
             Result.failure(e)

@@ -28,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.ai_recipe_app_kotlin.data.SimpleData.dummyRecipe
 import com.example.ai_recipe_app_kotlin.model.Difficulty
 import com.example.ai_recipe_app_kotlin.model.QuickRecipeItem
 import com.example.ai_recipe_app_kotlin.model.network.RecipeItem
@@ -36,7 +37,9 @@ import com.example.ai_recipe_app_kotlin.ui.theme.DarkPrimaryColor
 @Composable
 fun QuickIdeasRecipeListItem(
     item: RecipeItem,
-    onRecipeClick: (String) -> Unit = {}
+    onRecipeClick: (String) -> Unit = {},
+    markSaveRecipe: (String) -> Unit = {},
+    removeFavorite: (String) -> Unit = {}
 ){
     Card(
         colors = CardDefaults.cardColors(
@@ -111,7 +114,13 @@ fun QuickIdeasRecipeListItem(
             }
 
             IconButton(
-                onClick = {},
+                onClick = {
+                    if(item.isFavorite){
+                        removeFavorite(item.id)
+                    } else {
+                        markSaveRecipe(item.id)
+                    }
+                },
                 modifier = Modifier.size(22.dp)
             ) {
                 Icon(
@@ -128,20 +137,6 @@ fun QuickIdeasRecipeListItem(
 @Preview
 @Composable
 fun QuickIdeasRecipeListItemPreview(){
-    val dummyRecipe = RecipeItem(
-        id = "1",
-        title = "Tomato Basil Pasta",
-        recipeImage = "",
-        recipeDuration = "30 mins",
-        difficulty = "Easy",
-        numberOfIngredientsUsed = 5,
-        isFavorite = false,
-        ingredients = emptyList(),
-        steps = emptyList(),
-        isQuickIdea = false,
-        createdAt = "",
-        updatedAt = ""
-    )
     QuickIdeasRecipeListItem(
         item = dummyRecipe
     )

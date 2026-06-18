@@ -10,14 +10,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.ai_recipe_app_kotlin.data.SimpleData
-
-val savedRecipes = SimpleData.savedRecipes.take(4)
+import com.example.ai_recipe_app_kotlin.model.network.RecipeItem
 
 @Composable
 fun SavedRecipeCard(
-    onRecipeClick: (String) -> Unit = {}
+    onRecipeClick: (String) -> Unit = {},
+    savedRecipes: List<RecipeItem> = emptyList(),
+    removeFavorite: (String) -> Unit = {}
 ){
+    val filteredSavedRecipes = savedRecipes.take(4)
     fun handleOnRecipeClick(recipeId: String){
         onRecipeClick(recipeId)
     }
@@ -29,13 +32,19 @@ fun SavedRecipeCard(
             fontWeight = FontWeight.Bold,
             )
         Spacer(modifier = Modifier.size(10.dp))
-        savedRecipes.forEach { item ->
-            SavedRecipeCardItem(item = item, onRecipeClick = {
-                handleOnRecipeClick(
-                    recipeId = it
-                )
-            })
-            Spacer(modifier = Modifier.size(10.dp))
+        if(savedRecipes.isEmpty()){
+            Text("No saved recipes yet", fontWeight = FontWeight.Medium, fontSize = 14.sp)
+        } else {
+            filteredSavedRecipes.forEach { item ->
+                SavedRecipeCardItem(item = item,
+                    removeFavorite = removeFavorite,
+                    onRecipeClick = {
+                        handleOnRecipeClick(
+                            recipeId = it
+                        )
+                    })
+                Spacer(modifier = Modifier.size(10.dp))
+            }
         }
     }
 }

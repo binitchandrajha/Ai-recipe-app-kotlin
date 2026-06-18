@@ -23,6 +23,8 @@ fun AppHeader(
     isFavorite: Boolean = false,
     onBackClick: () -> Unit = {},
     title: String = "",
+    isFavoriteIconVisible: Boolean = false,
+    onSaveIconClick: () -> Unit = {},
 ){
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -51,9 +53,11 @@ fun AppHeader(
             }
         }
 
-        if (isFavorite){
+        if (isFavoriteIconVisible){
             IconButton(
-                onClick = {}
+                onClick = {
+                    onSaveIconClick()
+                }
             ) {
                 Icon(
                     imageVector = Icons.Outlined.Bookmark,

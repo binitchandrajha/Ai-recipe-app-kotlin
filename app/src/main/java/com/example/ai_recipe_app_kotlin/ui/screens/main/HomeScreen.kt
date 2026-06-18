@@ -13,6 +13,7 @@ import com.example.ai_recipe_app_kotlin.model.network.GenerateRecipeRequest
 import com.example.ai_recipe_app_kotlin.model.network.IngredientData
 import com.example.ai_recipe_app_kotlin.model.network.RecipeItem
 import com.example.ai_recipe_app_kotlin.model.network.UserData
+import com.example.ai_recipe_app_kotlin.ui.components.ConfirmationPopupModal
 import com.example.ai_recipe_app_kotlin.ui.components.GenerateRecipeProgressModal
 import com.example.ai_recipe_app_kotlin.ui.components.HomeContent
 import com.example.ai_recipe_app_kotlin.utils.ToastManager
@@ -38,13 +39,28 @@ fun HomeScreen(
     var isGenerating by remember { mutableStateOf(false) }
     var generatedRecipes by remember { mutableStateOf<List<RecipeItem>>(emptyList()) }
     var quickIdeas by remember { mutableStateOf<List<RecipeItem>>(emptyList()) }
+    var savedRecipes by remember { mutableStateOf<List<RecipeItem>>(emptyList<RecipeItem>()) }
     var showModal by remember { mutableStateOf(false) }
+    val isMarkingRecipeFavorite by recipeViewModel.isMarkingRecipeFavorite.collectAsState()
+    val isRemoveRecipeFavorite by recipeViewModel.isRemoveRecipeFavorite.collectAsState()
+    var showConfirmationModal by remember { mutableStateOf(false) }
+    var selectedRecipeID by remember { mutableStateOf<String>("") }
 
     LaunchedEffect(Unit) {
         profileViewModel.getUserProfile({
                 profileInfo ->
             userInfo = profileInfo
         }, {
+                errorMessage ->
+            ToastManager.showError(errorMessage)
+        })
+    }
+
+    LaunchedEffect(Unit) {
+        recipeViewModel.getSavedRecipes({
+                recipes ->
+            savedRecipes = recipes ?: emptyList()
+        },{
                 errorMessage ->
             ToastManager.showError(errorMessage)
         })
@@ -77,7 +93,6 @@ fun HomeScreen(
                 isGenerating = false
             },{ errorMessage ->
                 ToastManager.showError(errorMessage)
-                println("recipes errorMessage ===>>>$errorMessage")
                 showModal = false
                 isGenerating = false
             })
@@ -113,10 +128,52 @@ fun HomeScreen(
         })
     }
 
+    fun handleUpdateListRecipes(updatedRecipe: RecipeItem){
+       quickIdeas = quickIdeas.map {
+          if(it.id == updatedRecipe.id) updatedRecipe else it
+       }
+
+        val isAlreadySaved = savedRecipes.any { it.id == updatedRecipe.id }
+
+        if(!isAlreadySaved){
+            savedRecipes = savedRecipes + updatedRecipe
+        } else {
+            savedRecipes = savedRecipes.filter { savedRecipes -> savedRecipes.id != updatedRecipe.id }
+        }
+
+
+    }
+
+    fun handleMarkSaveRecipe(recipeID: String){
+        recipeViewModel.markRecipeFavorite(recipeID, { successMessage, recipe ->
+            recipe?.let {
+                handleUpdateListRecipes(it)
+                ToastManager.showSuccess(successMessage)
+            }
+        }, { errorMessage ->
+            ToastManager.showError(errorMessage)
+        })
+    }
+
+    fun handleRemoveFavorite(recipeID: String){
+        recipeViewModel.removeRecipeFavorite(recipeID, { successMessage,
+                recipe ->
+            recipe?.let {
+                handleUpdateListRecipes(it)
+                ToastManager.showSuccess(successMessage)
+            }
+        }, {
+            errorMessage ->
+            ToastManager.showError(errorMessage)
+        })
+    }
+
+
+
     HomeContent(
         onRecipeClick = onRecipeClick,
         userInfo = userInfo,
-        isLoading = isFetchingProfileInfo,
+        isLoading = isFetchingProfileInfo || isMarkingRecipeFavorite || isRemoveRecipeFavorite,
         isGettingRecipeQuickIdeas = isGettingRecipeQuickIdeas,
         ingredientList = ingredientList,
         searchInput = searchInput,
@@ -130,7 +187,15 @@ fun HomeScreen(
         onGenerateRecipeClick = {
             onGenerateRecipeClick()
         },
+        markSaveRecipe = { recipeID: String ->
+            handleMarkSaveRecipe(recipeID)
+        },
+        removeFavorite = { recipeID: String ->
+            selectedRecipeID = recipeID
+            showConfirmationModal = true
+        },
         quickIdeas = quickIdeas,
+        savedRecipes = savedRecipes
     )
 
     GenerateRecipeProgressModal(
@@ -143,6 +208,19 @@ fun HomeScreen(
         onDismiss = {
             showModal = false
         }
+    )
+
+    ConfirmationPopupModal(
+        showModal = showConfirmationModal,
+        onDismiss = {
+            showConfirmationModal = false
+            selectedRecipeID = ""
+        },
+        onConfirm = {
+            handleRemoveFavorite(selectedRecipeID)
+            showConfirmationModal = false
+        },
+        confirmationText = "Are you sure want to remove this recipe from your saved recipes?"
     )
 }
 

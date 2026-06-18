@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ai_recipe_app_kotlin.data.SimpleData
+import com.example.ai_recipe_app_kotlin.data.SimpleData.dummyRecipe
 import com.example.ai_recipe_app_kotlin.model.network.RecipeItem
 import com.example.ai_recipe_app_kotlin.ui.theme.DarkPrimaryColor
 
@@ -30,7 +31,7 @@ import com.example.ai_recipe_app_kotlin.ui.theme.DarkPrimaryColor
 fun RecipeDetailContent(
     recipe: RecipeItem?,
     onBackClick: () -> Unit,
-    isLoading: Boolean
+    isLoading: Boolean,
 ){
     Column(
         modifier = Modifier.padding(24.dp)
@@ -170,22 +171,8 @@ fun RecipeDetailContent(
 @Preview(showBackground = true)
 @Composable
 fun RecipeDetailContentPreview(){
-    val dummyRecipe = RecipeItem(
-        id = "1",
-        title = "Tomato Basil Pasta",
-        recipeImage = "",
-        recipeDuration = "30 mins",
-        difficulty = "Easy",
-        numberOfIngredientsUsed = 5,
-        isFavorite = false,
-        ingredients = emptyList(),
-        steps = emptyList(),
-        isQuickIdea = false,
-        createdAt = "",
-        updatedAt = ""
-    )
     RecipeDetailContent(
-        recipe = dummyRecipe, // Dummy data pass karein
+        recipe = dummyRecipe,
         onBackClick = { },
         isLoading = false
     )

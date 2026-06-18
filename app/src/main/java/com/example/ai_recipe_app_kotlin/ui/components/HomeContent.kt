@@ -25,7 +25,10 @@ fun HomeContent(
     onChangeSearchInput: (String) -> Unit = {},
     selectedIngredientList: List<IngredientData> = emptyList(),
     handleSelectedIngredient: (IngredientData) -> Unit = {},
-    onGenerateRecipeClick: () -> Unit = {}
+    onGenerateRecipeClick: () -> Unit = {},
+    savedRecipes: List<RecipeItem> = emptyList(),
+    markSaveRecipe: (String) -> Unit = {},
+    removeFavorite: (String) -> Unit = {}
 ){
     val scrollState = rememberScrollState()
     Scaffold(
@@ -47,7 +50,9 @@ fun HomeContent(
                 onGenerateRecipeClick = onGenerateRecipeClick,
             )
             SavedRecipeCard(
-                onRecipeClick = onRecipeClick
+                onRecipeClick = onRecipeClick,
+                savedRecipes = savedRecipes,
+                removeFavorite = removeFavorite
             )
             QuickIdeasRecipeList(
                 onRecipeClick = {
@@ -55,7 +60,9 @@ fun HomeContent(
                     onRecipeClick(recipeId)
                 },
                 isLoading = isGettingRecipeQuickIdeas,
-                quickIdeas = quickIdeas
+                quickIdeas = quickIdeas,
+                markSaveRecipe = markSaveRecipe,
+                removeFavorite = removeFavorite
             )
 
             OverlayLoader(
