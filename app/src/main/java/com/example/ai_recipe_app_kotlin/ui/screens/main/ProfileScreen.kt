@@ -1,5 +1,6 @@
 package com.example.ai_recipe_app_kotlin.ui.screens.main
 
+import android.net.Uri
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -17,6 +18,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,22 +34,31 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.ai_recipe_app_kotlin.data.SimpleData
 import com.example.ai_recipe_app_kotlin.model.ProfileMenuItem
+import com.example.ai_recipe_app_kotlin.model.network.UserData
 import com.example.ai_recipe_app_kotlin.ui.components.AppAsyncImage
 import com.example.ai_recipe_app_kotlin.ui.components.ConfirmationPopupModal
+import com.example.ai_recipe_app_kotlin.ui.components.OverlayLoader
 import com.example.ai_recipe_app_kotlin.ui.components.PrimaryButton
 import com.example.ai_recipe_app_kotlin.ui.theme.DarkPrimaryColor
 import com.example.ai_recipe_app_kotlin.ui.theme.LightPrimaryColor
 import com.example.ai_recipe_app_kotlin.ui.theme.PrimaryColor
 import com.example.ai_recipe_app_kotlin.utils.AppSettings
+import com.example.ai_recipe_app_kotlin.utils.FileUtils
 import com.example.ai_recipe_app_kotlin.utils.ToastManager
 import com.example.ai_recipe_app_kotlin.viewmodel.LoginViewModel
+import com.example.ai_recipe_app_kotlin.viewmodel.ProfileViewModel
 
 @Composable
 fun ProfileHeader(
-    onEditClick: () -> Unit){
+    onEditClick: () -> Unit,
+    userInfo : UserData?
+){
+    val imageUrl = FileUtils.formatImageUrl(userInfo?.profileImage)
+    val profileImageUri = imageUrl?.toUri() ?: Uri.EMPTY
     Card(
         colors = CardDefaults.cardColors(
             containerColor = Color.White
@@ -71,7 +83,7 @@ fun ProfileHeader(
                 modifier = Modifier.weight(1f)
             ) {
                 AppAsyncImage(
-                    model = "https://play-lh.googleusercontent.com/dSAi-HxlHjZDB0ycNR0t3BmIqKHE9Ix1-xgvvM-zeDW-QJa3mW7A8iHR6qgB3UQlJqaRwlcEavzRGScXMYjNeg=w240-h480-rw",
+                    model = profileImageUri,
                     contentDescription = "Profile picture",
                     modifier = Modifier
                         .clip(CircleShape)
@@ -81,18 +93,22 @@ fun ProfileHeader(
                 Column(
                     modifier = Modifier.padding(start = 12.dp)
                 ) {
-                    Text(
-                        text = "Binit Chandra Jha",
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp,
-                        maxLines = 2
-                    )
+                    userInfo?.name?.let {
+                        Text(
+                            text = it,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 16.sp,
+                            maxLines = 2
+                        )
+                    }
                     Spacer(modifier = Modifier.size(4.dp))
-                    Text(
-                        text = "+1234567890",
-                        fontWeight = FontWeight.Normal,
-                        fontSize = 14.sp
-                    )
+                    userInfo?.mobileNumber?.let {
+                        Text(
+                            text = "${userInfo.countryCode} ${userInfo.mobileNumber}",
+                            fontWeight = FontWeight.Normal,
+                            fontSize = 14.sp
+                        )
+                    }
                 }
             }
             Row() {
@@ -151,9 +167,22 @@ fun ProfileScreen(
     onEditClick: () -> Unit = {},
     onPrivacyPolicyClick: () -> Unit = {},
     loginViewModel: LoginViewModel = hiltViewModel(),
+    profileViewModel: ProfileViewModel = hiltViewModel(),
     onLogoutPress: () -> Unit = {},
 ){
     var showConfirmationModal by remember { mutableStateOf(false) }
+    var userInfo by remember {mutableStateOf<UserData?>(null)}
+    val isFetchingProfileInfo by profileViewModel.isFetchingProfileInfo.collectAsState()
+
+    LaunchedEffect(Unit) {
+        profileViewModel.getUserProfile({
+                profileInfo ->
+            userInfo = profileInfo
+        }, {
+                errorMessage ->
+            ToastManager.showError(errorMessage)
+        })
+    }
     Scaffold(
         containerColor = PrimaryColor,
         modifier = Modifier.fillMaxSize()
@@ -170,7 +199,10 @@ fun ProfileScreen(
             )
             Spacer(modifier = Modifier.size(20.dp))
 
-            ProfileHeader(onEditClick)
+            ProfileHeader(
+                onEditClick,
+                userInfo = userInfo
+                )
 
             Spacer(modifier = Modifier.size(24.dp))
             ProfileMenu("Your Activity", SimpleData.activityItems, onItemClick = {
@@ -185,6 +217,10 @@ fun ProfileScreen(
                     showConfirmationModal = true
                 }
             })
+
+            OverlayLoader(
+                isLoading = isFetchingProfileInfo
+            )
 
             ConfirmationPopupModal(
                 showModal = showConfirmationModal,

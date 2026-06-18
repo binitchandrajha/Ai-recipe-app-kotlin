@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,29 +28,80 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import com.example.ai_recipe_app_kotlin.model.network.ProfileUpdateRequest
+import com.example.ai_recipe_app_kotlin.model.network.UserData
 import com.example.ai_recipe_app_kotlin.ui.components.AppAsyncImage
 import com.example.ai_recipe_app_kotlin.ui.components.AppHeader
 import com.example.ai_recipe_app_kotlin.ui.components.AppOutlinedTextField
+import com.example.ai_recipe_app_kotlin.ui.components.OverlayLoader
 import com.example.ai_recipe_app_kotlin.ui.components.PrimaryButton
 import com.example.ai_recipe_app_kotlin.ui.theme.DarkPrimaryColor
-import androidx.core.net.toUri
-import androidx.navigation.NavController
+import com.example.ai_recipe_app_kotlin.utils.FileUtils
+import com.example.ai_recipe_app_kotlin.utils.ToastManager
+import com.example.ai_recipe_app_kotlin.viewmodel.ProfileViewModel
 
 val DEFAULT_PROFILE_IMAGE: Uri =
     "https://play-lh.googleusercontent.com/dSAi-HxlHjZDB0ycNR0t3BmIqKHE9Ix1-xgvvM-zeDW-QJa3mW7A8iHR6qgB3UQlJqaRwlcEavzRGScXMYjNeg=w240-h480-rw".toUri()
 
 @Composable
-fun EditProfileScreen(navController: NavController){
+fun EditProfileScreen(
+    navController: NavController,
+    profileViewModel: ProfileViewModel = hiltViewModel()
+){
+    val context = LocalContext.current
+
+    var userInfo by remember { mutableStateOf<UserData?>(null) }
     var username by remember { mutableStateOf("") }
+    var phoneNumber by remember { mutableStateOf("") }
     var userProfileImage by remember { mutableStateOf<Uri>(DEFAULT_PROFILE_IMAGE) }
+
+    val isFetchingProfileInfo by profileViewModel.isFetchingProfileInfo.collectAsState()
+    val isUpdatingProfilePhoto by profileViewModel.isProfilePicUpdating.collectAsState()
+    val isUpdatingProfile by profileViewModel.isUpdatingProfile.collectAsState()
+
+    LaunchedEffect(Unit) {
+        profileViewModel.getUserProfile({ profileInfo ->
+            userInfo = profileInfo
+            username = profileInfo?.name ?: ""
+            phoneNumber = "${profileInfo?.countryCode ?: ""} ${profileInfo?.mobileNumber ?: ""}".trim()
+            val imageUrl = FileUtils.formatImageUrl(profileInfo?.profileImage)
+            userProfileImage = imageUrl?.toUri() ?: DEFAULT_PROFILE_IMAGE
+        }, { errorMessage ->
+            ToastManager.showError(errorMessage)
+        })
+    }
+
+    fun handleUpdateProfileImage(image: Uri){
+        val multipartBody = FileUtils.getMultipartImage(context, image, "image")
+        if(multipartBody != null){
+            profileViewModel.updateProfilePic(multipartBody, { successMessage ->
+                ToastManager.showSuccess(successMessage)
+                userProfileImage = image
+            }, { errorMessage ->
+                ToastManager.showError(errorMessage)
+            })
+        }
+    }
+
+    fun onSaveClick(){
+        val request = ProfileUpdateRequest(name = username)
+        profileViewModel.updateProfile(request, { successMessage ->
+            ToastManager.showSuccess(successMessage)
+            navController.popBackStack()
+        }, { errorMessage ->
+            ToastManager.showError(errorMessage)
+        })
+    }
 
     // Registers a photo picker activity launcher in single-select mode.
     val pickMedia = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
         // Callback is invoked after the user selects a media item or closes the
         // photo picker.
         if (uri != null) {
-            println("PhotoPicker -->>>> $uri")
-            userProfileImage = uri
+            handleUpdateProfileImage(uri)
         } else {
             println("User cancelled the photo picker")
         }
@@ -106,7 +159,7 @@ fun EditProfileScreen(navController: NavController){
                Spacer(modifier = Modifier.size(10.dp))
                AppOutlinedTextField(
                    label = "",
-                   value = "+123456789",
+                   value = phoneNumber,
                    onValueChange = {},
                    enabled = false
                )
@@ -114,9 +167,13 @@ fun EditProfileScreen(navController: NavController){
 
             Spacer(modifier = Modifier.size(10.dp))
             PrimaryButton(
-                btnText = "Save changes"
+                btnText = "Save changes",
+                enabled = username.length > 2,
+                onClick = ::onSaveClick
             )
         }
+
+        OverlayLoader(isLoading = isFetchingProfileInfo || isUpdatingProfile || isUpdatingProfilePhoto)
     }
 }
 

@@ -63,7 +63,7 @@ fun VerifyOtpScreen(
     fun onResendClick() {
         val payload = SendOtpRequest(
             mobileNumber = phoneNumber,
-            countryCode = countryCode ?: "NP"
+            countryCode = countryCode ?: "+977"
         )
        loginViewModel.onSendOtpClick(payload, { successMessage ->
            ToastManager.showSuccess(successMessage)
@@ -102,7 +102,7 @@ fun VerifyOtpScreen(
                 enabled = otpText.length == 6,
                 onClick = {
                     val payload = VerifyOtpRequest(
-                        countryCode = countryCode ?: "NP",
+                        countryCode = countryCode ?: "+977",
                         mobileNumber = phoneNumber,
                         code = otpText
                     )
