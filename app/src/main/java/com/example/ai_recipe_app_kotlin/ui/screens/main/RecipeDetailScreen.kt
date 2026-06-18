@@ -29,6 +29,7 @@ import androidx.navigation.NavController
 import com.example.ai_recipe_app_kotlin.model.network.RecipeItem
 import com.example.ai_recipe_app_kotlin.ui.components.AppAsyncImage
 import com.example.ai_recipe_app_kotlin.ui.components.AppHeader
+import com.example.ai_recipe_app_kotlin.ui.components.ConfirmationPopupModal
 import com.example.ai_recipe_app_kotlin.ui.components.RecipeDetailContent
 import com.example.ai_recipe_app_kotlin.ui.theme.LightPrimaryColor
 import com.example.ai_recipe_app_kotlin.ui.theme.SoftWhite
@@ -42,9 +43,11 @@ fun RecipeDetailScreen(
     recipeId: String,
     viewModel: RecipeViewModel = hiltViewModel()
 ){
-    println("recipe-id ===>>>>>$recipeId")
     val isGettingRecipeDetail by viewModel.isGettingRecipeDetail.collectAsState()
+    val isMarkingRecipeFavorite by viewModel.isMarkingRecipeFavorite.collectAsState()
+    val isRemoveRecipeFavorite by viewModel.isRemoveRecipeFavorite.collectAsState()
     var recipeDetail by remember { mutableStateOf<RecipeItem?>(null) }
+    var showConfirmationModal by remember { mutableStateOf(false) }
 
     LaunchedEffect(recipeId){
       viewModel.getRecipeDetailById(recipeId, {
@@ -55,6 +58,30 @@ fun RecipeDetailScreen(
       })
     }
     val scrollState = rememberScrollState()
+
+    fun handleMarkSaveRecipe(){
+        viewModel.markRecipeFavorite(recipeId, { successMessage, recipe ->
+            recipe?.let {
+                ToastManager.showSuccess(successMessage)
+                recipeDetail = recipeDetail?.copy(isFavorite = true)
+            }
+        }, { errorMessage ->
+            ToastManager.showError(errorMessage)
+        })
+    }
+
+    fun handleRemoveFavorite(){
+        viewModel.removeRecipeFavorite(recipeId, { successMessage, recipe ->
+            recipe?.let {
+                ToastManager.showSuccess(successMessage)
+                recipeDetail = recipeDetail?.copy(isFavorite = false)
+            }
+        }, {
+                errorMessage ->
+            ToastManager.showError(errorMessage)
+        })
+    }
+
     Scaffold(
         containerColor = SoftWhite,
         modifier = Modifier.fillMaxSize()
@@ -69,6 +96,15 @@ fun RecipeDetailScreen(
                 AppHeader(
                     onBackClick = {
                         navController.popBackStack()
+                    },
+                    isFavoriteIconVisible = true,
+                    isFavorite = recipeDetail?.isFavorite == true,
+                    onSaveIconClick = {
+                        if(recipeDetail?.isFavorite == true){
+                            showConfirmationModal = true
+                        } else {
+                            handleMarkSaveRecipe()
+                        }
                     }
                 )
                 AppAsyncImage(
@@ -84,9 +120,21 @@ fun RecipeDetailScreen(
                     onBackClick = {
                         navController.popBackStack()
                     },
-                    isLoading = isGettingRecipeDetail
+                    isLoading = isGettingRecipeDetail || isMarkingRecipeFavorite || isRemoveRecipeFavorite,
                 )
             }
+
+            ConfirmationPopupModal(
+                showModal = showConfirmationModal,
+                onDismiss = {
+                    showConfirmationModal = false
+                },
+                onConfirm = {
+                    handleRemoveFavorite()
+                    showConfirmationModal = false
+                },
+                confirmationText = "Are you sure want to remove this recipe from your saved recipes?"
+            )
         }
     }
 }

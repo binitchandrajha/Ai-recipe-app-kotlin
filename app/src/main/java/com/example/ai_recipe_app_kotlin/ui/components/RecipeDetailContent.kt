@@ -31,7 +31,7 @@ import com.example.ai_recipe_app_kotlin.ui.theme.DarkPrimaryColor
 fun RecipeDetailContent(
     recipe: RecipeItem?,
     onBackClick: () -> Unit,
-    isLoading: Boolean
+    isLoading: Boolean,
 ){
     Column(
         modifier = Modifier.padding(24.dp)
