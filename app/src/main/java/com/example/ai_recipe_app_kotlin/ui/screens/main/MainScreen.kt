@@ -83,7 +83,11 @@ fun MainScreen(
                 )
             }
             composable<Screen.Saved> {
-                SavedScreen()
+                SavedScreen(
+                    onRecipeClick = { recipeId ->
+                        onRecipeClick(recipeId)
+                    }
+                )
             }
             composable<Screen.Profile> {
                 ProfileScreen(

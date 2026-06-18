@@ -17,17 +17,20 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.ai_recipe_app_kotlin.data.SimpleData
 import com.example.ai_recipe_app_kotlin.model.network.RecipeItem
 import com.example.ai_recipe_app_kotlin.ui.components.ListEmptyContent
 import com.example.ai_recipe_app_kotlin.ui.components.OverlayLoader
 import com.example.ai_recipe_app_kotlin.ui.components.SavedRecipeCardItem
+import com.example.ai_recipe_app_kotlin.ui.navigation.Screen
 import com.example.ai_recipe_app_kotlin.ui.theme.PrimaryColor
 import com.example.ai_recipe_app_kotlin.utils.ToastManager
 import com.example.ai_recipe_app_kotlin.viewmodel.RecipeViewModel
@@ -35,7 +38,8 @@ import com.example.ai_recipe_app_kotlin.viewmodel.RecipeViewModel
 
 @Composable
 fun SavedScreen(
-    recipeViewModel: RecipeViewModel = hiltViewModel()
+    onRecipeClick: (String) -> Unit = {},
+    recipeViewModel: RecipeViewModel = hiltViewModel(),
 ){
     var savedRecipes by remember { mutableStateOf<List<RecipeItem>>(emptyList()) }
     val isGettingSavedRecipes by recipeViewModel.isGettingSavedRecipes.collectAsState()
@@ -69,7 +73,11 @@ fun SavedScreen(
             } else {
                 LazyColumn() {
                     items(savedRecipes) { item ->
-                        SavedRecipeCardItem(item = item)
+                        SavedRecipeCardItem(item = item,
+                            {
+                                recipeId ->
+                                onRecipeClick(recipeId)
+                            })
                         Spacer(modifier = Modifier.size(10.dp))
                     }
                 }

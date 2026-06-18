@@ -43,10 +43,11 @@ fun SavedRecipeCardItem(
     removeFavorite: (String) -> Unit = {}
 ){
     Card(
-        modifier = Modifier.fillMaxWidth().clickable(onClick = {onRecipeClick(item.id)}),
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 4.dp
         ),
+        onClick = {onRecipeClick(item.id)},
         colors = CardDefaults.cardColors(
             containerColor = Color.White
         )
