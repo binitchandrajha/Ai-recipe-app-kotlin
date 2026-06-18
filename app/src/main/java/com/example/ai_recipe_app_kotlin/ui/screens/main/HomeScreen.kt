@@ -40,6 +40,8 @@ fun HomeScreen(
     var quickIdeas by remember { mutableStateOf<List<RecipeItem>>(emptyList()) }
     var savedRecipes by remember { mutableStateOf<List<RecipeItem>>(emptyList<RecipeItem>()) }
     var showModal by remember { mutableStateOf(false) }
+    val isMarkingRecipeFavorite by recipeViewModel.isMarkingRecipeFavorite.collectAsState()
+    val isRemoveRecipeFavorite by recipeViewModel.isRemoveRecipeFavorite.collectAsState()
 
     LaunchedEffect(Unit) {
         profileViewModel.getUserProfile({
@@ -88,7 +90,6 @@ fun HomeScreen(
                 isGenerating = false
             },{ errorMessage ->
                 ToastManager.showError(errorMessage)
-                println("recipes errorMessage ===>>>$errorMessage")
                 showModal = false
                 isGenerating = false
             })
@@ -124,10 +125,50 @@ fun HomeScreen(
         })
     }
 
+    fun handleUpdateListRecipes(updatedRecipe: RecipeItem){
+       quickIdeas = quickIdeas.map {
+          if(it.id == updatedRecipe.id) updatedRecipe else it
+       }
+
+        val isAlreadySaved = savedRecipes.any { it.id == updatedRecipe.id }
+
+        if(!isAlreadySaved){
+            savedRecipes = savedRecipes + updatedRecipe
+        } else {
+            savedRecipes = savedRecipes.filter { savedRecipes -> savedRecipes.id != updatedRecipe.id }
+        }
+
+
+    }
+
+    fun handleMarkSaveRecipe(recipeID: String){
+        recipeViewModel.markRecipeFavorite(recipeID, { successMessage, recipe ->
+            recipe?.let {
+                handleUpdateListRecipes(it)
+                ToastManager.showSuccess(successMessage)
+            }
+        }, { errorMessage ->
+            ToastManager.showError(errorMessage)
+        })
+    }
+
+    fun handleRemoveFavorite(recipeID: String){
+        recipeViewModel.removeRecipeFavorite(recipeID, { successMessage,
+                recipe ->
+            recipe?.let {
+                handleUpdateListRecipes(it)
+                ToastManager.showSuccess(successMessage)
+            }
+        }, {
+            errorMessage ->
+            ToastManager.showError(errorMessage)
+        })
+    }
+
     HomeContent(
         onRecipeClick = onRecipeClick,
         userInfo = userInfo,
-        isLoading = isFetchingProfileInfo,
+        isLoading = isFetchingProfileInfo || isMarkingRecipeFavorite || isRemoveRecipeFavorite,
         isGettingRecipeQuickIdeas = isGettingRecipeQuickIdeas,
         ingredientList = ingredientList,
         searchInput = searchInput,
@@ -140,6 +181,12 @@ fun HomeScreen(
         },
         onGenerateRecipeClick = {
             onGenerateRecipeClick()
+        },
+        markSaveRecipe = { recipeID: String ->
+            handleMarkSaveRecipe(recipeID)
+        },
+        removeFavorite = { recipeID: String ->
+            handleRemoveFavorite(recipeID)
         },
         quickIdeas = quickIdeas,
         savedRecipes = savedRecipes

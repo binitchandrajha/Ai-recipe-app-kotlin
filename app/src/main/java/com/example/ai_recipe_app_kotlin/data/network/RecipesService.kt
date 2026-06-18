@@ -1,10 +1,12 @@
 package com.example.ai_recipe_app_kotlin.data.network
 
+import com.example.ai_recipe_app_kotlin.model.network.BaseResponse
 import com.example.ai_recipe_app_kotlin.model.network.BaseResponseWithoutMessage
 import com.example.ai_recipe_app_kotlin.model.network.CountedResponse
 import com.example.ai_recipe_app_kotlin.model.network.GenerateRecipeRequest
 import com.example.ai_recipe_app_kotlin.model.network.RecipeItem
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -23,4 +25,10 @@ interface RecipesService {
 
     @GET(value = "$RECIPES_BASE_PATH/saved")
     suspend fun getSavedRecipes() : CountedResponse<List<RecipeItem>>
+
+    @POST(value = "$RECIPES_BASE_PATH{id}/favorite")
+    suspend fun markFavorite(@Path("id") id: String) : BaseResponse<RecipeItem>
+
+    @DELETE(value = "$RECIPES_BASE_PATH{id}/favorite")
+    suspend fun removeFavorite(@Path("id") id: String) : BaseResponse<RecipeItem>
 }

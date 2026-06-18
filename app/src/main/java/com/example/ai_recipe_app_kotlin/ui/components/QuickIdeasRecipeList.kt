@@ -21,6 +21,8 @@ fun QuickIdeasRecipeList(
     onRecipeClick: (String) -> Unit = {},
     isLoading: Boolean = false,
     quickIdeas: List<RecipeItem> = emptyList(),
+    markSaveRecipe: (String) -> Unit = {},
+    removeFavorite: (String) -> Unit = {}
 ){
     fun handleOnRecipeClick(recipeId: String){
         onRecipeClick(recipeId)
@@ -40,6 +42,8 @@ fun QuickIdeasRecipeList(
             items(quickIdeas){ item ->
               QuickIdeasRecipeListItem(
                   item = item,
+                  markSaveRecipe = markSaveRecipe,
+                  removeFavorite = removeFavorite,
                   onRecipeClick = { recipeId ->
                   handleOnRecipeClick(recipeId = recipeId)
               })

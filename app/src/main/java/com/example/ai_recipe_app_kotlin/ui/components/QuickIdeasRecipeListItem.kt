@@ -37,7 +37,9 @@ import com.example.ai_recipe_app_kotlin.ui.theme.DarkPrimaryColor
 @Composable
 fun QuickIdeasRecipeListItem(
     item: RecipeItem,
-    onRecipeClick: (String) -> Unit = {}
+    onRecipeClick: (String) -> Unit = {},
+    markSaveRecipe: (String) -> Unit = {},
+    removeFavorite: (String) -> Unit = {}
 ){
     Card(
         colors = CardDefaults.cardColors(
@@ -112,7 +114,13 @@ fun QuickIdeasRecipeListItem(
             }
 
             IconButton(
-                onClick = {},
+                onClick = {
+                    if(item.isFavorite){
+                        removeFavorite(item.id)
+                    } else {
+                        markSaveRecipe(item.id)
+                    }
+                },
                 modifier = Modifier.size(22.dp)
             ) {
                 Icon(

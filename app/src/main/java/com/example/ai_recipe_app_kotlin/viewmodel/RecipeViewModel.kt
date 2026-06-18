@@ -22,10 +22,16 @@ class RecipeViewModel @Inject constructor(
 
     private val _isGettingSavedRecipes = MutableStateFlow<Boolean>(false)
 
+    private val _isMarkingRecipeFavorite = MutableStateFlow<Boolean>(false)
+    private val _isRemoveRecipeFavorite = MutableStateFlow<Boolean>(false)
+
     val isGeneratingRecipes = _isGeneratingRecipes.asStateFlow()
     val isGettingRecipeDetail = _isGettingRecipeDetail.asStateFlow()
     val isGettingRecipeQuickIdeas = _isGettingRecipeQuickIdeas.asStateFlow()
     val isGettingSavedRecipes = _isGettingSavedRecipes.asStateFlow()
+    val isMarkingRecipeFavorite = _isMarkingRecipeFavorite.asStateFlow()
+    val isRemoveRecipeFavorite = _isRemoveRecipeFavorite.asStateFlow()
+
 
     fun generateRecipes(
         request: GenerateRecipeRequest,
@@ -69,6 +75,7 @@ class RecipeViewModel @Inject constructor(
              _isGettingRecipeQuickIdeas.value = false
                 onSuccess(response.data)
             }.onFailure { exception ->
+                _isGettingRecipeQuickIdeas.value = false
                 val errorMessage = NetworkUtils.parseError(exception)
                 onFailure(errorMessage)
             }
@@ -83,6 +90,37 @@ class RecipeViewModel @Inject constructor(
                _isGettingSavedRecipes.value = false
                 onSuccess(response.data)
             }.onFailure { exception ->
+                _isGettingSavedRecipes.value = false
+                val errorMessage = NetworkUtils.parseError(exception)
+                onFailure(errorMessage)
+            }
+        }
+    }
+
+    fun markRecipeFavorite(id: String, onSuccess: (successMessage: String,RecipeItem?) -> Unit, onFailure: (errorMessage: String) -> Unit){
+        viewModelScope.launch {
+           _isMarkingRecipeFavorite.value = true
+            val result = recipeRepository.markRecipeFavorite(id)
+            result.onSuccess { response ->
+                _isMarkingRecipeFavorite.value = false
+                onSuccess(response.message,response.data)
+            }.onFailure { exception ->
+                _isMarkingRecipeFavorite.value = false
+                val errorMessage = NetworkUtils.parseError(exception)
+                onFailure(errorMessage)
+            }
+        }
+    }
+
+    fun removeRecipeFavorite(id: String, onSuccess: (successMessage: String,RecipeItem?) -> Unit, onFailure: (errorMessage: String) -> Unit){
+        viewModelScope.launch {
+            _isRemoveRecipeFavorite.value = true
+            val result = recipeRepository.removeRecipeFavorite(id)
+            result.onSuccess { response ->
+                _isRemoveRecipeFavorite.value = false
+                onSuccess(response.message,response.data)
+            }.onFailure { exception ->
+                _isRemoveRecipeFavorite.value = false
                 val errorMessage = NetworkUtils.parseError(exception)
                 onFailure(errorMessage)
             }
