@@ -104,7 +104,7 @@ fun ProfileHeader(
                     Spacer(modifier = Modifier.size(4.dp))
                     userInfo?.mobileNumber?.let {
                         Text(
-                            text = userInfo.mobileNumber,
+                            text = "${userInfo.countryCode} ${userInfo.mobileNumber}",
                             fontWeight = FontWeight.Normal,
                             fontSize = 14.sp
                         )

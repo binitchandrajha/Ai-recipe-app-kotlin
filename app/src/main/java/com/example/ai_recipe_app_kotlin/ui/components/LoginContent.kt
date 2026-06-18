@@ -25,13 +25,14 @@ fun LoginContent(
 ){
     var mobileNumber by remember { mutableStateOf("") }
     var selectedCountry by remember { mutableStateOf("NP") }
+    var countryDialCode by remember { mutableStateOf("+977") }
     var errorMessage by remember { mutableStateOf<String?>(null) }
 
     val handleMobileNumberChange = { input: String ->
         mobileNumber = input
     }
-    val handleSelectedCountryChange = { input: String ->
-        selectedCountry = input
+    val handleSelectedCountryChange = { dialCode: String ->
+        countryDialCode = dialCode
     }
     val errorMessageChange = { input : String? ->
         errorMessage = input
@@ -66,7 +67,7 @@ fun LoginContent(
                     onClick = {
                         val payload = SendOtpRequest(
                             mobileNumber = mobileNumber,
-                            countryCode = selectedCountry
+                            countryCode = countryDialCode
                         )
                         println(payload.mobileNumber)
                         println(payload.countryCode)

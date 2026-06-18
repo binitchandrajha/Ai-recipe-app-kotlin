@@ -48,7 +48,7 @@ fun PhoneNumberWithCountryPicker(
                 onMobileNumberChange(input)
             },
             onCountrySelected = {
-                onCountrySelected(it.countryCode)
+                onCountrySelected(it.countryPhoneNumberCode)
             },
             defaultCountryCode = selectedCountry,
             label = {

@@ -59,7 +59,7 @@ fun AppNavHost(){
         composable<Screen.Login> {
             LoginScreen(
                 onLoginClick = { phoneNumber, countryCode ->
-                    navController.navigate(Screen.VerifyOtp(phoneNumber))
+                    navController.navigate(Screen.VerifyOtp(phoneNumber, countryCode))
                 }
             )
         }
