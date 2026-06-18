@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.ai_recipe_app_kotlin.data.SimpleData
 import com.example.ai_recipe_app_kotlin.model.network.RecipeItem
 
@@ -31,15 +32,19 @@ fun SavedRecipeCard(
             fontWeight = FontWeight.Bold,
             )
         Spacer(modifier = Modifier.size(10.dp))
-        filteredSavedRecipes.forEach { item ->
-            SavedRecipeCardItem(item = item,
-                removeFavorite = removeFavorite,
-                onRecipeClick = {
-                handleOnRecipeClick(
-                    recipeId = it
-                )
-            })
-            Spacer(modifier = Modifier.size(10.dp))
+        if(savedRecipes.isEmpty()){
+            Text("No saved recipes yet", fontWeight = FontWeight.Medium, fontSize = 14.sp)
+        } else {
+            filteredSavedRecipes.forEach { item ->
+                SavedRecipeCardItem(item = item,
+                    removeFavorite = removeFavorite,
+                    onRecipeClick = {
+                        handleOnRecipeClick(
+                            recipeId = it
+                        )
+                    })
+                Spacer(modifier = Modifier.size(10.dp))
+            }
         }
     }
 }
