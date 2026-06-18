@@ -98,6 +98,9 @@ fun AppNavHost(){
                 },
                 onPrivacyPolicyClick = {
                     navController.navigate(Screen.PrivacyPolicy)
+                },
+                onLogoutPress = {
+                    navController.navigate(Screen.Login())
                 }
             )
         }
