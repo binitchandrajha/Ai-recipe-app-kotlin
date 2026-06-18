@@ -51,7 +51,8 @@ fun HomeContent(
             )
             SavedRecipeCard(
                 onRecipeClick = onRecipeClick,
-                savedRecipes = savedRecipes
+                savedRecipes = savedRecipes,
+                removeFavorite = removeFavorite
             )
             QuickIdeasRecipeList(
                 onRecipeClick = {

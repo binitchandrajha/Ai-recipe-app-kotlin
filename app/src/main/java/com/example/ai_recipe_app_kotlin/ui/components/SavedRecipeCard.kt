@@ -16,7 +16,8 @@ import com.example.ai_recipe_app_kotlin.model.network.RecipeItem
 @Composable
 fun SavedRecipeCard(
     onRecipeClick: (String) -> Unit = {},
-    savedRecipes: List<RecipeItem> = emptyList()
+    savedRecipes: List<RecipeItem> = emptyList(),
+    removeFavorite: (String) -> Unit = {}
 ){
     val filteredSavedRecipes = savedRecipes.take(4)
     fun handleOnRecipeClick(recipeId: String){
@@ -31,7 +32,9 @@ fun SavedRecipeCard(
             )
         Spacer(modifier = Modifier.size(10.dp))
         filteredSavedRecipes.forEach { item ->
-            SavedRecipeCardItem(item = item, onRecipeClick = {
+            SavedRecipeCardItem(item = item,
+                removeFavorite = removeFavorite,
+                onRecipeClick = {
                 handleOnRecipeClick(
                     recipeId = it
                 )

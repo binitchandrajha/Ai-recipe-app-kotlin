@@ -39,7 +39,8 @@ import com.example.ai_recipe_app_kotlin.ui.theme.LightPrimaryColor
 @Composable
 fun SavedRecipeCardItem(
     item: RecipeItem,
-    onRecipeClick: (String) -> Unit = {}
+    onRecipeClick: (String) -> Unit = {},
+    removeFavorite: (String) -> Unit = {}
 ){
     Card(
         modifier = Modifier.fillMaxWidth().clickable(onClick = {onRecipeClick(item.id)}),
@@ -128,7 +129,9 @@ fun SavedRecipeCardItem(
             }
 
             IconButton(
-                onClick = {},
+                onClick = {
+                    removeFavorite(item.id)
+                },
                 modifier = Modifier.align(Alignment.Top).size(22.dp)
             ) {
                 Icon(
