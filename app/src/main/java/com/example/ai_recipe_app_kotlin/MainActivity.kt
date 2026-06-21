@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -20,15 +21,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.ai_recipe_app_kotlin.ui.components.AppToast
+import com.example.ai_recipe_app_kotlin.ui.components.NetworkStatusBanner
 import com.example.ai_recipe_app_kotlin.ui.theme.AirecipeappkotlinTheme
 import com.example.ai_recipe_app_kotlin.ui.theme.PrimaryColor
 import com.example.ai_recipe_app_kotlin.ui.navigation.AppNavHost
+import com.example.ai_recipe_app_kotlin.utils.ConnectivityObserver
 import com.example.ai_recipe_app_kotlin.utils.ToastManager
+import com.example.ai_recipe_app_kotlin.viewmodel.NetworkViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    private val networkViewModel: NetworkViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
@@ -36,17 +43,23 @@ class MainActivity : ComponentActivity() {
         setContent {
             AirecipeappkotlinTheme {
                 val toastState by ToastManager.toast.collectAsState()
+                val networkStatus by networkViewModel.networkStatus.collectAsState()
+
                 Box(modifier = Modifier.fillMaxSize()){
                     AppNavHost()
-
-                    toastState?.let { state ->
-                        LaunchedEffect(state.id) {
-                            delay(3000L)
-                            ToastManager.dismiss()
+                    
+                    Column(modifier = Modifier.align(Alignment.TopCenter)) {
+                        Spacer(modifier = Modifier.statusBarsPadding())
+                        
+                        if (networkStatus != ConnectivityObserver.Status.Available) {
+                            NetworkStatusBanner(status = networkStatus)
                         }
-
-                        Column(modifier = Modifier.align(Alignment.TopCenter)) {
-                            Spacer(modifier = Modifier.statusBarsPadding())
+                        
+                        toastState?.let { state ->
+                            LaunchedEffect(state.id) {
+                                delay(3000L)
+                                ToastManager.dismiss()
+                            }
                             AppToast(state = state)
                         }
                     }
