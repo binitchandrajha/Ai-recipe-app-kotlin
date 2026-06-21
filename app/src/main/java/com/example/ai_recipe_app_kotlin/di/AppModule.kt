@@ -18,6 +18,8 @@ import com.example.ai_recipe_app_kotlin.data.network.AuthInterceptor
 import com.example.ai_recipe_app_kotlin.data.network.IngredientService
 import com.example.ai_recipe_app_kotlin.data.network.ProfileService
 import com.example.ai_recipe_app_kotlin.data.network.RecipesService
+import com.example.ai_recipe_app_kotlin.utils.ConnectivityObserver
+import com.example.ai_recipe_app_kotlin.utils.NetworkConnectivityObserver
 import okhttp3.OkHttpClient
 
 @Module
@@ -71,5 +73,10 @@ object AppModule {
     @Singleton
     fun provideRecipesService(retrofit: Retrofit): RecipesService {
         return retrofit.create(RecipesService::class.java)
+    }
+
+    @Provides@Singleton
+    fun provideConnectivityObserver(@ApplicationContext context: Context): ConnectivityObserver {
+        return NetworkConnectivityObserver(context)
     }
 }
